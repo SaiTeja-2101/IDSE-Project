@@ -1,0 +1,17 @@
+.ipynb_checkpoints
+node_modules/
+.vscode/
+*.DS_Store
+**/.DS_Store
+.DS_Store
+*.log
+*.log.*
+.sass-cache
+bower_components
+npm-debug.log
+**/fontawesome-free/**
+**/.cache
+dist/
+artifacts/
+.cache/
+.upstream-import/

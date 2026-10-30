@@ -1,0 +1,26 @@
+.signup-section {
+  padding: 2rem 0;
+  background: $yellow-washed;
+
+  h2 {
+    display: inline;
+  }
+  
+  .form-inline {
+    padding-top: 1.5rem;
+    input {
+      background: $gray-300;
+      padding: 1.25rem 2rem;
+      height: auto;
+      font-family: 'Nunito', monospace;
+      border: 0;
+    }
+  }
+
+  @media (min-width: 992px) {
+
+    p {
+      // text-align: justify;
+    }
+  }
+}

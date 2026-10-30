@@ -1,0 +1,86 @@
+.StatisticsCard {
+    @include textBox();
+    padding: padding(xs) 0 padding(sm) 0;
+    margin: 0 0 padding(sm) 0;
+    @include mq($until: desktop) {
+      @include buttonBox();
+      padding: padding(xs) 0 padding(sm) 0;
+    }
+
+    position: relative;
+    min-width: 250px;
+    max-width: 600px;
+    width:100%;  
+    color: color(txt-dark-grey);
+  
+
+    &-title {
+      @include mq($until: desktop) {
+        text-align: center;
+        font-size: 1.4rem;
+        text-decoration: underline;
+      }
+    }
+}
+
+.FlexContainer {
+  display: inline-block;
+  width: 50%;
+  min-width: 240px;
+}
+
+.FlexContainer > div {
+  padding-right: padding(sm);
+}
+
+.stats-category {
+
+    &__name {
+      padding: 0 0 padding(xs) 0;
+      font-size: 1.2rem;
+      @include mq($until: mobile-landscape) {
+        font-size: 1rem;
+        padding: padding(xxs) 0;
+      }
+    }
+  
+    &__skillbar {
+      height: 7px;
+      width: 100%;
+      margin-bottom: margin(xs);
+      @include mq($until: mobile-landscape) {
+        margin-bottom: 12px;
+      }
+      .AverageOrange & {
+        background-color: color(stats-bg-grey);
+      }
+  
+      .AverageBlue & {
+        background-color: color(stats-bg-grey);
+      }
+
+      .RejectedMakeup &, .HiredMakeup & {
+        background-color: color(stats-val-blue);
+      }
+    }
+  
+    &__progress {
+      height: inherit;
+  
+      .animate-attributes & {
+        transition: width 0.5s ease-in-out;
+      }
+  
+      .AverageOrange & {
+        background-color: color(stats-val-orange);
+      }
+
+      .AverageBlue & {
+        background-color: color(stats-val-blue);
+      }
+
+      .RejectedMakeup &, .HiredMakeup & {
+        background-color: color(stats-val-orange);
+      }
+    }
+  }

@@ -1,0 +1,124 @@
+@import 'variables.scss';
+@import 'mixins.scss';
+@import 'navbar.scss';
+@import 'masthead.scss';
+@import 'buttons.scss';
+@import 'about.scss';
+@import 'signup.scss';
+@import 'contact.scss';
+@import 'footer.scss';
+@import 'resources.scss';
+
+
+body {
+  font-family: 'Open Sans';
+  background-color: $yellow-washed;
+}
+
+
+h1 {
+  font-family: 'VT323', monospace;
+  font-size: 3.5rem;
+  text-transform: uppercase;
+  margin-top: 5rem;
+  margin-bottom: 3rem;
+  text-align: center;
+}
+
+@media(min-width: 768px) {
+  h1 {
+    font-size: 3.8rem;
+  }
+}
+
+h2, h3 {
+  font-family: "Nunito"
+}
+
+.cute-box {
+  position: relative;
+  margin-top:3rem;
+  margin-bottom:6rem;
+
+  font-style: normal;
+  font-weight: normal;
+  padding:2rem 1rem!important;
+  background: white;
+  
+  h2 {
+    background: linear-gradient(180deg,rgba(255,255,255,0) 50%, #FECCC7 50%);
+    display: inline-block;
+    margin-bottom: 3rem;
+    font-size: 1.8rem;
+    font-family: 'Nunito';
+    font-weight: bold;
+  }
+
+  h3 {
+    font-size: 1rem;
+  }
+
+  p {
+    line-height: 2rem;
+    margin-bottom: 2rem;
+    text-align: left;
+  }
+
+  @media(min-width: 768px) {
+    padding: 4rem!important;
+    @include textBox();
+
+    h1 {
+      font-size: 3rem;
+      line-height: 3rem;
+      width: 60%;
+      margin-top: 1rem;
+    }
+
+    h2 {
+      font-size: 2rem
+    }
+    
+    h3 {
+      font-size: 1.2rem;
+
+    }
+  }
+}
+
+#select a {
+      text-decoration-line: underline;
+      color: #BE5E5E;
+      font-weight: 700;
+      &:hover {
+        background-color: #BE5E5E;
+        color: white;      
+      }
+}
+
+a {
+  color: $primary;
+  &:focus,
+  &:hover {
+    text-decoration: none;
+    color: darken($primary, 20%);
+  }
+}
+
+.bg-white-transparent {
+  background-color: fade-out($white-washed, .15);
+}
+
+.img-asset {
+  padding-top: 1rem;
+  padding-bottom: 1rem;
+  max-height: 10rem;
+  max-width: 10rem;
+}
+
+.share-button {
+  display: inline-block;
+  margin: 0rem 0.5rem;
+  vertical-align: top;
+  font-size: 1.5rem !important;
+}

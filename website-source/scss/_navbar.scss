@@ -1,0 +1,147 @@
+#mainNav {
+  min-height: 56px;
+  color: black;
+  font-family: VT323, monospace;
+  font-size: 1.5em;
+  padding-left: 1rem;
+
+  .navbar-play {
+    background: #DE4545;
+    border-radius: 6px;
+    color: white;
+  }
+
+  .navbar-toggler {
+    font-size: 50%;
+    padding: .5rem;
+    color: #2e4755;
+    border: 1px solid #2e4755;
+    margin-top: 0.5rem;
+
+    &:focus {
+      outline: none;
+    }
+  }
+
+  .navbar-brand {
+    font-size: 1.8rem;
+    color: #a39d9d;
+    text-align: left !important;
+  }
+  
+  .navbar-nav {
+    font-family: "Nunito";
+    font-size: 1rem;
+    font-weight: 300;
+    letter-spacing: 2px;
+    .nav-item {
+      &:hover {
+        color: $gray-900;
+        outline: none;
+        background-color: transparent;
+      }
+      &:active,
+      &:focus {
+        outline: none;
+        background-color: transparent;
+      }
+    }
+  }
+
+  .nav-link {
+    transition: none;
+    padding: 1rem;
+    color: #555;
+
+    &:hover {
+      // color: fade-out($rose-dark, .25);
+      color: #de4545;
+    }
+    &:active {
+      // color: fade-out($rose-dark, .75);
+      color: #de4545;
+    }
+  }
+  
+  &.navbar-shrink {
+    background-color: fade-out($white-washed, .20);
+  }
+
+  @media (min-width: 768px) {
+    // padding: 1rem 3rem 0rem 3rem;
+
+    &.navbar-shrink {
+      background-color: fade-out($white-washed, .20);
+      max-height: 4rem;
+      padding-top: 0;
+
+    }
+
+    .navbar-brand {
+      text-align: center !important;
+    }
+
+    .navbar-play-button {
+      margin: 0;
+    }
+  }
+
+  @media (min-width: 992px) {
+    padding-top: 0;
+    padding-bottom: 0;
+    border-bottom: none;
+    transition: background-color 0.3s ease-in-out;
+
+    .navbar-brand {
+      padding: .5rem 0;
+      text-align: center !important;
+    }
+
+    .nav-link {
+      transition: none;
+      padding: 1rem 2rem;
+      // color: fade-out($rose-dark, .1);
+    }
+
+    &.navbar-shrink {
+      background-color: fade-out($white-washed, .20);
+      
+      .nav-link {
+        padding: 1rem;
+        border-bottom: 0.25rem solid transparent;
+        &:hover {
+          color: $primary;
+        }
+        &:active {
+          color: darken($primary, 15%);
+        }
+        &.active {
+          color: $primary;
+          outline: none;
+          border-bottom: 0.25rem solid $primary;
+        }
+      }
+    }
+  }
+
+  .navbar-play-button {
+  
+    &:hover {
+      background-color: $shadow-red-dark;
+    }
+
+    text-transform: uppercase;
+    margin: 1.5em;
+    padding: .3rem 1.8rem;
+    font-family: VT323,monospace;
+    background: #de4545;
+    font-size: 1.2rem;
+  }
+
+  .show {
+    ul {
+      padding-left: 1rem;
+      padding-top: 1rem;
+    }
+  }
+}
