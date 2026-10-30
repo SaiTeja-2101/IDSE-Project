@@ -20,6 +20,7 @@ loader
 async function loadAssets() {
     console.log('load assets!');
     await new Promise((resolve, reject) => {
+        loader.onError.add((error) => reject(error));
         loader.load((loader, resources) => {
             SPRITES.doorAccepted = new PIXI.extras.AnimatedSprite(resources.officeDoor.spritesheet.animations['door']);
             SPRITES.doorEntry = new PIXI.extras.AnimatedSprite(resources.officeDoor.spritesheet.animations['door']);

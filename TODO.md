@@ -6,7 +6,7 @@
 
 ## Status and working rules
 
-The planning documents are created. The upstream repository has been inspected remotely, but it has not yet been imported into this workspace. No playable build, application tests, deployment, or peer playtests are complete.
+Phases 0 and 1 are complete. The upstream game is imported with independent history on `hire-and-seek`; setup, builds, six baseline checks, and the browser walkthrough pass. Evidence is in [docs/BASELINE.md](docs/BASELINE.md). The new Hire and Seek interface/gameplay, deployment, and peer playtests remain pending.
 
 - `[x]` means completed and supported by evidence.
 - `[ ]` means planned or not yet verified.
@@ -34,18 +34,18 @@ The planning documents are created. The upstream repository has been inspected r
 
 **Goal:** Begin from the real game while giving the assignment its own Git history.
 
-- [ ] Recheck the workspace status before importing; preserve any files created since planning.
-- [ ] Clone `survivalofthebestfit/survivalofthebestfit` into a temporary checkout.
-- [ ] Check out inspected revision `ecf9bee80dd4889a8960c5a987783f37fd09aa55`.
-- [ ] Import working files without the upstream `.git` directory.
-- [ ] Preserve the assignment workspace's Git repository and these two documents.
-- [ ] Preserve the upstream README separately as provenance material instead of overwriting this README.
-- [ ] Create branch `hire-and-seek` and a fresh assignment baseline commit when appropriate.
-- [ ] Confirm no upstream commits appear in the assignment's history and no upstream push remote is accidentally used.
-- [ ] Preserve existing license metadata and copyright notices.
-- [ ] Verify notices for the VT323 font, sound, artwork, and dependencies; record unresolved items accurately.
-- [ ] Record source URL, revision, creators, and imported components in the credits/provenance documentation.
-- [ ] Verify the resolved temporary path before any checkout cleanup; never remove the workspace `.git` directory.
+- [x] Recheck the workspace status before importing; preserve any files created since planning.
+- [x] Clone `survivalofthebestfit/survivalofthebestfit` into a temporary checkout.
+- [x] Check out inspected revision `ecf9bee80dd4889a8960c5a987783f37fd09aa55`.
+- [x] Import working files without the upstream `.git` directory.
+- [x] Preserve the assignment workspace's Git repository and these two documents.
+- [x] Preserve the upstream README separately as provenance material instead of overwriting this README.
+- [x] Create branch `hire-and-seek` and a fresh assignment baseline commit when appropriate.
+- [x] Confirm no upstream commits appear in the assignment's history and no upstream push remote is accidentally used.
+- [x] Preserve existing license metadata and copyright notices.
+- [x] Verify notices for the VT323 font, sound, artwork, and dependencies; record unresolved items accurately.
+- [x] Record source URL, revision, creators, and imported components in the credits/provenance documentation.
+- [x] Verify the resolved temporary path before any checkout cleanup; never remove the workspace `.git` directory.
 
 **Exit gate:** Source and assets are present, planning documents survive, provenance is recorded, and assignment history does not contain upstream commits.
 
@@ -53,18 +53,18 @@ The planning documents are created. The upstream repository has been inspected r
 
 **Goal:** Make the retained application run before changing its behaviour.
 
-- [ ] Confirm the available Node/npm runtime and record the supported version after validation.
-- [ ] Install game and website dependencies and check in reproducible lockfiles.
-- [ ] Keep PixiJS, Machina, Pug, Sass, Browserify, and Gulp.
-- [ ] Pin the initially inspected `ml-cart` version to `1.0.8`.
-- [ ] Declare directly required build dependencies rather than relying on accidental transitive availability.
-- [ ] Fix JavaScript build tasks to return/await their streams and report real failures.
-- [ ] Ensure asset copying succeeds without requiring unnecessary image optimisation.
-- [ ] Build website output before game output into shared `dist/`.
-- [ ] Add and verify root `setup`, `dev`, `build`, and `test` scripts.
-- [ ] Verify local asset, sprite-sheet, font, and sound URLs.
-- [ ] Capture an actual baseline screenshot and a brief scene/interaction inventory.
-- [ ] Record upstream defects separately from changes introduced during adaptation.
+- [x] Confirm the available Node/npm runtime and record the supported version after validation.
+- [x] Install game and website dependencies and check in reproducible lockfiles.
+- [x] Keep PixiJS, Machina, Pug, Sass, Browserify, and Gulp.
+- [x] Pin the initially inspected `ml-cart` version to `1.0.8`.
+- [x] Declare directly required build dependencies rather than relying on accidental transitive availability.
+- [x] Fix JavaScript build tasks to return/await their streams and report real failures.
+- [x] Ensure asset copying succeeds without requiring unnecessary image optimisation.
+- [x] Build website output before game output into shared `dist/`.
+- [x] Add and verify root `setup`, `dev`, `build`, and `test` scripts.
+- [x] Verify local asset, sprite-sheet, font, and sound URLs.
+- [x] Capture an actual baseline screenshot and a brief scene/interaction inventory.
+- [x] Record upstream defects separately from changes introduced during adaptation.
 
 **Exit gate:** A clean checkout can follow the documented setup and build commands, then open the retained game without a blank screen or missing essential assets.
 
@@ -270,11 +270,11 @@ The planning documents are created. The upstream repository has been inspected r
 | --- | --- |
 | Upstream code inspection | Completed remotely during planning |
 | Product identity and scenario decisions | Recorded in README and this file |
-| Local upstream import | Pending |
-| Reproducible original build | Pending |
+| Local upstream import | Complete; independent root commit and provenance retained |
+| Reproducible original build | Complete; Node 22.15.0 / npm 10.9.2, lockfile-based setup |
 | New game implementation | Pending |
-| Automated application tests | Pending |
-| Browser walkthrough and screenshots | Pending |
+| Automated application tests | Six baseline checks pass; new gameplay tests pending |
+| Browser walkthrough and screenshots | Original hiring, training, automation, inspector, and mute verified; screenshots saved |
 | Peer playtests and transfer explanations | Pending |
 | Feedback-driven revision | Pending |
 | Final runnable package | Pending |

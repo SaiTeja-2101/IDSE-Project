@@ -16,13 +16,11 @@ export const toggleVolume = () => {
 
 const resumeAudioContext = () => {
     if (Howler.ctx !== null) {
-        Howler.ctx.resume();
+        Howler.ctx.resume().catch(() => {});
         if (DEBUG_MODE) {
             console.log('mute sound so you do not go crazy');
             // Howler.mute(true);
         }
-    } else {
-        throw new Error('we did not find an audio context on Howler');
     }
     window.removeEventListener('click', resumeAudioContext);
 };
@@ -69,7 +67,7 @@ export const play = (name) => {
     }
 };
 
-export const loadSound = (name) => new Promise((resolve, reject) => {
+export const loadSound = (name) => new Promise((resolve) => {
     const sound = findSoundByName(name);
     if (sound) {
         const player = new Howl({
@@ -81,7 +79,11 @@ export const loadSound = (name) => new Promise((resolve, reject) => {
             sound.player = player;
             resolve();
         });
-        player.on('loaderror', reject);
+        player.once('loaderror', () => {
+            console.warn(`Optional sound unavailable: ${name}`);
+            player.unload();
+            resolve();
+        });
     } else {
         throw new Error(`sound ${name} is not in the file list!`);
     }

@@ -163,6 +163,9 @@ NAVBAR HANDLING
 */
 
 // Smooth scrolling using jQuery easing
+// This file also supplies the game's wrap-up controls. Navbar plugins only
+// belong to the website shell, which actually loads Bootstrap.
+if (document.getElementById('mainNav')) {
 $('a.js-scroll-trigger[href*="#"]:not([href="#"])').click(function () {
     if (location.pathname.replace(/^\//, '') == this.pathname.replace(/^\//, '') && location.hostname == this.hostname) {
       var target = $(this.hash);
@@ -204,4 +207,4 @@ $('a.js-scroll-trigger[href*="#"]:not([href="#"])').click(function () {
   navbarCollapse();
   // Collapse the navbar when page is scrolled
   $(window).scroll(navbarCollapse);
-  
+}

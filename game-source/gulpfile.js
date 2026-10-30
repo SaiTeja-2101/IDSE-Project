@@ -7,13 +7,10 @@ const sass = require('gulp-sass')(require('sass'));
 const autoprefixer = require('gulp-autoprefixer');
 const browsersync = require('browser-sync').create();
 const cleanCSS = require('gulp-clean-css');
-const imagemin = require('gulp-imagemin');
 const del = require('del');
-const sourcemaps = require('gulp-sourcemaps');
-const source = require('vinyl-source-stream');
-const buffer = require('vinyl-buffer');
-const browserify = require('browserify');
-const babel = require('babelify');
+const path = require('node:path');
+const {bundleGame} = require('./build/bundle.cjs');
+const outputRoot = path.resolve(__dirname, '../dist');
 
 // BrowserSync
 function browserSync(done) {
@@ -22,6 +19,11 @@ function browserSync(done) {
             baseDir: '../dist/',
         },
         port: 4000,
+        host: '127.0.0.1',
+        listen: '127.0.0.1',
+        ui: false,
+        online: false,
+        notify: false,
         open: false,
     });
     done();
@@ -30,13 +32,15 @@ function browserSync(done) {
 // BrowserSync reload
 function browserSyncReload(done) {
     console.log('-> reloading browser...');
-    setTimeout(browsersync.reload, 5000);
+    browsersync.reload();
     done();
 }   
 
 // Clean assets
 function clean() {
-    return del(['../dist/game/assets'], {force: true});
+    const target = path.resolve(outputRoot, 'game/assets');
+    if (!target.startsWith(outputRoot + path.sep)) throw new Error('Unsafe clean target');
+    return del([target], {force: true});
 }
 
 // Assets
@@ -45,7 +49,6 @@ function moveAssets() {
         .src([
             'public/game/assets/**/*',
         ])
-        .pipe(imagemin())
         .pipe(gulp.dest('../dist/game/assets'));
 }
 
@@ -78,20 +81,11 @@ function css() {
 
 
 // JS, browserify, babel, etc...
-function compileJs(done) {
-    let bundler = browserify('public/game/controllers/game/gameEntry.js', {debug: true}).transform(babel);
-    bundler.bundle()
-        .on('error', function(err) {
-            console.error(err); 
-            this.emit('end');
-        })
-        .pipe(source('bundle-game.js'))
-        .pipe(buffer())
-        .pipe(sourcemaps.init({loadMaps: true}))
-        .pipe(sourcemaps.write('./'))
-        .pipe(gulp.dest('../dist/game/js'));
-    
-    done();
+function compileJs() {
+    return bundleGame({
+        entry: path.resolve(__dirname, 'public/game/controllers/game/gameEntry.js'),
+        output: path.resolve(outputRoot, 'game/js/bundle-game.js'),
+    });
 }
 
 // Watch files

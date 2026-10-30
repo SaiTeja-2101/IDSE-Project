@@ -6,7 +6,7 @@ const browsersync = require("browser-sync").create();
 const cleanCSS = require("gulp-clean-css");
 const del = require("del");
 const gulp = require("gulp");
-const imagemin = require('gulp-imagemin');
+const path = require('node:path');
 const header = require("gulp-header");
 const merge = require("merge-stream");
 const plumber = require("gulp-plumber");
@@ -36,7 +36,6 @@ function copyImg() {
     .src([
       './img-website/**/*',
     ])
-    .pipe(imagemin())
     .pipe(gulp.dest('../dist/img-website/'));
 }
 
@@ -59,7 +58,10 @@ function browserSyncReload(done) {
 
 // Clean vendor
 function clean() {
-  return del(["../dist/vendor/"], {"force": true});
+  const outputRoot = path.resolve(__dirname, '../dist');
+  const target = path.resolve(outputRoot, 'vendor');
+  if (!target.startsWith(outputRoot + path.sep)) throw new Error('Unsafe clean target');
+  return del([target], {force: true});
 }
 
 // Bring third party dependencies from node_modules into vendor directory
@@ -143,7 +145,6 @@ function copyImg() {
     .src([
       './img-website/**/*',
     ])
-    .pipe(imagemin())
     .pipe(gulp.dest('../dist/img-website/'));
 }
 

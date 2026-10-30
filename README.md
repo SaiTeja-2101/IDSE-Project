@@ -19,7 +19,33 @@ A story-driven browser game about training an AI, investigating its decisions, a
 
 ## Project status
 
-**This repository currently contains planning documentation, not a playable implementation.** The upstream source has been inspected remotely. Importing it, establishing a working build, and implementing the adaptation are the next tasks. Commands below are the intended developer interface and must be verified during implementation.
+**Phases 0 and 1 are complete: the attributed original game is imported and runs locally.** Its original branding, pink palette, narrative, and ML reporting remain as a baseline. Hire and Seek's new UI and gameplay are specified below and are not implemented yet.
+
+The source import has independent history on `hire-and-seek`. The retained build is verified with Node **22.15.0** and npm **10.9.2**. See [baseline verification](docs/BASELINE.md), [upstream provenance](docs/UPSTREAM.md), and [asset inventory](docs/ASSETS.md).
+
+### Run the baseline
+
+```bash
+npm run setup
+npm run dev
+```
+
+Open **http://127.0.0.1:4000/game/** for the game or **http://127.0.0.1:4000/** for the original website shell. Keep that terminal running; use Ctrl+C to stop it. The game has the original landscape-only mobile notice, so use a landscape laptop/browser window.
+
+Other verified commands:
+
+```bash
+npm run build
+npm test
+npm run check:assets
+npm run preview
+```
+
+`preview` serves the built output on loopback port 4000 without rebuilding. Stop `dev` before using it, or choose another port with `PORT`. The test suite includes a loopback HTTP test, so a restricted execution sandbox must permit local network access.
+
+Baseline screenshot (the new theme is Phase 2):
+
+![Original applicant interface preserved as the runnable baseline](docs/screenshots/baseline-applicant.jpg)
 
 See [TODO.md](TODO.md) for the phased checklist and completion gates. An unchecked item is planned work, not an implemented feature.
 
@@ -396,9 +422,9 @@ Each scene owns and cleans up its listeners, timers, animation references, and o
 
 These changes require model/metric tests as well as browser checks; a successful animation alone is insufficient.
 
-### Intended developer commands
+### Developer commands
 
-After implementation and verification, the root interface should be:
+The following root interface is implemented and verified for the retained baseline:
 
 ```bash
 npm run setup
@@ -412,7 +438,7 @@ npm test
 - `build`: build website then game into the shared `dist/` output.
 - `test`: run deterministic model, metric, budget, and state checks.
 
-Root scripts do not exist yet. The original development documentation uses `npm install` and `npm start` inside each source folder. Final instructions must record the runtime and commands actually verified; do not label untested commands as working.
+`npm run preview` serves the existing build through a dependency-free local HTTP server. `npm run check:assets` checks output resources and sprite-sheet references. The scripts invoke the two original source projects sequentially and preserve their retained stack. Root commands and baseline checks are separate from the new game's still-pending model and gameplay tests.
 
 ### Save, resume, and export
 
