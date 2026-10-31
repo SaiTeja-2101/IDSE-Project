@@ -1,0 +1,153 @@
+p#storage-note.StorageNote(hidden role='status') This browser cannot save your place. Keep this tab open, and download your report when you finish.
+section#resume-panel.ResumePanel(hidden aria-labelledby='resume-heading')
+  .ShiftWindow
+    .ShiftWindowTop YOUR DESK / SAVED
+    .ShiftWindowBody
+      h1#resume-heading Pick up where you left off.
+      p#resume-message Your progress is saved on this browser.
+    .ShiftWindowActions.ResumeActions
+      button#continue-save.ShiftPrimary(type='button') Continue
+      button#fresh-save.ShiftSecondary(type='button') Start fresh
+
+main#review-game.ReviewGame(hidden aria-label='Investigate and improve Scout')
+  header.ReviewHeading
+    div
+      p.SmallLabel#review-chapter
+      h1#review-title(tabindex='-1') Look closer.
+      p#review-intro
+    p.CreditBadge#review-budget(aria-live='polite')
+  p#review-error.ReviewError(role='alert' hidden)
+  p#review-live.ShiftStatus(role='status' aria-live='polite' aria-atomic='true')
+
+  section(data-review-view='investigation' hidden)
+    .CaseMessage
+      span.SmallLabel INBOX / MAYA
+      p#case-message
+      p Check two different applicants. Each check costs 1 credit. You have 8 credits for checks and repairs together.
+    .EvidenceLayout
+      .PaperCard
+        label.FieldLabel(for='case-applicant') OPEN A CV
+        select#case-applicant
+        h2#case-name(tabindex='-1')
+        p#case-values
+        p.ScoutAnswer#case-decision
+        p#case-assessment(tabindex='-1' role='status' aria-live='polite')
+        p.SmallPrint A job check in this game looks for skill of at least 60 and at least 1 year of experience.
+        .ReviewActions
+          button.ShiftPrimary(type='button' data-review-action='inspect') Check this applicant · 1 credit
+          button.ShiftSecondary(type='button' data-review-action='compare') Open the other CV
+        p#inspection-progress
+      .PaperCard
+        h2 Another CV to compare
+        p#comparison-person
+        p#comparison-values
+        p#comparison-decision
+        h3 Examples Scout learned from
+        p.SmallPrint These examples reached the same answer in the tree. An old choice is a label, not proof of ability.
+        .TableScroll#training-evidence
+    .PaperCard.TreePaper
+      h2 Follow Scout's questions
+      p#case-source
+      p.SmallPrint The highlighted route is the selected applicant's actual path. Each box shows how many training examples reached it.
+      #case-tree.TreeCanvas
+    .ReviewActions
+      button.ShiftPrimary(type='button' data-review-action='open-audit') Show the audit →
+
+  section(data-review-view='audit' hidden)
+    .PaperCard
+      h2 The same check for 80 fresh applicants
+      p These CVs were kept out of training. We checked who meets the job rule, then compared that with Scout's choices.
+      #initial-audit.TableScroll
+      p#initial-findings
+    .LessonStrip
+      h2 Choices become labels.
+      p A decision tree learns questions from those labels. If the old choices missed capable people, Scout can learn that pattern too. This is called label bias.
+      p A related detail can act as a shortcut. That detail is called a proxy. Check which questions Scout actually learned.
+      p#archive-association
+    .ReviewActions
+      button.ShiftPrimary(type='button' data-review-action='workshop') Open the workshop →
+
+  section(data-review-view='workshop' hidden)
+    .WorkshopIntro
+      h2 Try a change. Check what happened.
+      p Each purchase changes the training setup. You can undo it and get those credits back. The earlier CV checks stay paid for.
+    .RepairCards#repair-cards
+    .PaperCard.StrictnessCard
+      label(for='strictness') How much support does a shortlist need?
+      output#strictness-value(for='strictness') 50%
+      input#strictness(type='range' min='10' max='90' step='5' value='50')
+      p.SmallPrint A 50% cutoff means at least half the training examples at the answer box were shortlisted. It is not a 50% chance that someone can do the job. Moving this control is free.
+    .PaperCard
+      h2 The audit, before and after
+      #workshop-audit.TableScroll
+      p.ChangeNote#experiment-feedback(aria-live='polite')
+      p#workshop-source
+      .ReviewActions
+        button.ShiftSecondary(type='button' data-review-action='undo') Undo last experiment
+      details
+        summary Your experiment log
+        ol#experiment-log.ExperimentLog
+    .PaperCard.TreePaper
+      h2 Scout's current questions
+      label.FieldLabel(for='workshop-applicant') FOLLOW AN APPLICANT
+      select#workshop-applicant
+      p#workshop-path-summary
+      #workshop-tree.TreeCanvas
+    .CommitCard
+      h2 Ready for recruitment day?
+      p The next 200 CVs are a fresh test. Once you continue, these choices are locked. You can replay the scan, but you cannot tune Scout using the test answers.
+      button.ShiftPrimary(type='button' data-review-action='deploy') Use this Scout →
+
+  section(data-review-view='final' hidden)
+    .FinalLayout
+      .PaperCard
+        p.SmallLabel RECRUITMENT DAY / 200 NEW CVS
+        h2#final-progress
+        .OfficeViewport(data-review-canvas='final' aria-label='Scout screening the final applicants')
+        p#final-last-choice
+        .ReviewActions
+          button.ShiftPrimary(type='button' data-review-action='next-final') Watch next CV
+          button.ShiftSecondary(type='button' data-review-action='skip-final') Skip to results
+      .PaperCard
+        p.SmallLabel ON THE SCANNER
+        h2#final-person
+        p#final-values
+        p The animation shows 12 CVs from this batch. The report checks all 200. Skipping changes only the animation.
+        p.SmallPrint Scout is locked. These CVs never enter training.
+
+  section.ReviewReceipt(data-review-view='receipt' hidden)
+    .ReceiptMasthead
+      p.SmallLabel ORBIT WORKS / AUDIT RECEIPT
+      h2#receipt-ending
+      p#receipt-stars
+      p#receipt-message
+    .ScoreCards#score-cards
+    .PaperCard
+      h2 On 200 new applicants
+      #final-report.TableScroll
+      p#final-counts
+      p#receipt-configuration
+      p#receipt-spending
+      details
+        summary See every experiment
+        ol#receipt-experiments.ExperimentLog
+    .LessonStrip
+      h2 What did Scout learn?
+      p#receipt-lesson
+      p The tree learned from the examples you gave it. Hiding a detail, adding records and changing labels do different things. A repair needs to work on fresh examples too.
+      p.SmallPrint This is a small, fictional hiring world. Real job performance is more complex. These three checks do not establish fairness for real hiring.
+    .PaperCard.ReflectionCard
+      h2 Leave yourself two notes
+      p These are optional. They stay on this browser and in your downloaded report.
+      label(for='reflection-pattern') If Scout agrees with old hiring decisions, does that prove it can spot capable people? What did you notice?
+      textarea#reflection-pattern(rows='3' maxlength='2000')
+      p#reflection-pattern-print.ReflectionPrint
+      label(for='reflection-transfer') A recycling AI uses background colour as a clue. What photos would you collect to check and fix that shortcut?
+      textarea#reflection-transfer(rows='3' maxlength='2000')
+      p#reflection-transfer-print.ReflectionPrint
+    .ReviewActions.NoPrint
+      button.ShiftPrimary(type='button' data-review-action='export') Download report
+      button.ShiftSecondary(type='button' data-review-action='print') Print receipt
+      button.ShiftSecondary(type='button' data-review-action='replay-final') Replay the scan
+      button.ShiftSecondary(type='button' data-review-action='new-game') Start a new shift
+    p.SmallPrint#receipt-save-status

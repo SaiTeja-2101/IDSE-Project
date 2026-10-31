@@ -5,6 +5,7 @@ import {eventEmitter} from '~/public/game/controllers/game/gameSetup.js';
 
 export default class {
     constructor({type}) {
+        this.resizeHandler = this._resizeHandler.bind(this);
         this.heightMain = SCALES.FLOOR[screenSizeDetector()];
         this.heightShadow = SCALES.FLOOR_SHADOW[screenSizeDetector()];
         // this.heightMain = clamp(uv2px(0.1, 'w'), 40, 50);
@@ -63,16 +64,21 @@ export default class {
     // add event listeners
 
     _addEventListeners() {
-        eventEmitter.on(EVENTS.RESIZE, this._resizeHandler.bind(this));
+        eventEmitter.on(EVENTS.RESIZE, this.resizeHandler);
     }
 
     // remove event listeners
 
     _removeEventListeners() {
-        eventEmitter.off(EVENTS.RESIZE, this._resizeHandler.bind(this));
+        eventEmitter.off(EVENTS.RESIZE, this.resizeHandler);
     }
 
     getHeight() {
         return this.heightMain;
+    }
+
+    destroy() {
+        this._removeEventListeners();
+        for (const graphic of [this.surface, this.side]) if (graphic) graphic.destroy();
     }
 }

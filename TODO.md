@@ -1,4 +1,4 @@
-# Hire and Seek — Phased Implementation Checklist
+# Hire and Seek: Phased Implementation Checklist
 
 > **You hire. It learns.**
 
@@ -6,7 +6,7 @@
 
 ## Status and working rules
 
-Phases 0 and 1 are complete. The upstream game is imported with independent history on `hire-and-seek`; setup, builds, six baseline checks, and the browser walkthrough pass. Evidence is in [docs/BASELINE.md](docs/BASELINE.md). The new Hire and Seek interface/gameplay, deployment, and peer playtests remain pending.
+All six chapters are connected. Phases 5 to 7 are implemented and covered by engine and DOM integration tests. Phase 8 save/resume and controller reliability are implemented. Final browser visual/audio checks and real peer playtests are pending. See [delivery notes](docs/DELIVERY.md) and the [round revision](docs/ROUND_REVISION.md).
 
 - `[x]` means completed and supported by evidence.
 - `[ ]` means planned or not yet verified.
@@ -30,7 +30,7 @@ Phases 0 and 1 are complete. The upstream game is imported with independent hist
 - [x] Define a six-chapter, self-paced, approximately 12–15 minute browser experience.
 - [x] Write the end-to-end README and this phased TODO.
 
-## Phase 0 — Import the upstream source safely
+## Phase 0: Import the upstream source safely
 
 **Goal:** Begin from the real game while giving the assignment its own Git history.
 
@@ -49,7 +49,7 @@ Phases 0 and 1 are complete. The upstream game is imported with independent hist
 
 **Exit gate:** Source and assets are present, planning documents survive, provenance is recorded, and assignment history does not contain upstream commits.
 
-## Phase 1 — Establish a reproducible original build
+## Phase 1: Establish a reproducible original build
 
 **Goal:** Make the retained application run before changing its behaviour.
 
@@ -68,182 +68,196 @@ Phases 0 and 1 are complete. The upstream game is imported with independent hist
 
 **Exit gate:** A clean checkout can follow the documented setup and build commands, then open the retained game without a blank screen or missing essential assets.
 
-## Phase 2 — Rebrand and reskin the retained UI
+## Phase 2: Rebrand and reskin the retained UI
 
 **Goal:** Preserve the recognisable office interface while giving the adaptation its own identity.
 
-- [ ] Replace visible game names with Hire and Seek, AI references with Scout, and company references with Orbit Works.
-- [ ] Add the tagline to the title screen and landing page.
-- [ ] Apply the README palette to both Sass variables and Pixi drawing constants.
-- [ ] Replace original pink page, training, panel, and shadow treatments; inspect baked-in image colours before changing artwork.
-- [ ] Retain VT323 locally and verify text readability at normal laptop sizes.
-- [ ] Retain orange/blue applicant animations and their sprite-sheet frame metadata.
-- [ ] Label the applicant cities explicitly; do not rely on colour alone.
-- [ ] Adapt CV layout to two ability indicators plus textual academy/city fields.
-- [ ] Add chapter progress, credit count, pause, mute, and visible focus states.
-- [ ] Create Scout's nameplate/status panel and Orbit Works title/favicon.
-- [ ] Add reusable visual components for evidence stamps, tree nodes, and branch arrows.
-- [ ] Maintain an asset manifest with sources, modifications, and notices.
-- [ ] Check responsive overlay layout and contrast in all core scenes.
+- [x] Replace visible game names with Hire and Seek, the assistant name with Scout, and company references with Orbit Works.
+- [x] Add the tagline to the title screen and landing page.
+- [x] Apply the README palette to Sass and Pixi drawings.
+- [x] Replace the pink page, training, panel, and shadow colors.
+- [x] Keep the local VT323 font.
+- [x] Keep the orange and blue applicant animations and frame files.
+- [x] Add Bengaluru and Chennai labels. Color is not the only clue.
+- [x] Show city and all four inputs used by the retained model on CV cards. Add the real academy field with the Phase 3 data model.
+- [x] Add chapter progress, credits, pause, sound, and clear keyboard focus.
+- [x] Add Scout's panel, Orbit Works name, and a new favicon.
+- [x] Add reusable tree branches, tree cards, and evidence labels for later screens.
+- [x] Record the new favicon and artwork source in the asset list.
+- [x] Fix pause so waiting scanner animations stay paused after resume.
+- [x] Align retained model city IDs with applicant colours and city labels.
+- [x] Remove made-up academy labels and show the retained model's four qualification scores.
+- [x] Add a Hire and Seek logo and document its generation prompt.
+- [x] Pass four regression checks for pause, city consistency, CV values, and source preservation.
+- [ ] Recheck responsive layout, color contrast, and all game screens in the browser.
 
 **Exit gate:** The title, office, CV, training, and message interfaces use the new identity while retaining the original visual language and functional controls.
 
-## Phase 3 — Build the data and decision-tree foundation
+## Phase 3: Build the data and decision-tree foundation
 
 **Goal:** Establish one consistent source of truth for training, explanation, and reporting.
 
 ### Candidate data and pools
 
-- [ ] Implement the explicit candidate schema from the README.
-- [ ] Use unique IDs and independent named random streams derived from the session seed.
-- [ ] Generate 160 historical records with a 75/25 Bengaluru/Chennai mix.
-- [ ] Generate six distinct onboarding applicants and a separate 12-applicant introductory screening batch.
-- [ ] Generate the optional 80-record historical expansion with the same historical process.
-- [ ] Generate 80 audit and 200 final applicants, balanced by city and readiness within each city.
-- [ ] Keep academy association separate from ability; implement the documented proxy relationship.
-- [ ] Implement assessed readiness from practical skill and relevant experience.
-- [ ] Implement the documented biased historical label rule.
-- [ ] Keep player decisions, historical decisions, and independent assessments in separate fields.
-- [ ] Prevent rendering, animation, and narrative choices from changing candidate-generation randomness.
+- [x] Implement the explicit candidate schema from the README.
+- [x] Use unique IDs and independent named random streams derived from the session seed.
+- [x] Generate 160 historical records with a 75/25 Bengaluru/Chennai mix.
+- [x] Generate six distinct onboarding applicants and a separate 12-applicant introductory screening batch.
+- [x] Add separate ten- and fourteen-applicant manual pools for the growing workload.
+- [x] Generate the optional 80-record historical expansion with the same historical process.
+- [x] Generate 80 audit and 200 final applicants, balanced by city and readiness within each city.
+- [x] Keep academy association separate from ability; implement the documented proxy relationship.
+- [x] Implement assessed readiness from practical skill and relevant experience.
+- [x] Implement the documented biased historical label rule.
+- [x] Keep player decisions, historical decisions, and independent assessments in separate fields.
+- [x] Prevent rendering, animation, and narrative choices from changing candidate-generation randomness.
 
 ### Model adapter and metrics
 
-- [ ] Implement `createSession`, `trainModel`, `predictApplicant`, `evaluateModel`, and `buildTreeView`.
-- [ ] Use stable feature ordering and an explicit mapping after feature removal.
-- [ ] Train with Gini splitting, depth three, and stopping parameter `minNumSamples: 5`.
-- [ ] Handle one-class training sets with a correctly labelled constant model.
-- [ ] Derive leaf support and positive-label rates from routed training examples.
-- [ ] Match the library's exact `<` and `>=` branch behaviour.
-- [ ] Apply the same threshold convention in all predictions and explanations.
-- [ ] Calculate confusion counts, screening accuracy, city-specific qualified shortlist rates, and opportunity gap.
-- [ ] Use unrounded values for scoring and handle missing denominators explicitly.
-- [ ] Preserve immutable original and current model snapshots.
-- [ ] Remove fixed substitute statistics and final-test-driven model fallback logic.
-- [ ] Remove the original analytics identifier and replace tracking with a local event log.
+- [x] Implement `createSession`, `trainModel`, `predictApplicant`, `evaluateModel`, and `buildTreeView`.
+- [x] Use stable feature ordering and an explicit mapping after feature removal.
+- [x] Train with Gini splitting, depth three, and stopping parameter `minNumSamples: 5`.
+- [x] Handle one-class training sets with a correctly labelled constant model.
+- [x] Derive leaf support and positive-label rates from routed training examples.
+- [x] Match the library's exact `<` and `>=` branch behaviour.
+- [x] Apply the same threshold convention in all predictions and explanations.
+- [x] Calculate confusion counts, screening accuracy, city-specific qualified shortlist rates, and opportunity gap.
+- [x] Use unrounded values for scoring and handle missing denominators explicitly.
+- [x] Preserve immutable original and current model snapshots.
+- [x] Remove fixed substitute statistics and final-test-driven model fallback logic.
+- [x] Remove the original analytics identifier and replace tracking with a local event log.
 
 **Exit gate:** Deterministic tests demonstrate real training, disjoint datasets, correct feature masks, matching explanation paths, and correct metrics before narrative integration.
 
-## Phase 4 — Implement Chapters 1 and 2
+## Phase 4: Implement Chapters 1 and 2
 
 **Goal:** Turn human choices into examples and make Scout's automation visible.
 
-- [ ] Add the Orbit Works briefing without requiring technical knowledge.
-- [ ] Adapt the office to six complete applicant decisions rather than the original multi-round hiring target.
-- [ ] Support explicit Shortlist and Pass actions with keyboard equivalents.
-- [ ] Record each decision once and prevent accidental double submissions.
-- [ ] Ensure unseen applicants are never inferred to have negative labels.
-- [ ] Train Scout on the selected historical records plus the six player examples.
-- [ ] Save the baseline model before running the introductory batch.
-- [ ] Reuse training/scanner/character animations with actual prediction outcomes.
-- [ ] Display calculated agreement with historical decisions using the correct label.
-- [ ] Introduce the model as learned questions, without prematurely explaining the entire mystery.
+- [x] Add the Orbit Works briefing without requiring technical knowledge.
+- [x] Use three rounds with 6/10/14 available CVs, shortlist targets 3/5/8, and two 45-second clocks. End each round when its target is reached, time expires, or CVs run out.
+- [x] Remove the duplicate game title screen, mode choice, full name-card queue and six-chapter progress rail.
+- [x] Restore original office assets and sound cues in a container-sized canvas with a stacked layout on small screens.
+- [x] Move panel actions outside scrollable instructions and remove the portrait blocking screen.
+- [x] Support explicit Shortlist and Pass actions with keyboard equivalents.
+- [x] Record each decision once and prevent accidental double submissions.
+- [x] Ensure unseen applicants are never inferred to have negative labels.
+- [x] Fit the player-only tree first, then fit the company tree using the archive plus all explicitly recorded player choices.
+- [x] Save the baseline model before running the introductory batch.
+- [x] Reuse training/scanner/character animations with actual prediction outcomes.
+- [x] Display calculated agreement with historical decisions using the correct label.
+- [x] Introduce the model as learned questions, without prematurely explaining the entire mystery.
+- [x] Keep unreviewed applicants unlabelled when time expires, including a completely unreviewed timed round.
+- [x] Freeze logical deadline time during pause and reject choices at or beyond the deadline.
+- [x] Compare both models on the same introductory IDs and calculate changed choices, including zero.
+- [x] Derive training counts and report messages from the actual session.
+- [ ] Complete the browser size/zoom walkthrough and listen to the sound cues when the browser access host is available. Automated checks do not prove visual or audible quality.
 
-**Exit gate:** The player completes six decisions, trains Scout, and watches it screen distinct applicants through the retained scenes.
+**Exit gate:** The player completes three hiring rounds, trains Scout first on recorded player choices and then on those choices plus the archive, and compares actual choices on the same new applicants. Goals do not block progression or define job readiness.
 
-## Phase 5 — Implement Chapter 3 investigation
+## Phase 5: Implement Chapter 3 investigation
 
 **Goal:** Let the player find evidence and inspect Scout's actual reasoning.
 
-- [ ] Select an inbox complaint from a genuine model mistake when available.
-- [ ] Provide a routine audit branch if there is no suitable mistake.
-- [ ] Build the applicant/comparison/evidence layout using retained interface components.
-- [ ] Start the eight-credit budget and charge one credit per distinct assessment inspection.
-- [ ] Require two distinct inspections and avoid charging again for reopening one.
-- [ ] Display assessment outcomes separately from historical hiring decisions.
-- [ ] Render the trained tree with readable feature names, questions, and branches.
-- [ ] Highlight the selected applicant's exact route and show its feature values.
-- [ ] Show real leaf support counts and label-source descriptions.
-- [ ] Support a single-leaf tree and trees that do not use city or academy.
-- [ ] Display the 80-applicant audit after the inspections.
-- [ ] Present counts and rates by city without inventing a discrepancy.
-- [ ] Introduce the terms decision tree, label bias, and proxy only after relevant evidence appears.
+- [x] Select an inbox complaint from a genuine model mistake when available.
+- [x] Provide a routine audit branch if there is no suitable mistake.
+- [x] Build the applicant/comparison/evidence layout using retained interface components.
+- [x] Start the eight-credit budget and charge one credit per distinct assessment inspection.
+- [x] Require two distinct inspections and avoid charging again for reopening one.
+- [x] Display assessment outcomes separately from historical hiring decisions.
+- [x] Render the trained tree with readable feature names, questions, and branches.
+- [x] Highlight the selected applicant's exact route and show its feature values.
+- [x] Show real leaf support counts and label-source descriptions.
+- [x] Support a single-leaf tree and trees that do not use city or academy.
+- [x] Display the 80-applicant audit after the inspections.
+- [x] Present counts and rates by city without inventing a discrepancy.
+- [x] Introduce the terms decision tree, label bias, and proxy only after relevant evidence appears.
 
 **Exit gate:** Selecting an applicant produces an explanation consistent with its prediction, and the investigation changes the budget and progress correctly.
 
-## Phase 6 — Implement Chapter 4 repair workshop
+## Phase 6: Implement Chapter 4 repair workshop
 
 **Goal:** Let player interventions change training and measurable outcomes.
 
-- [ ] Add Hide City for one credit.
-- [ ] Add Hide Academy for one credit.
-- [ ] Add Expand Archive for two credits and 80 additional historical records.
-- [ ] Add Independent Assessments for four credits, replacing labels only in active training records.
-- [ ] Keep the assessment intervention consistent if archive expansion is toggled afterward.
-- [ ] Reject overspending, prevent duplicate charges, and show each operation's effect plainly.
-- [ ] Implement workshop undo/refund while preserving earlier inspection costs.
-- [ ] Add a strictness control from 10% to 90%, step 5%, default 50%.
-- [ ] Retrain after configuration changes and evaluate only on the audit batch.
-- [ ] Update the tree, predictions, metrics, and label-source text atomically.
-- [ ] Retain original/current model comparisons and experiment history.
-- [ ] Generate feedback from measured differences, including no-change and worse-result cases.
-- [ ] Add a clear commit/deploy action and lock the selected configuration afterward.
+- [x] Add Hide City for one credit.
+- [x] Add Hide Academy for one credit.
+- [x] Add Expand Archive for two credits and 80 additional historical records.
+- [x] Add Independent Assessments for four credits, replacing labels only in active training records.
+- [x] Keep the assessment intervention consistent if archive expansion is toggled afterward.
+- [x] Reject overspending, prevent duplicate charges, and show each operation's effect plainly.
+- [x] Implement workshop undo/refund while preserving earlier inspection costs.
+- [x] Add a strictness control from 10% to 90%, step 5%, default 50%.
+- [x] Retrain after configuration changes and evaluate only on the audit batch.
+- [x] Update the tree, predictions, metrics, and label-source text atomically.
+- [x] Retain original/current model comparisons and experiment history.
+- [x] Generate feedback from measured differences, including no-change and worse-result cases.
+- [x] Add a clear commit/deploy action and lock the selected configuration afterward.
 
 **Exit gate:** Affordable interventions and threshold changes produce genuine, reproducible outcomes; experimentation is reversible before deployment and never exposes final-test feedback.
 
-## Phase 7 — Implement Chapters 5 and 6
+## Phase 7: Implement Chapters 5 and 6
 
 **Goal:** Evaluate on unseen applicants and make the ending follow the evidence.
 
-- [ ] Run original and committed models against the same 200-applicant final pool.
-- [ ] Keep assessment answers hidden until final evaluation.
-- [ ] Animate a representative sequence while computing the entire batch.
-- [ ] Make each animated applicant follow its computed prediction.
-- [ ] Add animation skip/replay without recomputing a different batch.
-- [ ] Calculate all three stars using the README thresholds.
-- [ ] Derive the four endings from screening and opportunity checks.
-- [ ] Show original/repaired counts, rates, label source, threshold, features, and spending.
-- [ ] Build the Audit Receipt, printing view, and anonymous JSON export.
-- [ ] Add the explanation of what the model learned and two short reflection prompts.
-- [ ] Start a new session with fresh data for full replay; do not reopen tuning on a revealed final batch.
-- [ ] Implement `exportSession` and verify export values against the displayed report.
+- [x] Run original and committed models against the same 200-applicant final pool.
+- [x] Keep assessment answers hidden until final evaluation.
+- [x] Animate a representative sequence while computing the entire batch.
+- [x] Make each animated applicant follow its computed prediction.
+- [x] Add animation skip/replay without recomputing a different batch.
+- [x] Calculate all three stars using the README thresholds.
+- [x] Derive the four endings from screening and opportunity checks.
+- [x] Show original/repaired counts, rates, label source, threshold, features, and spending.
+- [x] Build the Audit Receipt, printing view, and anonymous JSON export.
+- [x] Add the explanation of what the model learned and two short reflection prompts.
+- [x] Start a new session with fresh data for full replay; do not reopen tuning on a revealed final batch.
+- [x] Implement `exportSession` and verify export values against the displayed report.
 
 **Exit gate:** A player reaches a computed ending, receives a consistent receipt, and can explain the result without relying on a fixed story outcome.
 
-## Phase 8 — Persistence, accessibility, and reliability
+## Phase 8: Persistence, accessibility, and reliability
 
 **Goal:** Make the game usable as a classroom assignment.
 
-- [ ] Save progress with versioned `hire-and-seek:v1` state.
-- [ ] Restore chapter, seed, decisions, credits, interventions, threshold, and model snapshots consistently.
-- [ ] Offer a fresh session for invalid or incompatible saves.
-- [ ] Fall back to an in-memory session if browser storage is unavailable.
-- [ ] Ensure scene exits dispose of event listeners, timers, and animation references.
+- [x] Save progress with versioned `hire-and-seek:v1` state.
+- [x] Restore chapter, seed, decisions, credits, interventions, threshold, and model snapshots consistently.
+- [x] Offer a fresh session for invalid or incompatible saves.
+- [x] Fall back to an in-memory session if browser storage is unavailable.
+- [x] Ensure scene exits dispose of event listeners, timers, and animation references.
 - [ ] Verify pause, mute, reduced motion, keyboard control, and focus handling.
-- [ ] Make important information available beyond sprite colour or canvas graphics alone.
+- [x] Make important information available beyond sprite colour or canvas graphics alone.
 - [ ] Check laptop and landscape tablet layouts, including tree navigation and long names.
 - [ ] Provide clear small-screen guidance without losing progress.
-- [ ] Start without optional audio if loading fails.
-- [ ] Show actionable errors for essential asset failures.
-- [ ] Verify there is no dependency on the original analytics account or an external AI service.
+- [x] Start without optional audio if loading fails.
+- [x] Show actionable errors for essential asset failures.
+- [x] Verify there is no dependency on the original analytics account or an external AI service.
 
 **Exit gate:** Save/resume and all chapters remain reliable through revisits, resize events, missing optional audio, and common browser-storage failures.
 
-## Phase 9 — Verification and balancing
+## Phase 9: Verification and balancing
 
 **Goal:** Verify correctness before documenting successful outcomes.
 
-- [ ] Test reproducibility from identical seeds and action sequences.
-- [ ] Test pairwise disjoint pool IDs and prevent audit/final records entering training.
-- [ ] Test readiness boundaries at skill 59/60 and experience 0/1.
-- [ ] Test all feature masks and consistent column-to-feature explanations.
-- [ ] Test one-class models and exact learned-split boundary comparisons.
-- [ ] Check tree traversal decisions against the model adapter on every development fixture.
-- [ ] Verify historical and assessed label sources are never silently mixed in reporting.
-- [ ] Test confusion counts, missing denominators, percentages, and rounding.
-- [ ] Test score boundaries immediately below, at, and above 85%, 75%, and 15 percentage points.
-- [ ] Test always-shortlist and always-pass policy fixtures; neither may earn three stars.
-- [ ] Test all four ending combinations.
-- [ ] Test budget accounting, refunds, repeated clicks, and insufficient funds.
-- [ ] Test save restoration, final locking, replay freshness, and report/export consistency.
-- [ ] Complete the game with several different repair configurations and record actual differences.
-- [ ] Check a meaningful range of seeds and onboarding choices, including all-shortlist and all-pass onboarding.
-- [ ] Confirm an affordable successful repair exists in the intended scenario and investigate failures without substituting fake metrics.
+- [x] Test reproducibility from identical seeds and action sequences.
+- [x] Test pairwise disjoint pool IDs and prevent audit/final records entering training.
+- [x] Test readiness boundaries at skill 59/60 and experience 0/1.
+- [x] Test all feature masks and consistent column-to-feature explanations.
+- [x] Test one-class models and exact learned-split boundary comparisons.
+- [x] Check tree traversal decisions against the model adapter on every development fixture.
+- [x] Verify historical and assessed label sources are never silently mixed in reporting.
+- [x] Test confusion counts, missing denominators, percentages, and rounding.
+- [x] Test score boundaries immediately below, at, and above 85%, 75%, and 15 percentage points.
+- [x] Test always-shortlist and always-pass policy fixtures; neither may earn three stars.
+- [x] Test all four ending combinations.
+- [x] Test budget accounting, refunds, repeated clicks, and insufficient funds.
+- [x] Test save restoration, final locking, replay freshness, and report/export consistency.
+- [x] Complete the game with several different repair configurations and record actual differences.
+- [x] Check a meaningful range of seeds and onboarding choices, including all-shortlist and all-pass onboarding.
+- [x] Confirm an affordable successful repair exists in the intended scenario and investigate failures without substituting fake metrics.
 - [ ] Record real before/after screenshots and the exact tested runtime/commands.
 - [ ] Run appropriate automated checks and complete one full browser walkthrough after final changes.
 
 **Exit gate:** Meaningful checks pass, computed behaviour supports the intended lesson, and any remaining limits are documented honestly.
 
-## Phase 10 — Peer playtesting and assignment package
+## Phase 10: Peer playtesting and assignment package
 
 **Goal:** Supply real evidence for the documentation and learning criterion.
 
@@ -256,11 +270,11 @@ Phases 0 and 1 are complete. The upstream game is imported with independent hist
 - [ ] Summarise the observed outcomes without claiming universal effectiveness.
 - [ ] Make and document at least one improvement based on those observations.
 - [ ] Verify the improvement and recheck affected flows.
-- [ ] Finalise the how-to-play guide, learning objectives, screenshots, and rubric mapping.
-- [ ] Finalise asset notices, original-author credits, and a retained-versus-new contribution summary.
-- [ ] Replace planned command descriptions with setup instructions actually verified.
-- [ ] Package source and rebuilt static output with documented local serving instructions.
-- [ ] Update README/TODO status and identify any incomplete requirement explicitly.
+- [x] Finalise the how-to-play guide, learning objectives, screenshots, and rubric mapping.
+- [x] Finalise asset notices, original-author credits, and a retained-versus-new contribution summary.
+- [x] Replace planned command descriptions with setup instructions actually verified.
+- [x] Package source and rebuilt static output with documented local serving instructions. ZIP manifest and standalone serving checks passed.
+- [x] Update README/TODO status and identify any incomplete requirement explicitly.
 
 **Exit gate:** The submission is runnable, attributed, documented, and backed by genuine playtest evidence. Implementation completeness alone does not close the playtest requirement.
 
@@ -272,12 +286,15 @@ Phases 0 and 1 are complete. The upstream game is imported with independent hist
 | Product identity and scenario decisions | Recorded in README and this file |
 | Local upstream import | Complete; independent root commit and provenance retained |
 | Reproducible original build | Complete; Node 22.15.0 / npm 10.9.2, lockfile-based setup |
-| New game implementation | Pending |
-| Automated application tests | Six baseline checks pass; new gameplay tests pending |
-| Browser walkthrough and screenshots | Original hiring, training, automation, inspector, and mute verified; screenshots saved |
+| New data, decision tree, and learning gameplay | All six chapters implemented; engine, persistence and DOM journey coverage; visual/audio and real learner evidence pending |
+| Phase 2 reskin build (`npm run build`) | Passed on 2026-10-30 |
+| Phase 3 data and model engine | Complete; deterministic pools, training, explanations, metrics, immutable snapshots, and legacy reporting cleanup |
+| Phase 4 first shift | Three rounds, honest deadline handling, player-only and company models, and computed before/after comparison implemented |
+| Automated application tests | Full npm test passes all 52 checks, including the complete six-chapter DOM journey, real models/reports, budgets, final locking, save/resume, local HTTP, audio behaviour, canvas sizing and pause. Sixty repair fixtures and 48 additional scenario runs support balancing. |
+| Browser walkthrough and screenshots | Original hiring, training, automation, inspector, and mute verified; Phase 2 title opened once, full reskin review blocked by Work settings |
 | Peer playtests and transfer explanations | Pending |
 | Feedback-driven revision | Pending |
-| Final runnable package | Pending |
+| Final runnable package | Built `artifacts/submission/hire-and-seek-5Iv3At.zip`; 496 files verified against its manifest, excluded metadata checked, and standalone HTTP serving passed |
 
 ## Final sign-off
 

@@ -2,7 +2,7 @@
 .Instruction {
   
   @include buttonBox();
-  @include boxColors($bg-color: #f56b6bf7, $shadow-color: 'darkred');
+  @include boxColors($bg-color: #142d4e, $shadow-color: 'darkred');
   
   &__wrapper {
     position: absolute;

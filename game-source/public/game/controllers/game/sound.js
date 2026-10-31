@@ -1,93 +1,90 @@
 import {Howl, Howler} from 'howler';
-import {SOUND_MANIFEST, DEBUG_MODE} from '../constants';
+import {SOUND_MANIFEST} from '../constants';
+import {gameClock} from './gameClock';
 
-let soundMuted = false;
-const soundTimeouts = {};
+let soundMuted = false, gamePaused = false;
+const jobs = new Map();
+const find = name => SOUND_MANIFEST.find(sound => sound.name === name);
+const unlockEvents = ['pointerdown', 'keydown', 'click'];
 
-export const init = () => {
-    window.addEventListener('click', resumeAudioContext);
-};
-export const load = () => Promise.all(SOUND_MANIFEST.map((sound) => loadSound(sound.name)));
-
-export const toggleVolume = () => {
+export function getStatus() {
+    return {muted: soundMuted, loaded: SOUND_MANIFEST.filter(s => s.player).length,
+        failed: SOUND_MANIFEST.filter(s => s.failed).length,
+        unavailable: SOUND_MANIFEST.every(s => s.failed)};
+}
+function notify() { window.dispatchEvent(new CustomEvent('hire-seek-audio')); }
+function unlock() {
+    const ctx = Howler.ctx;
+    if (!ctx) return;
+    const resumed = ctx.state === 'running' ? Promise.resolve() : ctx.resume();
+    Promise.resolve(resumed).then(() => {
+        if (ctx.state === 'running') unlockEvents.forEach(event => window.removeEventListener(event, unlock, true));
+    }).catch(() => {}); // Keep the listeners so the next gesture can try again.
+}
+export function init() { unlockEvents.forEach(event => window.addEventListener(event, unlock, true)); }
+export const load = () => Promise.all(SOUND_MANIFEST.map(sound => loadSound(sound.name)));
+export function toggleVolume() {
     soundMuted = !soundMuted;
     Howler.mute(soundMuted);
-};
-
-const resumeAudioContext = () => {
-    if (Howler.ctx !== null) {
-        Howler.ctx.resume().catch(() => {});
-        if (DEBUG_MODE) {
-            console.log('mute sound so you do not go crazy');
-            // Howler.mute(true);
+    unlock(); notify();
+    return soundMuted;
+}
+export function setGamePaused(paused) {
+    if (paused === gamePaused) return;
+    gamePaused = paused;
+    SOUND_MANIFEST.forEach(sound => {
+        if (!sound.player) return;
+        if (paused) {
+            sound.resumeAfterPause = Boolean(sound.playerID != null && sound.player.playing(sound.playerID));
+            if (sound.resumeAfterPause) sound.player.pause(sound.playerID);
+        } else if (sound.resumeAfterPause) {
+            sound.resumeAfterPause = false;
+            sound.player.play(sound.playerID);
         }
-    }
-    window.removeEventListener('click', resumeAudioContext);
-};
-
-
-export const stop = (name) => {
-    if (soundTimeouts[name]) {
-        console.log(`clear timeout for sound ${name}`);
-        clearTimeout(soundTimeouts[name]);
-    }
-    const {player, playerID} = findSoundByName(name);
-    if (player && player.playing(playerID)) {
-        player.stop(playerID);
-    }
-};
-
-export const fadeOut = (name, resetPlayback = true) => {
-    const sound = findSoundByName(name);
+    });
+}
+export function stop(name) {
+    gameClock.cancel(jobs.get(name)); jobs.delete(name);
+    const sound = find(name);
     if (!sound) return;
-    const {player, volume = 1.0, playerID} = sound;
-    if (player && player.playing(playerID)) {
-        player.fade(volume, 0.0, 1000, playerID);
-        setTimeout(() => {
-            console.log(`${resetPlayback ? 'stop' : 'pause'} the player`);
-            resetPlayback ? player.stop(playerID) : player.pause(playerID);
-            console.log(`play ${name} at volume ${sound.volume}`);
-            player.volume(sound.volume, playerID);
-        }, 1000);
-    }
-};
-
-export const schedule = (name, waitForSeconds) => {
-    console.log(`schedule a playback for sound ${name} in ${waitForSeconds} seconds`);
-    soundTimeouts[name] = setTimeout(() => play(name), waitForSeconds*1000);
-};
-
-
-export const play = (name) => {
-    console.log(`play the sound by name ${name}`);
-    const sound = findSoundByName(name);
-    const {player} = sound;
-    if (player && !player.playing(sound.playerID)) {
-        sound.playerID = player.play();
-    }
-};
-
-export const loadSound = (name) => new Promise((resolve) => {
-    const sound = findSoundByName(name);
-    if (sound) {
-        const player = new Howl({
-            src: [sound.path],
-            loop: sound.loop,
-            volume: sound.volume || 1.0,
-        });
-        player.once('load', function() {
-            sound.player = player;
-            resolve();
-        });
+    sound.resumeAfterPause = false;
+    if (sound.player && sound.playerID != null) sound.player.stop(sound.playerID);
+}
+export function schedule(name, waitForSeconds) {
+    gameClock.cancel(jobs.get(name));
+    jobs.set(name, gameClock.schedule(() => { jobs.delete(name); play(name); }, waitForSeconds * 1000));
+}
+export function fadeOut(name, resetPlayback = true) {
+    const sound = find(name);
+    if (!sound || !sound.player || !sound.player.playing(sound.playerID)) return;
+    gameClock.cancel(jobs.get(name));
+    const id = sound.playerID;
+    sound.player.fade(sound.volume, 0, 1000, id);
+    jobs.set(name, gameClock.schedule(() => {
+        jobs.delete(name);
+        if (resetPlayback) sound.player.stop(id); else sound.player.pause(id);
+        sound.player.volume(sound.volume, id);
+    }, 1000));
+}
+export function play(name) {
+    if (gamePaused) return;
+    const sound = find(name);
+    if (sound && sound.player && !sound.player.playing(sound.playerID)) sound.playerID = sound.player.play();
+}
+export function loadSound(name) {
+    const sound = find(name);
+    if (!sound) return Promise.reject(new Error('Unknown sound: ' + name));
+    return new Promise(resolve => {
+        const player = new Howl({src: [sound.path], loop: sound.loop,
+            volume: sound.volume === undefined ? 1 : sound.volume});
+        player.once('load', () => { sound.player = player; sound.failed = false; notify(); resolve(); });
         player.once('loaderror', () => {
-            console.warn(`Optional sound unavailable: ${name}`);
-            player.unload();
-            resolve();
+            sound.player = null; sound.failed = true; player.unload(); notify(); resolve();
         });
-    } else {
-        throw new Error(`sound ${name} is not in the file list!`);
-    }
-});
-
-
-const findSoundByName = (name) => SOUND_MANIFEST.find((sound) => sound.name === name);
+        player.on('playerror', id => {
+            player.once('unlock', () => {
+                if (!gamePaused && !soundMuted && sound.player === player) sound.playerID = player.play(id);
+            });
+        });
+    });
+}

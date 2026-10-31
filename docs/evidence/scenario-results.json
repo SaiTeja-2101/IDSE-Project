@@ -1,0 +1,485 @@
+{
+  "kind": "automated scenarios, not peer playtests",
+  "results": [
+    {
+      "seed": 0,
+      "choices": "all shortlist",
+      "repair": "Original",
+      "accuracy": 0.99,
+      "gap": 0,
+      "stars": 3,
+      "ending": "Trust Earned",
+      "credits": 6
+    },
+    {
+      "seed": 0,
+      "choices": "all shortlist",
+      "repair": "Hide city",
+      "accuracy": 0.99,
+      "gap": 0,
+      "stars": 3,
+      "ending": "Trust Earned",
+      "credits": 5
+    },
+    {
+      "seed": 0,
+      "choices": "all shortlist",
+      "repair": "More archive",
+      "accuracy": 0.75,
+      "gap": 1,
+      "stars": 0,
+      "ending": "Recruitment Recalled",
+      "credits": 4
+    },
+    {
+      "seed": 0,
+      "choices": "all shortlist",
+      "repair": "Assessment repair",
+      "accuracy": 1,
+      "gap": 0,
+      "stars": 3,
+      "ending": "Trust Earned",
+      "credits": 0
+    },
+    {
+      "seed": 0,
+      "choices": "all pass",
+      "repair": "Original",
+      "accuracy": 0.765,
+      "gap": 0.86,
+      "stars": 0,
+      "ending": "Recruitment Recalled",
+      "credits": 6
+    },
+    {
+      "seed": 0,
+      "choices": "all pass",
+      "repair": "Hide city",
+      "accuracy": 0.775,
+      "gap": 0.74,
+      "stars": 0,
+      "ending": "Recruitment Recalled",
+      "credits": 5
+    },
+    {
+      "seed": 0,
+      "choices": "all pass",
+      "repair": "More archive",
+      "accuracy": 0.665,
+      "gap": 0.66,
+      "stars": 0,
+      "ending": "Recruitment Recalled",
+      "credits": 4
+    },
+    {
+      "seed": 0,
+      "choices": "all pass",
+      "repair": "Assessment repair",
+      "accuracy": 1,
+      "gap": 0,
+      "stars": 3,
+      "ending": "Trust Earned",
+      "credits": 0
+    },
+    {
+      "seed": 0,
+      "choices": "mixed",
+      "repair": "Original",
+      "accuracy": 0.75,
+      "gap": 1,
+      "stars": 0,
+      "ending": "Recruitment Recalled",
+      "credits": 6
+    },
+    {
+      "seed": 0,
+      "choices": "mixed",
+      "repair": "Hide city",
+      "accuracy": 0.76,
+      "gap": 0.84,
+      "stars": 0,
+      "ending": "Recruitment Recalled",
+      "credits": 5
+    },
+    {
+      "seed": 0,
+      "choices": "mixed",
+      "repair": "More archive",
+      "accuracy": 0.75,
+      "gap": 1,
+      "stars": 0,
+      "ending": "Recruitment Recalled",
+      "credits": 4
+    },
+    {
+      "seed": 0,
+      "choices": "mixed",
+      "repair": "Assessment repair",
+      "accuracy": 1,
+      "gap": 0,
+      "stars": 3,
+      "ending": "Trust Earned",
+      "credits": 0
+    },
+    {
+      "seed": 1,
+      "choices": "all shortlist",
+      "repair": "Original",
+      "accuracy": 1,
+      "gap": 0,
+      "stars": 3,
+      "ending": "Trust Earned",
+      "credits": 6
+    },
+    {
+      "seed": 1,
+      "choices": "all shortlist",
+      "repair": "Hide city",
+      "accuracy": 1,
+      "gap": 0,
+      "stars": 3,
+      "ending": "Trust Earned",
+      "credits": 5
+    },
+    {
+      "seed": 1,
+      "choices": "all shortlist",
+      "repair": "More archive",
+      "accuracy": 0.74,
+      "gap": 1,
+      "stars": 0,
+      "ending": "Recruitment Recalled",
+      "credits": 4
+    },
+    {
+      "seed": 1,
+      "choices": "all shortlist",
+      "repair": "Assessment repair",
+      "accuracy": 1,
+      "gap": 0,
+      "stars": 3,
+      "ending": "Trust Earned",
+      "credits": 0
+    },
+    {
+      "seed": 1,
+      "choices": "all pass",
+      "repair": "Original",
+      "accuracy": 0.735,
+      "gap": 0.94,
+      "stars": 0,
+      "ending": "Recruitment Recalled",
+      "credits": 6
+    },
+    {
+      "seed": 1,
+      "choices": "all pass",
+      "repair": "Hide city",
+      "accuracy": 0.74,
+      "gap": 0.6799999999999999,
+      "stars": 0,
+      "ending": "Recruitment Recalled",
+      "credits": 5
+    },
+    {
+      "seed": 1,
+      "choices": "all pass",
+      "repair": "More archive",
+      "accuracy": 0.735,
+      "gap": 0.94,
+      "stars": 0,
+      "ending": "Recruitment Recalled",
+      "credits": 4
+    },
+    {
+      "seed": 1,
+      "choices": "all pass",
+      "repair": "Assessment repair",
+      "accuracy": 1,
+      "gap": 0,
+      "stars": 3,
+      "ending": "Trust Earned",
+      "credits": 0
+    },
+    {
+      "seed": 1,
+      "choices": "mixed",
+      "repair": "Original",
+      "accuracy": 0.75,
+      "gap": 1,
+      "stars": 0,
+      "ending": "Recruitment Recalled",
+      "credits": 6
+    },
+    {
+      "seed": 1,
+      "choices": "mixed",
+      "repair": "Hide city",
+      "accuracy": 0.755,
+      "gap": 0.74,
+      "stars": 0,
+      "ending": "Recruitment Recalled",
+      "credits": 5
+    },
+    {
+      "seed": 1,
+      "choices": "mixed",
+      "repair": "More archive",
+      "accuracy": 0.75,
+      "gap": 1,
+      "stars": 0,
+      "ending": "Recruitment Recalled",
+      "credits": 4
+    },
+    {
+      "seed": 1,
+      "choices": "mixed",
+      "repair": "Assessment repair",
+      "accuracy": 1,
+      "gap": 0,
+      "stars": 3,
+      "ending": "Trust Earned",
+      "credits": 0
+    },
+    {
+      "seed": 17,
+      "choices": "all shortlist",
+      "repair": "Original",
+      "accuracy": 0.695,
+      "gap": 1,
+      "stars": 0,
+      "ending": "Recruitment Recalled",
+      "credits": 6
+    },
+    {
+      "seed": 17,
+      "choices": "all shortlist",
+      "repair": "Hide city",
+      "accuracy": 0.7,
+      "gap": 0.74,
+      "stars": 0,
+      "ending": "Recruitment Recalled",
+      "credits": 5
+    },
+    {
+      "seed": 17,
+      "choices": "all shortlist",
+      "repair": "More archive",
+      "accuracy": 0.7,
+      "gap": 1,
+      "stars": 0,
+      "ending": "Recruitment Recalled",
+      "credits": 4
+    },
+    {
+      "seed": 17,
+      "choices": "all shortlist",
+      "repair": "Assessment repair",
+      "accuracy": 1,
+      "gap": 0,
+      "stars": 3,
+      "ending": "Trust Earned",
+      "credits": 0
+    },
+    {
+      "seed": 17,
+      "choices": "all pass",
+      "repair": "Original",
+      "accuracy": 0.76,
+      "gap": 0.74,
+      "stars": 0,
+      "ending": "Recruitment Recalled",
+      "credits": 6
+    },
+    {
+      "seed": 17,
+      "choices": "all pass",
+      "repair": "Hide city",
+      "accuracy": 0.75,
+      "gap": 0.6399999999999999,
+      "stars": 0,
+      "ending": "Recruitment Recalled",
+      "credits": 5
+    },
+    {
+      "seed": 17,
+      "choices": "all pass",
+      "repair": "More archive",
+      "accuracy": 0.75,
+      "gap": 1,
+      "stars": 0,
+      "ending": "Recruitment Recalled",
+      "credits": 4
+    },
+    {
+      "seed": 17,
+      "choices": "all pass",
+      "repair": "Assessment repair",
+      "accuracy": 1,
+      "gap": 0,
+      "stars": 3,
+      "ending": "Trust Earned",
+      "credits": 0
+    },
+    {
+      "seed": 17,
+      "choices": "mixed",
+      "repair": "Original",
+      "accuracy": 0.75,
+      "gap": 1,
+      "stars": 0,
+      "ending": "Recruitment Recalled",
+      "credits": 6
+    },
+    {
+      "seed": 17,
+      "choices": "mixed",
+      "repair": "Hide city",
+      "accuracy": 0.755,
+      "gap": 0.74,
+      "stars": 0,
+      "ending": "Recruitment Recalled",
+      "credits": 5
+    },
+    {
+      "seed": 17,
+      "choices": "mixed",
+      "repair": "More archive",
+      "accuracy": 0.75,
+      "gap": 1,
+      "stars": 0,
+      "ending": "Recruitment Recalled",
+      "credits": 4
+    },
+    {
+      "seed": 17,
+      "choices": "mixed",
+      "repair": "Assessment repair",
+      "accuracy": 1,
+      "gap": 0,
+      "stars": 3,
+      "ending": "Trust Earned",
+      "credits": 0
+    },
+    {
+      "seed": 20261030,
+      "choices": "all shortlist",
+      "repair": "Original",
+      "accuracy": 0.725,
+      "gap": 1,
+      "stars": 0,
+      "ending": "Recruitment Recalled",
+      "credits": 6
+    },
+    {
+      "seed": 20261030,
+      "choices": "all shortlist",
+      "repair": "Hide city",
+      "accuracy": 0.71,
+      "gap": 0.88,
+      "stars": 0,
+      "ending": "Recruitment Recalled",
+      "credits": 5
+    },
+    {
+      "seed": 20261030,
+      "choices": "all shortlist",
+      "repair": "More archive",
+      "accuracy": 0.75,
+      "gap": 1,
+      "stars": 0,
+      "ending": "Recruitment Recalled",
+      "credits": 4
+    },
+    {
+      "seed": 20261030,
+      "choices": "all shortlist",
+      "repair": "Assessment repair",
+      "accuracy": 1,
+      "gap": 0,
+      "stars": 3,
+      "ending": "Trust Earned",
+      "credits": 0
+    },
+    {
+      "seed": 20261030,
+      "choices": "all pass",
+      "repair": "Original",
+      "accuracy": 0.75,
+      "gap": 1,
+      "stars": 0,
+      "ending": "Recruitment Recalled",
+      "credits": 6
+    },
+    {
+      "seed": 20261030,
+      "choices": "all pass",
+      "repair": "Hide city",
+      "accuracy": 0.74,
+      "gap": 0.88,
+      "stars": 0,
+      "ending": "Recruitment Recalled",
+      "credits": 5
+    },
+    {
+      "seed": 20261030,
+      "choices": "all pass",
+      "repair": "More archive",
+      "accuracy": 0.75,
+      "gap": 1,
+      "stars": 0,
+      "ending": "Recruitment Recalled",
+      "credits": 4
+    },
+    {
+      "seed": 20261030,
+      "choices": "all pass",
+      "repair": "Assessment repair",
+      "accuracy": 1,
+      "gap": 0,
+      "stars": 3,
+      "ending": "Trust Earned",
+      "credits": 0
+    },
+    {
+      "seed": 20261030,
+      "choices": "mixed",
+      "repair": "Original",
+      "accuracy": 0.745,
+      "gap": 1,
+      "stars": 0,
+      "ending": "Recruitment Recalled",
+      "credits": 6
+    },
+    {
+      "seed": 20261030,
+      "choices": "mixed",
+      "repair": "Hide city",
+      "accuracy": 0.73,
+      "gap": 0.88,
+      "stars": 0,
+      "ending": "Recruitment Recalled",
+      "credits": 5
+    },
+    {
+      "seed": 20261030,
+      "choices": "mixed",
+      "repair": "More archive",
+      "accuracy": 0.75,
+      "gap": 1,
+      "stars": 0,
+      "ending": "Recruitment Recalled",
+      "credits": 4
+    },
+    {
+      "seed": 20261030,
+      "choices": "mixed",
+      "repair": "Assessment repair",
+      "accuracy": 1,
+      "gap": 0,
+      "stars": 3,
+      "ending": "Trust Earned",
+      "credits": 0
+    }
+  ]
+}

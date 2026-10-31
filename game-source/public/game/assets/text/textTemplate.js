@@ -1,375 +1,304 @@
+// Hire and Seek copy. Original source and authors are credited in docs/UPSTREAM.md.
 const english = {
-    // texts displayed in the html
-    header: {
-        title: 'Survival of the Best Fit',
-        subtitle: 'How AI hires like humans',
+    "header": {
+        "title": "Hire and Seek",
+        "subtitle": "You hire. It learns."
     },
-    about: {
-        aboutBody: 'Survival of the Best Fit is a game to demonstrate how blind use of AI in hiring can further perpetuate human bias. In this simulation, users will act as recruiters at a fast-growing company. To reduce costs and maximize output, they would use a new, obscure AI system to replace human recruiters, only to realize that this creates a snowball of problems.\nThis is a project by Gabor Csapo, Jihyun Kim, Miha Klasinc, and Alia ElKattan',
+    "about": {
+        "aboutBody": "Hire and Seek is a game about learning from past hiring choices. Adapted from Survival of the Best Fit by Alia ElKattan, Miha Klasinc, Gabor Csapo, and Jihyun Kim."
     },
- 
-    //resources page
- 
-    resources: {
-        title: 'Machines, Bias, and Fairness',
-        aboutBiasTitle: 'How does \'machine bias\' work?',
-        aboutBias: 'xx\n xxx',
+    "resources": {
+        "title": "Machines, Bias, and Fairness",
+        "aboutBiasTitle": "How does 'machine bias' work?",
+        "aboutBias": "xx\n xxx"
     },
- 
-    // texts displayed during the game
-    titleStage: {
-        header: 'Congratulations!',
-        instruction: 'You\’ve just secured 1 million dollars from Orange Valley ventures. Ready to grow your new startup?',
-        responses: [
-            'Start Game',
+    "titleStage": {
+        "header": "Hire & Seek",
+        "instruction": "A new job. A stack of CVs. A machine that learns from you. What could go wrong?",
+        "responses": [
+            "Start →"
+        ]
+    },
+    "instructions": {
+        "manual": {
+            "click": "Choose a person to read their CV.",
+            "eval": "Read the CV. Then choose Accept or Reject."
+        },
+        "ml": {}
+    },
+    "smallOfficeStage": {
+        "subject": "Welcome to Orbit Works",
+        "messageFromVc": "You are our new recruiter. Read each CV and hire three people. Take your time with this first round.",
+        "responses": [
+            "Let me see the CVs"
         ],
+        "hiringGoal": 3
     },
-    instructions: {
-        manual: {
-            click: 'Click on candidates to see their CVs',
-            eval: 'Click Accept to hire a candidate, or Reject to see more new applicants.',
-        },
-        ml: {
- 
-        },
-    },
- 
-    smallOfficeStage: {
-        subject: 'Our investment in your startup',
-        messageFromVc: 'We are excited to see you grow the startup. It\'s a competitive market so hire only the best.',
-        responses: ['Let\'s start hiring'],
-        hiringGoal: 3,
-    },
- 
-    mediumOfficeStage: {
-        subject: 'Good start',
-        messageFromVc: 'However, for more funding you\’ll need to hire faster, so pay attention to the clock!',
-        responses: [
-            'I\'ll hire faster.',
-            'Hmm, okay.',
+    "mediumOfficeStage": {
+        "subject": "The queue is growing",
+        "messageFromVc": "Five more roles to fill. Keep reading the CVs as the queue grows. You can pause at any time.",
+        "responses": [
+            "Back to the hiring desk",
+            "Let me take a look"
         ],
-        hiringGoal: 5,
-        duration: 45
+        "hiringGoal": 5,
+        "duration": 45
     },
- 
-    largeOfficeStage: {
-        subject: 'Next investment round...',
-        messageFromVc: 'Good effort, but you need to hire even faster to get more funding. Can you pull this off?',
-        responses: [
-            'Of course!',
-            'I\'m a bit overwhelmed.',
+    "largeOfficeStage": {
+        "subject": "One more round",
+        "messageFromVc": "Eight more hires before we hand the desk to Scout. What do you look for in a CV?",
+        "responses": [
+            "Let me try",
+            "That is a lot of CVs"
         ],
-        hiringGoal: 8,
-        previousStageFailed: 'You ran out of time. The investors want to see results, you\'ll have to hire even more people next month!',
-        duration: 45
- 
+        "hiringGoal": 8,
+        "previousStageFailed": "The clock ran out. We still have roles to fill. Read the next CVs and keep going.",
+        "duration": 45
     },
- 
-    mlTransition: {
-        subject: 'Using AI?',
-        messageFromVc: 'It\'s just too competitive here in Orange Valley...Can you talk to your software engineers to speed things up? I heard AI solves all problems nowadays.',
-        responses: [
-            'Sure, we can automate it away!',
-            'Hmm, I will email the engineers.',
+    "mlTransition": {
+        "subject": "Meet Scout",
+        "messageFromVc": "Our team built Scout to help screen CVs. Talk to Maya, our engineer, and find out how it learns.",
+        "responses": [
+            "How does Scout learn?",
+            "Let me talk to Maya"
         ],
-        previousStageFailed: 'This is clearly not working. Talk to your software engineers to see if they can speed things up. Maybe AI is the solution.',
+        "previousStageFailed": "That was a busy round. Our team built Scout to help. Talk to Maya and find out how it learns."
     },
-    // add transition here. e-mail from INVESTOR says:  We’ve made good progress, but the faster we grow, the more profit we’ll make. I suggest you use an automated program to help with hiring. Check with the software development team?
- 
-    // email from SOFTWARE ENGINEER
-    conversation: [
+    "conversation": [
         {
-            dialogue_step: 1,
-            text: 'You asked us how we can hire faster. So we built a hiring algorithm using <i>machine learning</i>. Basically, we will teach a computer to hire like you, but way faster!',
-            answer_choice: [
+            "dialogue_step": 1,
+            "text": "Hi, I am Maya. We built Scout to help with hiring. It can learn patterns from examples of past decisions.",
+            "answer_choice": [
                 {
-                    text: 'How does that work?',
-                    response: '',
+                    "text": "How does that work?",
+                    "response": ""
                 },
                 {
-                    text: 'That\'s great.',
-                    response: 'Perfect! ',
- 
-                },
-            ],
+                    "text": "Tell me more",
+                    "response": ""
+                }
+            ]
         },
         {
-            dialogue_step: 2,
-            text: 'First, the algorithm will read through past applicants\' CVs and whether they were hired or not. It will then learn what makes a candidate good or bad by <u>copying your hiring decision process</u>!',
-            answer_choice: [
+            "dialogue_step": 2,
+            "text": "Each example has a CV and a decision: hired or rejected. Scout uses these examples to learn which details go with each decision.",
+            "answer_choice": [
                 {
-                    text: 'A machine will think like me?',
-                    response: 'Thinking is a strong word. ',
+                    "text": "So it copies past choices?",
+                    "response": "Yes. "
                 },
                 {
-                    text: 'Works for me ',
-                    response: 'We have to be careful though.',
-                },
-            ],
+                    "text": "Does it know who can do the job?",
+                    "response": "Not on its own. "
+                }
+            ]
         },
         {
-            dialogue_step: 3,
-            text: 'It’s impossible for the program to know good or bad candidates without human input - we first need to give it <u>a lot of data</u> to learn from.',
-            answer_choice: [
+            "dialogue_step": 3,
+            "text": "A past hiring choice is not the same as proof of skill. We need to check what those choices teach Scout.",
+            "answer_choice": [
                 {
-                    text: 'Where do we get the data?',
-                    response: '',
+                    "text": "Where do we start?",
+                    "response": ""
                 },
                 {
-                    text: 'How much is a lot?',
-                    response: '',
-                },
-            ],
+                    "text": "Show me the examples",
+                    "response": ""
+                }
+            ]
         },
         {
-            dialogue_step: 4,
-            text: 'I need your help: can you send me the CVs of all applicants you’ve evaluated so far? <u><b>Click</b> on the file</u> named <i>"cv_all.zip"</i> <span class="desktop__folder-icon"></span> on your desktop',
-            file_drag: true,
-            answer_choice: [],
+            "dialogue_step": 4,
+            "text": "Click <b>cv_all.zip</b> in the file list. It holds the CVs and decisions from your hiring rounds.",
+            "file_drag": true,
+            "answer_choice": []
         },
         {
-            dialogue_step: 5,
-            text: 'Thanks! Machine learning algorithms get more accurate with more data, so here’s what we’ll do: use big tech companies\' data. They have huge applicant records, so we can merge our CVs with theirs and train our model! \n <u>Choose a company</u> you think hires smart people.',
-            dataset_choice: true,
-            answer_choice: [
-                'Google',
-                'Amazon',
-                'Facebook',
-            ],
+            "dialogue_step": 5,
+            "text": "We also have three sets of older company records. Choose one to add to your examples. We should check these records too.",
+            "dataset_choice": true,
+            "answer_choice": [
+                "Archive A",
+                "Archive B",
+                "Archive C"
+            ]
         },
         {
-            dialogue_step: 6,
-            text: 'That\s it! We can now train the algorithm with a lot of past data and put it to use!',
-            answer_choice: [
+            "dialogue_step": 6,
+            "text": "The records are ready. Let us train Scout and watch its choices.",
+            "answer_choice": [
                 {
-                    text: 'Great, let\'s train it!',
-                },
-            ],
-        },
+                    "text": "Train Scout",
+                    "response": ""
+                }
+            ]
+        }
     ],
-
-        stats_conversation: [
+    "stats_conversation": [
         {
-            dialogue_step: 1,
-            text: 'We\'re trying to figure out what\'s wrong with the algorithm.',
-            answer_choice: [
+            "dialogue_step": 1,
+            "text": "Let us compare Scout's choices for applicants from the two cities.",
+            "answer_choice": [
                 {
-                    text: 'Let\'s break down its decisions by orange and blue?',
-                    response: '',
-                },
-            ],
+                    "text": "Show Bengaluru and Chennai",
+                    "response": ""
+                }
+            ]
         },
         {
-            dialogue_step: 2,
-            text: 'Here they are; what do you think?',
-            stats: true,
-            answer_choice: [
+            "dialogue_step": 2,
+            "text": "These numbers come from the decisions recorded in this run. Who was accepted and who was rejected?",
+            "stats": true,
+            "answer_choice": [
                 {
-                    text: 'We\'re rejecting more blue people.',
-                    response: '',
+                    "text": "The cities have different results.",
+                    "response": ""
                 },
                 {
-                    text: 'This isn\'t biased.',
-                    response: 'If you look carefully, we have a similar number of equally qualified blue and orange candidates and yet the algorithm accepts a lot more orange. ',
-                },
-            ],
+                    "text": "I need a closer look.",
+                    "response": ""
+                }
+            ]
         },
         {
-            dialogue_step: 3,
-            text: 'Let\s find out how! Do you remember how we first trained the algorithm?',
-            answer_choice: [
+            "dialogue_step": 3,
+            "text": "Scout learned from past hiring choices. Those choices may carry patterns we did not mean to teach.",
+            "answer_choice": [
                 {
-                    text: 'I sent you my decisions for the algorithm to mimic me.',
-                    response: 'Correct. ',
+                    "text": "We gave it the examples.",
+                    "response": ""
                 },
                 {
-                    text: 'I don\'t care, fix it!',
-                    response: 'The machine was created using your decisions, so I need your help. ',
-                },
-            ],
-        },
-        // {
-        //     dialogue_step: 4,
-        //     text: 'Let\'s analyze your decisions.',
-        //     answer_choice: [
-        //         {
-        //             text: 'Ok',
-        //             response: '',
-        //         },
-        //         {
-        //             text: 'Sure, but I wasn\'t biased',
-        //             response: 'You might\'ve not been, but maybe your applicant pool was. ',
-        //         },
-        //     ],
-        // },
-        {
-            dialogue_step: 5,
-            text: 'Look at our data from manual hiring: ',
-            stats: true,
-            manualStats: true,
-            answer_choice: [
-                {
-                    text: 'I hired a lot more orange people.',
-                    response: 'Our algorithm tries to copy our previous hiring, so if you hired more orange people, it \'learns\' to favor them. ',
-                },
-                {
-                    text: 'I\'m sure I wasn\'t biased!',
-                    response: 'I\'m sure you had good intentions, but we had very few blue applicants in our first stage, and so much less were accepted. The algorithm misinterpreted that as them being unfavorable candidates.',
-                },
-            ],
+                    "text": "What should we check?",
+                    "response": ""
+                }
+            ]
         },
         {
-            dialogue_step: 6,
-            text: ' ',
-            answer_choice: [
+            "dialogue_step": 5,
+            "text": "Here is a summary of the earlier hiring rounds.",
+            "stats": true,
+            "manualStats": true,
+            "answer_choice": [
                 {
-                    text: 'We should have checked the data.',
-                    response: 'Yes, I\'m reading that we need to be more careful the origin and statistical analysis of our data',
+                    "text": "Compare the two cities.",
+                    "response": ""
                 },
                 {
-                    text: 'But the CVs didn\'t have colors on them!',
-                    response: 'It could indirectly learn other elements that differentiate Orange and Blue People, e.g. Orange people usually attend University College Orange Valley while Blue people attend Bluetown University. ',
-                },
-            ],
+                    "text": "Check which examples we used.",
+                    "response": ""
+                }
+            ]
         },
         {
-            dialogue_step: 7,
-            text: 'We should have also checked the quality of the big company dataset you sent me! How am I supposed to understand hiring decisions? I\’m a software engineer!',
-            answer_choice: [
+            "dialogue_step": 6,
+            "text": "Hiding a city name may not remove every clue. Another detail, such as a school score, may carry a similar pattern.",
+            "answer_choice": [
                 {
-                    text: 'We should\'ve worked together more and been more careful...',
-                    response: '',
+                    "text": "So another detail can act as a clue.",
+                    "response": ""
                 },
-                // {
-                //     text: 'We should have worked more together.',
-                //     response: '',
-                // },
-            ],
+                {
+                    "text": "We should check the records.",
+                    "response": ""
+                }
+            ]
         },
+        {
+            "dialogue_step": 7,
+            "text": "We need to check the labels, the examples, and the results. Using a computer does not remove that work.",
+            "answer_choice": [
+                {
+                    "text": "Let us look back at what happened.",
+                    "response": ""
+                }
+            ]
+        }
     ],
- 
-    mlLabStage: {       
-        narration: [
+    "mlLabStage": {
+        "narration": [
             {
-                news: [
-                    'Best way to cut costs: use machine learning in everything',
-                    'Ambition said to be the most important trait in employees',
-                    'Diplomatic or aggressive? Different ways to describe the blue people',
-                ],
+                "news": [
+                    "Orbit Works opens its hiring desk",
+                    "Scout is ready for its first shift",
+                    "New CVs arrive from Bengaluru and Chennai"
+                ]
             },
             {
-                messageFromVc: 'You’ve been able to hire at 10x the past rate AND cut costs! Great job, the algorithm seems to be working',
-                responses: [
-                    'Great to hear!',
+                "messageFromVc": "Scout is screening the next CVs. It is quick. Now we need to check its choices.",
+                "responses": [
+                    "Let me watch"
                 ],
-                news: [
-                    'Orange Valley Review: Does the future of hiring lie in AI?',
-                    'Tech Junkies: Hiring algorithms are the next big thing',
-                ],
+                "news": [
+                    "A faster desk, but are the choices useful?",
+                    "Watch the CVs as Scout screens them"
+                ]
             },
             {
-                launchCVInspector: true,
-                messageFromVc: 'I just got a complaint from a past applicant named <u>Elvan Yang</u> asking why they were rejected. Can you look into it?',
-                responses: [
-                    'I\'ll look for Elvan in the data inspector!',
-                    'Ok, I\'ll email you with my results.',
+                "launchCVInspector": true,
+                "messageFromVc": "Elvan Yang asked how Scout read their CV. Open the CV list and take a look.",
+                "responses": [
+                    "Find Elvan in the CV list",
+                    "Let me check the CVs"
                 ],
-                inspectQuestion: 'So why was Elvan rejected?',
-                inspectResponses: [
-                    'I have no idea.',
-                    'Maybe because Elvan is blue?',
-                ],
+                "inspectQuestion": "What would you check about Scout's choice?",
+                "inspectResponses": [
+                    "I need more evidence.",
+                    "Could the city be a clue?"
+                ]
             },
             {
-                breaking: true,
-                messageFromVc: 'Hey, some reporters are talking about hiring bias, but you’re off the hook since it’s all automated now, right?',
-                responses: [
-                    'Machines can\'t be biased, right?',
-                    'Not sure, I\'ll keep an eye on the machine\'s decisions.',
+                "breaking": true,
+                "messageFromVc": "People are asking if Scout treats both cities the same. An automated choice still needs checking.",
+                "responses": [
+                    "Let me keep watching",
+                    "We should check the results"
                 ],
-                news: [
-                    'Techountability: Research shows hiring algorithms can inherit human biases against minorities',
-                    'Tech Junkies: How do hiring algorithms work?',
-                ],
+                "news": [
+                    "Applicants ask how Scout makes its choices",
+                    "Can past hiring choices shape future ones?"
+                ]
             },
             {
-                launchMachineInspector: true,
-                messageFromVc: 'I’m hearing that you may be involved with this bias story. Reporters are asking for transparency. Review our evaluation metrics to see if you can go public.',
-                responses: [
-                    'Let me talk to our software engineer again!',
-                    'Um, actually... We might have a problem.',
+                "launchMachineInspector": true,
+                "messageFromVc": "Talk to Maya again. Compare the cities and look at the examples Scout learned from.",
+                "responses": [
+                    "Open the review",
+                    "Let me talk to Maya"
                 ],
-                inspectQuestion: 'A recent investigation says we discriminate against Blueville residents! How could that be?',
-                inspectResponses: [
-                    'We trained on more good orange candidates than blue. That made it biased towards orange.',
-                    'Maybe the big tech company dataset was full of bias? We should have looked into my training data more.',
+                "inspectQuestion": "Why might the results differ by city?",
+                "inspectResponses": [
+                    "The past choices may favour one city.",
+                    "We need to check the older records too."
                 ],
-                news: [
-                    'Blueville Gazette: Blueville residents treated unfairly by an algorithm?',
-                    'The justice: Orange privilege in the tech industry',
-                ],
+                "news": [
+                    "Chennai applicants ask for a closer review",
+                    "Fast choices still need a closer look"
+                ]
             },
             {
-                messageFromVc: 'Shut down the company!!! The news got out and you just got sued for hiring discrimination. All the investors are pulling out! What on earth went wrong?',
-                responses: [
-                    'Let\'s wrap up what happened.',
+                "messageFromVc": "We are stopping this hiring run to review it. What should we have checked before trusting Scout?",
+                "responses": [
+                    "Look back at the shift"
                 ],
-                news: [
-                    'Blueville Daily: Hiring algorithm scandal blows out of proportions',
-                    'The Justice: Tech companies need to be held accountable',
- 
-                ],
-            },
-        ],
+                "news": [
+                    "Orbit Works pauses hiring for a review",
+                    "Better questions before the next hiring run"
+                ]
+            }
+        ]
     },
-    selfPromoMessages: [
-        'Hire me!',
-        'I\'m the best',
-        'Help me support my family!',
-        'I\'m an expert!',
-        'Help me pay off my student loan!',
-        'I desperately need a job!',
-        'Choose me!',
-        'I\'m a nice person!',
-        'I am ambitious',
-        'This is the startup with potential',
-        'You seem like a great CEO',
-        'I want to work for you',
-        'I am great with people',
-        'I can do better than these people',
-        'I am a fast learner!',
-        'Why wouldn\'t you hire me?',
-        'I have two kids',
-        'I was the smartest in my class'
+    "selfPromoMessages": [
+        "Ready for my interview!",
+        "Take a look at my CV.",
+        "I like solving problems.",
+        "I enjoy working with a team.",
+        "I learn by trying things.",
+        "Is this the hiring desk?"
     ]
 };
 
-const language = 'hungarian';
-
-// exporting whatever is determined as the language.
-// module.export is for pug, while the txt variable is just a global shatred variable holding all the texts and can be used in JS
-// when loading in the ES6 application, there is no module provided so it is undefined
-let txt;
-
-// defining a global variable candidateClicked to access the ID globally without having to emit a value
+let txt = english;
 let candidateClicked = 0;
 let candidateInSpot = null;
-
-function setLang(dictionary) {
-    if (typeof module !== 'undefined') {
-        module.exports = dictionary;
-    } else {
-        txt = dictionary;
-    }
-}
-
-switch (language) {
-case 'english':
-    setLang(english);
-    break;
-case 'arabic':
-    setLang(null);
-    break;
-default:
-    setLang(english);
-} 
+if (typeof module !== "undefined") module.exports = english;

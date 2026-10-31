@@ -1,0 +1,13 @@
+//- Reusable parts for the tree and evidence screens in later phases.
+mixin evidenceStamp(text)
+  span.EvidenceStamp= text
+mixin treeNode(question, detail)
+  .TreeNode
+    strong= question
+    if detail
+      p= detail
+mixin branchArrow(label)
+  .BranchArrow
+    span= label
+    svg(viewBox='0 0 20 44' aria-hidden='true')
+      path(d='M10 0v38m-6-6 6 6 6-6' fill='none' stroke='currentColor' stroke-width='2')

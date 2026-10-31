@@ -1,6 +1,7 @@
 import $ from 'jquery';
 import {cvCollection} from '~/public/game/assets/text/cvCollection.js';
 import CLASSES from '~/public/game/controllers/constants/classes';
+import {fillCandidateCard} from '../../../../controllers/common/candidateView';
 
 export default class {
     constructor() {
@@ -14,14 +15,7 @@ export default class {
     previewNewPerson(cv) {
         this.setColor(cv.color);
         this.$nameEl.html(cv.name);
-        this.$taglineEl.html('Lorem Ipsum tagline');
-        this._resumeFeatures.forEach((feature, index) => {
-            const skillScore = cv.qualifications[index]*10;
-            const skillClass = `.${CLASSES.CV_CATEGORY}--${feature.class}`;
-            const $skillEl = this.$el.find(skillClass);
-            $skillEl.find(`.${CLASSES.CV_CATEGORY}__name`).html(feature.name);
-            $skillEl.find(`.${CLASSES.CV_CATEGORY}__progress`).css('width', `${skillScore}%`);
-        });
+        fillCandidateCard(this.$el[0], cv);
     }
 
     setColor(color) {

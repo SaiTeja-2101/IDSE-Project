@@ -1,21 +1,24 @@
+mixin cvScore(key, label)
+  div.cv-category(class='cv-category--' + key)
+    .cv-category__heading
+      h3.cv-category__name= label
+      span.cv-category__value
+    div.cv-category__skillbar(role='meter' aria-label=label aria-valuemin='0' aria-valuemax='10')
+      div.cv-category__progress
+
 mixin resume()
   div.Resume.is-inactive#js-resume&attributes(attributes)
-    div.Resume__mask.is_inactive
+    div.Resume__mask.is-inactive
     div.Resume__scanline.is-inactive
-    h1.Resume__title 
-    div.cv-category.cv-category--skill
-      h3.cv-category__name Click on resumes to  
-      div.cv-category__skillbar
-        div.cv-category__progress
-    div.cv-category.cv-category--school
-      h3.cv-category__name investigate decisions
-      div.cv-category__skillbar
-        div.cv-category__progress
-    div.cv-category.cv-category--work
-      h3.cv-category__name
-      div.cv-category__skillbar
-        div.cv-category__progress  
-    div.cv-category.cv-category--ambition
-      h3.cv-category__name
-      div.cv-category__skillbar
-        div.cv-category__progress
+    p.SmallLabel APPLICANT FILE
+    h1.Resume__title Choose a CV
+    .Resume__details(hidden)
+      p.Resume__location
+        i.CityDot
+        span.Resume__city
+      .Resume__divider
+      +cvScore('skill', 'Practical skill')
+      +cvScore('school', 'School score')
+      +cvScore('work', 'Experience')
+      +cvScore('ambition', 'Ambition')
+      p.Resume__note These are scores from the CV, each out of 10. They do not prove who can do the job.

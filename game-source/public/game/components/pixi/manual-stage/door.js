@@ -6,6 +6,8 @@ import {screenSizeDetector, uv2px} from '~/public/game/controllers/common/utils.
 
 export default class {
     constructor({type, floor, floorParent, xAnchorUV, scaleName}) {
+        this.resizeHandler = this._resizeHandler.bind(this);
+        this.animationHandler = this.playAnimation.bind(this);
         this.doorType = type;
         this.floorParent = floorParent;
         this.xAnchorUV = xAnchorUV;
@@ -62,18 +64,21 @@ export default class {
     }
 
     _addEventListeners() {
-        eventEmitter.on(EVENTS.RESIZE, this._resizeHandler.bind(this));
-        eventEmitter.on(EVENTS.PLAY_DOOR_ANIMATION, this.playAnimation.bind(this));
+        eventEmitter.on(EVENTS.RESIZE, this.resizeHandler);
+        eventEmitter.on(EVENTS.PLAY_DOOR_ANIMATION, this.animationHandler);
     }
 
     _removeEventListeners() {
-        eventEmitter.off(EVENTS.RESIZE, this._resizeHandler.bind(this));
-        eventEmitter.off(EVENTS.PLAY_DOOR_ANIMATION, this.playAnimation.bind(this));
+        eventEmitter.off(EVENTS.RESIZE, this.resizeHandler);
+        eventEmitter.off(EVENTS.PLAY_DOOR_ANIMATION, this.animationHandler);
     }
 
     destroy() {
         this._removeEventListeners();
-        // rest unimplemented
+        if (this.sprite) {
+            this.sprite.stop();
+            if (this.sprite.parent) this.sprite.parent.removeChild(this.sprite);
+        }
     }
 
     getSprite() {

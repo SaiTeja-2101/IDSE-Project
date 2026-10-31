@@ -17,7 +17,7 @@ export default class extends UIBase {
         this.$buttons = this.$el.find('.TextboxButton');
         this.setContent = this.setContent.bind(this);
 
-        this.subject = options.subject ? `RE: ${options.subject}` : 'RE: Bestfit investment';
+        this.subject = options.subject ? `RE: ${options.subject}` : 'RE: Orbit Works hiring';
         this._mainContent = options.content || 'dummy text'; // TODO: change this to null
         this._responseContent = options.responses || ['Okay'];
 

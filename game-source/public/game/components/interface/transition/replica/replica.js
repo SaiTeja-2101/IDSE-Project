@@ -95,7 +95,7 @@ export default class Replica extends Component {
         // console.log('we added a choice listener!');
         $('.data-list__choice').on('click', (e) => {
             sound.play(SOUNDS.BUTTON_CLICK);
-            const $choice = $(`#${e.target.id}`);
+            const $choice = $(e.currentTarget);
             state.set('big-tech-company', $choice.text());
             $('.replica__paragraph').each(function(index) {
                 this.innerHTML = this.innerHTML.replace('big company dataset', state.get('big-tech-company') + ' dataset');

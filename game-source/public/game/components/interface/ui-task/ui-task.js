@@ -18,6 +18,7 @@ export default class extends UIBase {
         this._elapsedTime = 0;
         this._runningMS = 0;
         this.timer = pixiApp.ticker;
+        this.timerHandler = () => this.updateTimer(this.timer.elapsedMS);
         this.hiresQuota = options.hires || undefined;
         this.hiresNum = 0;
         this._content = options.content || null;
@@ -117,13 +118,12 @@ export default class extends UIBase {
         if (this._duration === undefined) {
             throw new Error('the timer does not have a defined duration');
         } else {
-            this.timer.add(() => {
-                this.updateTimer(this.timer.elapsedMS);
-            });
+            this.timer.add(this.timerHandler);
         }
     }
 
     reset() {
+        this.timer.remove(this.timerHandler);
         this.timer.stop();
         this._duration = undefined;
         this._elapsedTime = 0;
@@ -153,6 +153,7 @@ export default class extends UIBase {
     }
 
     destroy() {
+        this.timer.remove(this.timerHandler);
         super.dispose();
         this._removeEventListeners();
         this.hide();

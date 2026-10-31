@@ -1,5 +1,6 @@
 import $ from 'jquery';
 import CLASSES from '~/public/game/controllers/constants/classes';
+import {candidateView} from '../../../../controllers/common/candidateView';
 
 export default class {
     constructor({resume, $parent}) {
@@ -21,6 +22,7 @@ export default class {
             .attr('data-id', this.id)
             .addClass(CLASSES.DATASET_GRID_ITEM);
         this.$el.find('.PersonCard-name').html(this.personData.name);
+        $('<p class="PersonCard-city">').text(candidateView(this.personData).city).appendTo(this.$el);
         this.$el.addClass(`PersonCard--${this.color}`);
         this.status === 'accepted' ? this.$el.appendTo(this.$acceptedDataset) : this.$el.appendTo(this.$rejectedDataset);
         this.show();

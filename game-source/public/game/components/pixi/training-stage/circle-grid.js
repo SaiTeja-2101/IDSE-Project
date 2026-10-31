@@ -1,11 +1,17 @@
 import * as PIXI from 'pixi.js';
-import {uv2px, waitForSeconds} from '~/public/game/controllers/common/utils.js';
+import {uv2px} from '~/public/game/controllers/common/utils.js';
 import {mlTrainingStageContainer, eventEmitter, pixiApp, ticker} from '~/public/game/controllers/game/gameSetup.js';
 import {EVENTS} from '~/public/game/controllers/constants';
+import {gameClock} from '../../../controllers/game/gameClock';
 
 export default class {
     constructor() {
-        this.minMargin = uv2px(0.1, 'h');
+        this.jobs = new Set();
+        this.destroyed = false;
+        this.flickering = false;
+        this.processingHandler = this.processingHandler.bind(this);
+        this.resizeHandler = this._resizeHandler.bind(this);
+        this.minMargin = 12;
         this.surface = null;
         this.side = null;
         this.elapsedTime = 0;
@@ -18,19 +24,23 @@ export default class {
         // this.rowsLitUp = this.rows;
         this.rowsLitUp = 0;
         this.addToPixi();
+        eventEmitter.on(EVENTS.RESIZE, this.resizeHandler);
     }
 
     addToPixi() {
         this.ctx = new PIXI.Graphics();
         this.getGridDimensions();
         mlTrainingStageContainer.addChild(this.ctx);
-        this.lightUp();
+        if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+            this.rowsLitUp = this.rows;
+            this._draw({mode: 'lightUp'});
+        } else this.lightUp();
     }
 
     lightUp() {
         this._draw({mode: 'lightUp'});
         this.rowsLitUp++;
-        waitForSeconds(0.1).then(() => {
+        this.schedule(() => {
             // console.log(`rows lit up: ${this.rowsLitUp} / total rows: ${this.rows}`);
             if (this.rowsLitUp < this.rows) {
                 console.log('light up another row!');
@@ -39,13 +49,13 @@ export default class {
                 console.log('start processing!');
                 this.startFlickering();
             }
-        });
+        }, 100);
     }
 
     lightDown() {
         this._draw({mode: 'lightDown'});
         this.rowsLitUp--;
-        waitForSeconds(0.1).then(() => {
+        this.schedule(() => {
             if (this.rowsLitUp >= 0) {
                 console.log('light down another row!');
                 this.lightDown();
@@ -53,17 +63,18 @@ export default class {
                 this.ctx.clear();
                 console.log('stop processing!');
             }
-        });
+        }, 100);
     }
 
     startFlickering() {
-        ticker.add(this.processingHandler.bind(this));
-        ticker.start();
+        if (this.destroyed || this.flickering) return;
+        this.flickering = true;
+        ticker.add(this.processingHandler);
     }
 
     stopFlickering() {
-        ticker.stop();
-        ticker.remove(this.processingHandler.bind(this));
+        this.flickering = false;
+        ticker.remove(this.processingHandler);
     }
 
     processingHandler() {
@@ -83,6 +94,7 @@ export default class {
     }
 
     _draw({mode = undefined}) {
+        if (this.destroyed) return;
         this.ctx.clear();
 
         let drawFilter;
@@ -93,7 +105,7 @@ export default class {
                 if (row <= this.rowsLitUp) {
                     const x = this.marginX + (col*this.gridOffset);
                     const y = this.marginY + (row*this.gridOffset);
-                    this.ctx.beginFill(0xffffff);
+                    this.ctx.beginFill(0x438d7b);
                     this.ctx.drawCircle(x, y, 5);
                     this.ctx.endFill();
                 }
@@ -102,7 +114,7 @@ export default class {
         case 'random':
             drawFilter = (x, y, row, col) => {
                 if (Math.random() > 0.5) {
-                    this.ctx.beginFill(0xffffff);
+                    this.ctx.beginFill(0x438d7b);
                     this.ctx.drawCircle(x, y, 5);
                     this.ctx.endFill();
                 }
@@ -127,6 +139,7 @@ export default class {
 
     _resizeHandler() {
         this.getGridDimensions();
+        this._draw({mode: 'random'});
     }
 
     // add event listeners
@@ -142,6 +155,19 @@ export default class {
     }
 
     destroy() {
-        mlTrainingStageContainer.removeChild(this.ctx);
+        this.destroyed = true;
+        this.stopFlickering();
+        this.jobs.forEach(job => gameClock.cancel(job));
+        this.jobs.clear();
+        eventEmitter.off(EVENTS.RESIZE, this.resizeHandler);
+        this.ctx.destroy();
+    }
+
+    schedule(callback, delay) {
+        const job = gameClock.schedule(() => {
+            this.jobs.delete(job);
+            if (!this.destroyed) callback();
+        }, delay);
+        this.jobs.add(job);
     }
 }

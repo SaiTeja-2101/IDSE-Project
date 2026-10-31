@@ -1,7 +1,38 @@
 div.Titlepage__wrapper.js-titlepage.is-inactive
+  .TitleScene(aria-hidden='true')
+    .SceneWindow
+      .SceneSkyline
+        i
+        i
+        i
+        i
+        i
+    .SceneClock
+    .ScenePlant
+      i
+      i
+      i
+    .SceneFloor
+    .SceneDesk
+      .SceneMonitor
+        .ScoutFace
+          span
+          span
+        p SCOUT
+      .ScenePapers
+    img.ScenePerson.ScenePerson--orange(src='./assets/img/person_orange.png' alt='')
+    img.ScenePerson.ScenePerson--blue(src='./assets/img/person_blue.png' alt='')
+    .SceneNote OPEN FOR HIRING
   div.Titlepage
-    img.title-blue-person(src="./assets/img/money.gif")
+    .TitleIdentity
+      img.TitleLogo(src='./assets/img/hire-and-seek-logo.png' alt='' width='76' height='76')
+      p.TitleEyebrow ORBIT WORKS PRESENTS
     h1.Titlepage__header
+    p.TitleTagline You hire. It learns.
     p.Titlepage__content
     include ../../universal/button/button
-    +button('Start').TextboxButton.title-buttons.is-inactive
+    +button('Start →').TextboxButton.title-buttons.is-inactive
+    p.TitleFootnote No code. Just you, a few CVs, and a curious machine.
+  .TitleBottom
+    span A small game about big decisions.
+    a(href='../about.html') About & credits

@@ -1,6 +1,5 @@
 import $ from 'jquery';
 import CLASSES from '~/public/game/controllers/constants/classes';
-import {clamp} from '~/public/game/controllers/common/utils';
 import {statistics} from '~/public/game/controllers/machine-learning/statistics.js';
 
 export default class {
@@ -17,8 +16,14 @@ export default class {
             const skillScore = cv[index];
             const skillClass = `.${feature}`;
             const $skillEl = this.$el.find(skillClass);
-            const width = clamp(skillScore, 5, 100);
+            const available = skillScore !== null && Number.isFinite(skillScore);
+            const width = available ? Math.max(0, Math.min(100, skillScore)) : 0;
             $skillEl.find(`.${CLASSES.STATS_CATEGORY}__progress`).css('width', `${width}%`);
+            let $value = $skillEl.find('.stats-category__value');
+            if (!$value.length) $value = $('<p class="stats-category__value">').appendTo($skillEl);
+            $value.text(!available ? 'Not available' : index < 2
+                ? skillScore.toFixed(1) + '% / ' + (100 - skillScore).toFixed(1) + '%'
+                : skillScore.toFixed(1) + ' / 100');
         });
     }
 }

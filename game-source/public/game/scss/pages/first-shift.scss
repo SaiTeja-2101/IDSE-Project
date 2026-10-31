@@ -1,0 +1,167 @@
+// First shift: an office stage on the left, readable paper CVs on the right.
+.FirstShift { position: fixed; z-index: 6; inset: 104px 28px 58px; pointer-events: none; }
+.FirstShift h1, .FirstShift h2 { color: var(--ink); font-weight: 400; line-height: 1.03; }
+.FirstShift h1:focus, .FirstShift h2:focus { outline: none; }
+.FirstShift p { line-height: 1.25; }
+.ShiftWindow { pointer-events: auto; position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%); width: min(720px, 90vw); max-height: 100%; background: var(--paper); border: 2px solid var(--ink); box-shadow: 8px 8px 0 #8fb4a1; display: flex; flex-direction: column; }
+.ShiftWindowTop { display: flex; justify-content: space-between; gap: 12px; padding: 11px 22px; background: var(--ink); color: #c7e6d8; font-size: 16px; letter-spacing: 2px; flex-shrink: 0; }
+.ShiftWindowBody { padding: 30px 34px; overflow-y: auto; }
+.ShiftWindow h1 { font-size: 48px; margin: 12px 0 20px; }
+.ShiftWindow p { font-size: 23px; margin: 12px 0; }
+.FirstShift .SmallLabel { font-size: 16px; }
+.ShiftPrimary, .ShiftSecondary { font: inherit; font-size: 24px; line-height: 1; border: 1px solid var(--ink); min-height: 48px; padding: 11px 20px; background: var(--ink); color: var(--paper); display: inline-flex; align-items: center; justify-content: center; gap: 16px; transition: transform 120ms ease, box-shadow 120ms ease; }
+.ShiftPrimary { box-shadow: 4px 4px 0 var(--teal); }
+.ShiftSecondary { background: transparent; color: var(--ink); }
+.ShiftPrimary:hover:not(:disabled), .ShiftSecondary:hover:not(:disabled) { transform: translateY(-2px); border: 1px solid var(--ink); }
+.ShiftPrimary:active:not(:disabled) { transform: translate(2px, 2px); box-shadow: 2px 2px 0 var(--teal); }
+.ShiftPrimary:disabled, .ShiftSecondary:disabled { opacity: .45; box-shadow: none; }
+.FirstShift .ShiftFootnote { color: #49665c; font-size: 17px; line-height: 1.2; margin: 16px 0 0; }
+.BriefingChoices { background: #e2ebe1; border-left: 3px solid #3e8a73; padding: 8px 18px; margin: 20px 0; }
+.BriefingChoices p { margin: 5px 0; }
+.BriefingChoices strong { color: #176c5d; font-weight: 400; }
+.ShiftWindowBody > .ShiftPrimary { margin: 14px 0 6px; }
+.ShiftDeskLayout { display: grid; grid-template-columns: minmax(0, 1fr) 320px; gap: 30px; height: 100%; }
+.DeskColumn { position: relative; min-width: 0; }
+.DeskHeading { position: absolute; top: 98px; left: 5px; right: 10px; }
+.DeskHeading h1 { font-size: 40px; max-width: 550px; margin: 10px 0 14px; }
+.DeskHeading > p:last-child { color: #356d61; font-size: 22px; }
+.DecisionCard { pointer-events: auto; background: var(--paper); border: 1px solid #8fa99c; border-top: 5px solid var(--ink); box-shadow: 5px 5px 0 #adc9b7; padding: 22px; display: flex; flex-direction: column; min-height: 0; overflow-y: auto; }
+.CVHeading { display: flex; justify-content: space-between; gap: 8px; align-items: center; padding-bottom: 16px; border-bottom: 1px solid #c4d2c5; }
+.CVNumber { font-size: 17px; color: #547464; }
+.ShiftCV h2 { font-size: 35px; margin: 20px 0 10px; overflow-wrap: anywhere; }
+.CVLocation { display: flex; align-items: center; gap: 8px; font-size: 21px; color: #486458; margin-bottom: 26px; }
+.ShiftScore { margin: 20px 0; }
+.ScoreLine { display: flex; justify-content: space-between; gap: 12px; align-items: baseline; font-size: 21px; }
+.ScoreLine strong { font-size: 22px; font-weight: 400; color: #19695c; white-space: nowrap; }
+.ShiftScore meter { display: block; width: 100%; height: 12px; margin-top: 7px; appearance: none; border: 0; background: #d6e2d4; }
+.ShiftScore meter::-webkit-meter-bar { background: #d6e2d4; border: 0; border-radius: 0; }
+.ShiftScore meter::-webkit-meter-optimum-value { background: #278474; }
+.ShiftScore meter::-moz-meter-bar { background: #278474; }
+.ShiftAcademy { border-top: 1px solid #c4d2c5; padding-top: 20px; margin: 24px 0 18px; }
+.ShiftAcademy p { font-size: 25px; color: var(--ink); margin-top: 5px; }
+.DecisionActions { padding-top: 20px; margin-top: auto; }
+.ReadyToChoose { font-size: 19px; color: #486458; margin-bottom: 16px; }
+.ChoicePair { display: flex; flex-wrap: wrap; gap: 12px; }
+.ChoicePair .ShiftPrimary, .ChoicePair .ShiftSecondary { flex: 1; padding: 11px 12px; font-size: 23px; gap: 10px; }
+.ChoicePair kbd { font: inherit; font-size: 16px; border: 1px solid currentColor; padding: 2px 4px; opacity: .8; }
+.ChoiceLedger { list-style: none; margin: 18px 0; padding: 0; }
+.ChoiceLedger li { display: flex; justify-content: space-between; align-items: center; gap: 18px; border-bottom: 1px solid #ced9ca; padding: 9px 0; font-size: 19px; }
+.DecisionTag { font-weight: 400; color: #526b63; white-space: nowrap; }
+.DecisionTag.is-shortlisted { color: #176c5d; }
+.FirstShift .ShiftNote { padding: 14px 16px; background: #e0ebdf; border-left: 3px solid #318771; font-size: 21px; }
+.RoundMission { display: inline-flex; gap: 22px; margin-top: 14px; padding: 8px 14px; border: 1px solid #8ca99a; background: var(--paper); font-size: 20px; }
+.RoundMission strong { font-weight: 400; color: #19695c; white-space: nowrap; }
+.RoundMission .is-urgent { color: #943748; }
+.ComparisonScroll { overflow-x: auto; }
+.ComparisonTable { width: 100%; border-collapse: collapse; margin-top: 14px; text-align: left; font-size: 18px; }
+.ComparisonTable th, .ComparisonTable td { padding: 10px; border-bottom: 1px solid #bdcebe; }
+.ComparisonTable th { font-weight: 400; color: #176c5d; }
+.ComparisonTable .is-changed { background: #f2e5bb; }
+.TrainingWindow { width: min(650px, 90vw); }
+.TrainingFace { margin-bottom: 20px; width: 68px; height: 52px; }
+.TrainingCounts { display: flex; align-items: center; justify-content: space-between; gap: 20px; border-top: 1px solid #c4d2c5; border-bottom: 1px solid #c4d2c5; margin: 24px 0; padding: 18px 0; font-size: 20px; }
+.TrainingCounts strong { display: block; font-size: 44px; font-weight: 400; color: #19695c; }
+.DemoControls { position: absolute; bottom: 0; left: 0; right: 0; pointer-events: auto; padding: 16px 20px; background: var(--paper); border: 1px solid #a0b9a7; }
+.DemoControls > p:first-child { font-size: 21px; color: #355d53; margin-bottom: 14px; }
+.DemoButtonRow { display: flex; flex-wrap: wrap; gap: 14px; }
+.DemoButtonRow button { font-size: 22px; }
+.ScoutDecision { margin-top: auto; border-top: 3px solid var(--ink); padding-top: 18px; }
+.ScoutDecision strong { display: block; font-weight: 400; font-size: 38px; color: #4a645d; margin: 10px 0 14px; }
+.ScoutDecision.is-shortlisted strong { color: #176c5d; }
+.ScoutDecision p { font-size: 19px; color: #486458; }
+.SummaryWindow { width: min(780px, 90vw); }
+.MatchResult { display: flex; justify-content: space-between; align-items: center; gap: 24px; padding: 18px 0; border-top: 1px solid #c4d2c5; border-bottom: 1px solid #c4d2c5; }
+.MatchResult strong { display: block; font-weight: 400; font-size: 65px; color: #176c5d; margin: 8px 0 0; }
+.MatchResult p { font-size: 19px; }
+.LearnedQuestion { margin: 24px 0; }
+.LearnedQuestion > p:first-of-type { border: 2px solid var(--ink); padding: 14px 18px; box-shadow: 4px 4px 0 #a8c8b3; font-size: 28px; }
+.LearnedQuestion > p:last-child { font-size: 21px; color: #486458; margin-top: 20px; }
+.SummaryWindow details { margin: 12px 0; border-top: 1px solid #c4d2c5; padding-top: 12px; }
+.SummaryWindow summary { cursor: pointer; font-size: 22px; color: #19695c; }
+.ShiftStatus { position: fixed; z-index: 10; bottom: 18px; left: 50%; transform: translateX(-50%); max-width: 60vw; background: #142d4e; color: #f6f1e8; font-size: 18px; padding: 8px 14px; text-align: center; pointer-events: none; }
+.ShiftStatus:empty { display: none; }
+.ShiftError { pointer-events: auto; position: fixed; bottom: 70px; left: 10%; right: 10%; background: #fff3ec; border: 2px solid #b64450; color: #702b35; padding: 16px; }
+body[data-stage^='first-shift'] .OfficeLabel, body[data-stage^='first-shift'] .OfficeHint, body[data-stage^='first-shift'] .CityKey { display: none; }
+
+
+// The DOM owns the layout. Pixi draws only inside its measured office area.
+html, body { min-height: 100%; height: auto; }
+body { position: static; overflow-x: hidden; overflow-y: auto; }
+.GameBar { position: sticky; top: 0; min-height: 76px; gap: 18px; }
+.ChapterInfo { display: block; }
+#chapter-number, .ChapterTrack { display: none; }
+.ScoutPanel, .OfficeLabel, .OfficeHint, .CityKey { display: none; }
+#gameCanvas { position: absolute; inset: 0; width: 100%; height: 100%; overflow: hidden; }
+#gameCanvas canvas { display: block; width: 100%; height: 100%; }
+.FirstShift { position: static; width: 100%; max-width: 1600px; height: auto; margin: 0 auto; padding: 28px; min-height: calc(100svh - 76px); pointer-events: auto; }
+.ShiftWindow { position: static; left: auto; top: auto; transform: none; width: min(100%, 760px); margin: 20px auto; max-height: calc(100svh - 155px); }
+.ShiftWindowBody { padding: 24px 30px; min-height: 0; }
+.ShiftWindowActions { padding: 16px 30px 22px; border-top: 1px solid #c4d2c5; flex-shrink: 0; background: var(--paper); }
+.ShiftWindow h1 { font-size: clamp(32px, 4vw, 46px); }
+.ShiftWindow p { font-size: 22px; }
+.ShiftPrimary, .ShiftSecondary { min-height: 46px; }
+.ShiftDeskLayout { grid-template-columns: minmax(0, 1fr) minmax(300px, 340px); align-items: start; gap: 24px; height: auto; }
+.DeskColumn { min-width: 0; display: flex; flex-direction: column; }
+.DeskHeading { position: static; padding: 8px 0 22px; }
+.DeskHeading h1 { position: static; width: auto; height: auto; overflow: visible; clip-path: none; white-space: normal; font-size: clamp(28px, 3vw, 40px); margin: 12px 0; max-width: none; }
+.DeskHeading > p { color: #356d61; font-size: 19px; }
+.RoundMission { display: flex; justify-content: space-between; align-items: center; gap: 16px; margin-top: 20px; padding: 14px 18px; font-size: 24px; }
+.OfficeViewport { position: relative; height: clamp(260px, 44svh, 470px); width: 100%; border: 1px solid #9bb8ad; background: var(--mint); overflow: hidden; }
+.ApplicantNavigation { display: flex; justify-content: space-between; align-items: center; gap: 14px; margin-top: 18px; }
+.ApplicantNavigation p { color: #49665c; font-size: 17px; text-align: center; }
+.ApplicantNavigation button { font-size: 20px; flex-shrink: 0; }
+.DecisionCard { min-width: 0; padding: 22px; overflow: visible; }
+.ShiftCV h2 { font-size: 35px; margin: 20px 0 10px; }
+.CVLocation { font-size: 21px; margin-bottom: 24px; }
+.ShiftScore { margin: 20px 0; }
+.ScoreLine { font-size: 21px; }
+.ScoreLine strong { font-size: 22px; }
+.ShiftAcademy { padding-top: 18px; margin: 22px 0; }
+.ShiftAcademy p { font-size: 25px; }
+.DecisionActions { padding-top: 12px; }
+.DecisionActions .ShiftFootnote { font-size: 17px; }
+.TrainingViewport { position: relative; height: 100px; overflow: hidden; }
+.DemoControls { position: static; margin-top: 18px; padding: 18px; }
+.DemoControls .ShiftFootnote { display: block; }
+.ShiftStatus { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
+.MobileOrientationOverlay { display: none !important; }
+@media (max-width: 899px) {
+  .FirstShift { padding: 18px; }
+  .GameBar { display: flex; flex-wrap: wrap; padding: 10px 18px; gap: 10px; }
+  .GameBrand { font-size: 25px; }
+  .ChapterInfo { order: 3; flex-basis: 100%; }
+  #chapter-name { font-size: 18px; }
+  .GameControls { margin-left: auto; }
+  .ShiftDeskLayout { grid-template-columns: minmax(0, 1fr); gap: 20px; }
+  .DeskHeading { padding-top: 0; }
+  .OfficeViewport { height: clamp(210px, 35svh, 340px); }
+  .DecisionActions { position: sticky; bottom: 0; z-index: 3; background: var(--paper); padding: 12px 0 8px; border-top: 1px solid #c4d2c5; }
+  .ChoicePair kbd { display: none; }
+  .ShiftWindow { margin: 8px auto; max-height: calc(100svh - 155px); }
+  .ShiftWindowBody { padding: 20px; }
+  .ShiftWindowActions { padding: 14px 20px 18px; }
+  .DecisionCard { padding: 20px; }
+}
+@media (max-width: 480px) {
+  .FirstShift { padding: 14px; }
+  .GameBar { padding: 10px 14px; }
+  .GameBrand { font-size: 23px; gap: 7px; }
+  .BrandIcon { width: 28px; height: 28px; }
+  .GameControls button { font-size: 17px; padding: 7px; min-height: 44px; }
+  .DeskHeading h1 { font-size: 29px; }
+  .DeskHeading > p { font-size: 17px; }
+  .RoundMission { font-size: 21px; padding: 12px; margin-top: 14px; }
+  .ApplicantNavigation { flex-wrap: wrap; }
+  .ApplicantNavigation p { order: 3; flex-basis: 100%; }
+  .ShiftWindowTop { padding: 12px 16px; font-size: 14px; }
+  .ShiftWindow p { font-size: 20px; }
+  .ShiftWindowActions > button { width: 100%; }
+  .ShiftWindowActions .ShiftFootnote { font-size: 15px; }
+  .MatchResult { flex-direction: column; align-items: start; gap: 4px; }
+}
+@media (max-height: 550px) {
+  .ShiftWindow { max-height: none; }
+  .ShiftWindowBody { overflow: visible; }
+}
+
+@media (prefers-reduced-motion: reduce) { .ShiftPrimary, .ShiftSecondary { transition: none; } }

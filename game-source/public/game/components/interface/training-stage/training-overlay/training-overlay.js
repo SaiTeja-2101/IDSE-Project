@@ -23,11 +23,11 @@ export default class extends UIBase {
         this.elapsedTime = 0;
         this.timePerUpdate = null;
         this.progressMessages = [
-            'Loading CVs...',
-            'Loading %company% dataset...',
-            'Processing data...',
-            'Optimizing algorithm...',
-            'Finished!',
+            'Reading your CVs...',
+            'Reading %company%...',
+            'Comparing past choices...',
+            'Finding patterns...',
+            'Scout is ready!',
         ];
         this.init();
     }
@@ -94,7 +94,7 @@ export default class extends UIBase {
         // console.log('show end ui!');
         this.$progressBox.addClass(CLASSES.IS_INACTIVE);
         TweenLite.delayedCall(1, () => {
-            this.$el.addClass('pink-background');
+            this.$el.addClass('warm-background');
             this.$email.removeClass(CLASSES.IS_INACTIVE);
             TweenLite.set('.js-email', {y: 10, yPercent: -50, opacity: 0});
             TweenLite.to('.js-email', 0.3, {y: 0, opacity: 1, ease: Power1.easeInOut});

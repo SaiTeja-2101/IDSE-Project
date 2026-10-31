@@ -19,18 +19,18 @@ A story-driven browser game about training an AI, investigating its decisions, a
 
 ## Project status
 
-**Phases 0 and 1 are complete: the attributed original game is imported and runs locally.** Its original branding, pink palette, narrative, and ML reporting remain as a baseline. Hire and Seek's new UI and gameplay are specified below and are not implemented yet.
+**All six chapters are connected.** Shortlist 3, 5, then 8 people across three rounds. Train Scout, compare the effect of company records, inspect real tree paths, spend credits on repairs, and test the locked result on 200 fresh CVs. Download or print the computed audit receipt. Progress saves on this browser and can be resumed. All counts, predictions and endings are calculated. Browser visual/audio checks and genuine beginner playtest evidence are still pending. See [delivery notes](docs/DELIVERY.md), the [rubric map](docs/RUBRIC.md) and the [playtest kit](docs/PLAYTEST.md).
 
 The source import has independent history on `hire-and-seek`. The retained build is verified with Node **22.15.0** and npm **10.9.2**. See [baseline verification](docs/BASELINE.md), [upstream provenance](docs/UPSTREAM.md), and [asset inventory](docs/ASSETS.md).
 
-### Run the baseline
+### Run the game
 
 ```bash
 npm run setup
 npm run dev
 ```
 
-Open **http://127.0.0.1:4000/game/** for the game or **http://127.0.0.1:4000/** for the original website shell. Keep that terminal running; use Ctrl+C to stop it. The game has the original landscape-only mobile notice, so use a landscape laptop/browser window.
+Open **http://127.0.0.1:4000/game/** to play or **http://127.0.0.1:4000/** for the landing page. Keep that terminal running. Press Ctrl+C to stop it. The layout adapts to laptops, tablets and phones, including portrait screens.
 
 Other verified commands:
 
@@ -43,11 +43,7 @@ npm run preview
 
 `preview` serves the built output on loopback port 4000 without rebuilding. Stop `dev` before using it, or choose another port with `PORT`. The test suite includes a loopback HTTP test, so a restricted execution sandbox must permit local network access.
 
-Baseline screenshot (the new theme is Phase 2):
-
-![Original applicant interface preserved as the runnable baseline](docs/screenshots/baseline-applicant.jpg)
-
-See [TODO.md](TODO.md) for the phased checklist and completion gates. An unchecked item is planned work, not an implemented feature.
+See [Phase 2 notes](docs/PHASE2.md) and [TODO.md](TODO.md) for what is ready and what is still planned.
 
 ## 1. The game in one paragraph
 
@@ -114,11 +110,11 @@ Real job performance is more complex; the final explanation identifies this simp
 
 ## 4. End-to-end player journey
 
-### Chapter 1 — Your First Day
+### Chapter 1: Your First Day
 
-**Target time:** 1–2 minutes.
+**Target time:** 3–4 minutes.
 
-Reuse the animated office. Six applicants arrive, and the player opens their CV cards.
+Reuse the animated office across three rounds: First day (6 available CVs, no timer, shortlist target 3), Business picks up (10 CVs, 45 seconds, target 5), and Hiring rush (14 CVs, 45 seconds, target 8). There is one game mode. Targets measure workload and do not define readiness. Missing a target does not block progression.
 
 Each CV contains:
 
@@ -129,19 +125,19 @@ Each CV contains:
 
 Use bars for skill and experience, with text labels for academy and city. Do not turn academy or city into apparent ability scores.
 
-The player explicitly selects **Shortlist** or **Pass** for each applicant. Record all six decisions; applicants that were never shown must not silently become negative examples.
+The player explicitly selects **Shortlist** or **Pass** for each reviewed applicant. Each round ends when the shortlist target is reached, its CVs are reviewed, or its clock expires. Save only explicit choices. Unreviewed applicants remain unlabelled and are excluded from fitting. Pause freezes the deadline clock. Switching tabs pauses the game until the player resumes.
 
 **Learning moment:** Your decisions can become training data.
 
-**Exit condition:** Six recorded decisions.
+**Exit condition:** Three rounds completed, with three to thirty explicit labels saved. Shortlisting everyone completes the targets in sixteen choices; timeouts can produce fewer examples. All counts come from the actual choices.
 
-### Chapter 2 — Meet Scout
+### Chapter 2: Meet Scout
 
 **Target time:** 1–2 minutes.
 
-Scout offers to combine the player's examples with 160 historical records. Reuse the training animation, scanner, and automated hiring scene.
+First train Scout on the player's saved choices alone. Reuse the training animation, scanner, and automated hiring scene to screen the introductory batch. Explain that this is a small training set; if it contains only one answer, show a correctly labelled constant model.
 
-Clicking **Train Scout** fits a real decision-tree classifier. Save this original model as an immutable snapshot, then screen a short introductory batch.
+Then explicitly add 160 historical records and refit using those records plus the same player choices. Keep the player model and save the company model as the immutable baseline for later repairs. Screen the exact same introductory CVs with both versions and calculate changed decisions, including zero when appropriate.
 
 The dashboard says **“Match to past hiring decisions.”** Calculate this against historical labels. Do not present it as job-readiness accuracy.
 
@@ -151,7 +147,7 @@ Introduce the tree in plain language: Scout has learned a sequence of questions 
 
 **Exit condition:** The model is trained and the introductory batch has been screened.
 
-### Chapter 3 — Something Doesn't Add Up
+### Chapter 3: Something Doesn't Add Up
 
 **Target time:** 2–3 minutes.
 
@@ -189,7 +185,7 @@ After the two inspections, present a report for an independent **80-applicant au
 
 **Exit condition:** Two assessment inspections completed and the audit report acknowledged.
 
-### Chapter 4 — The Repair Workshop
+### Chapter 4: The Repair Workshop
 
 **Target time:** 3–4 minutes.
 
@@ -202,7 +198,7 @@ Extend the laboratory interface with four purchasable interventions:
 | Expand the archive | 2 | Add 80 historical records generated by the same historical process |
 | Commission independent assessments | 4 | Replace the active training records' labels with assessed readiness |
 
-Independent assessment applies to the selected archive and the six onboarding applicants. It never adds audit or final-evaluation applicants to training.
+Independent assessment applies to the selected archive and all explicitly reviewed player applicants from the three rounds. It never adds unreviewed, introductory, audit, or final-evaluation applicants to training.
 
 The player can undo workshop purchases and receive refunds before deployment. Earlier inspection costs stay spent. Charge each selected intervention once, and reject purchases exceeding the remaining budget.
 
@@ -216,7 +212,7 @@ Let the player compare the original and current models on the audit batch. Show 
 
 **Exit condition:** The player commits an affordable configuration and threshold.
 
-### Chapter 5 — Recruitment Day
+### Chapter 5: Recruitment Day
 
 **Target time:** 1–2 minutes.
 
@@ -230,7 +226,7 @@ Evaluate the original and repaired models on the same final batch for a valid be
 
 **Exit condition:** All final predictions and metrics are available.
 
-### Chapter 6 — Your Audit Receipt
+### Chapter 6: Your Audit Receipt
 
 **Target time:** 1–2 minutes.
 
@@ -276,6 +272,8 @@ Keep the different label meanings explicit. The player-facing text must identify
 | --- | ---: | --- |
 | Historical training | 160 | Initial archive; 120 Bengaluru and 40 Chennai |
 | Player onboarding | 6 | Six distinct applicants and their explicit player labels |
+| Business picks up | 10 | 45-second manual round; stop at 5 shortlists; explicit labels only |
+| Hiring rush | 14 | 45-second manual round; stop at 8 shortlists; explicit labels only |
 | Introductory screening | 12 | Show automated predictions without changing training |
 | Historical expansion | 80 | Optional archive purchase; same 75/25 city mix |
 | Audit | 80 | Workshop evaluation; 40 applicants per city |
@@ -304,7 +302,7 @@ Preserve comparable ability distributions across cities through stratified gener
 
 ### Decision tree
 
-Retain the existing `ml-cart` integration, initially pinned to the inspected **1.0.8** version. Start with Gini splitting, maximum depth three, and `minNumSamples: 5`.
+Retain the existing `ml-cart` integration, initially pinned to the inspected **1.0.8** version. The application uses a documented compatibility copy that fixes class counting in positive-only branches; see [ML_CART.md](docs/ML_CART.md). Use Gini splitting, maximum depth three, and `minNumSamples: 5`.
 
 `minNumSamples` is a stopping rule; it does not guarantee a minimum of five examples in every leaf.
 
@@ -390,7 +388,7 @@ Maintain a manifest recording each asset's source, use, modifications, and appli
 
 ### Accessibility and runtime behaviour
 
-Support keyboard interaction, visible focus, meaningful labels, pause, mute, and reduced motion. Do not impose a compulsory countdown. Design for laptop and landscape tablet use; provide a clear small-screen layout or guidance without hiding game state.
+Support keyboard interaction, visible focus, meaningful labels, pause, mute, and reduced motion. The first round is untimed; later rounds have a pausable 45-second deadline. The layout supports desktop, tablet and portrait phone use. Final responsive and touch-device checks remain pending.
 
 An audio failure must not prevent the game starting. An essential asset failure must display an actionable error, not leave a blank canvas.
 
@@ -403,7 +401,7 @@ The source is divided into `game-source/`, `website-source/`, and generated `dis
 Reuse the office, scanner, character, CV, dataset, conversation, and endgame components. Extend the state machine into:
 
 ```text
-Title -> Briefing -> Manual Decisions -> Training -> Automated Demo
+Homepage -> Briefing -> Manual Decisions -> Training -> Automated Demo
       -> Investigation -> Workshop -> Final Evaluation -> Results -> Debrief
 ```
 
@@ -438,7 +436,7 @@ npm test
 - `build`: build website then game into the shared `dist/` output.
 - `test`: run deterministic model, metric, budget, and state checks.
 
-`npm run preview` serves the existing build through a dependency-free local HTTP server. `npm run check:assets` checks output resources and sprite-sheet references. The scripts invoke the two original source projects sequentially and preserve their retained stack. Root commands and baseline checks are separate from the new game's still-pending model and gameplay tests.
+`npm run preview` serves the existing build through a dependency-free local HTTP server. `npm run check:assets` checks output resources, sound paths and sprite-sheet references. `npm run package` rebuilds and creates a source-plus-static-output ZIP with serving instructions and SHA-256 manifests in `artifacts/submission/`. Tests cover the engine, budgets, outcomes, persistence and the six-chapter DOM flow. LinkeDOM is a development-only test dependency. Real browser rendering/audio and classroom playtests remain separate checks.
 
 ### Save, resume, and export
 

@@ -7,8 +7,8 @@ include ../file/file.pug
   div(class="conversationBox")
     div(id="transition-conversation-log" class="conversationBox-inner")
       div(class="conversationBox__head")
-        p From: software-engineer@bestfit.com
-        p Subject: Hiring Algorithm
+        p From: Maya / Orbit Works engineering
+        p Subject: Meet Scout
       each replica,index in conversation
         include ../replica/replica.pug
         +replica(index, replica, conversation.length)
@@ -16,7 +16,7 @@ include ../file/file.pug
   div(class="file-grid")
     +file('calendar.doc')
     +file('cv_all.zip')(id="js-cv-all-file" class="is-clickable clickable")
-    +file('best-fit.pdf')(class="offset")
+    +file('orbit-works.pdf')(class="offset")
 
 
     

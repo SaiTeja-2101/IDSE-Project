@@ -2,6 +2,7 @@ import mq from 'browsernizr/lib/mq';
 import {BREAKPOINTS, STAGES} from '~/public/game/controllers/constants/index.js';
 import {pixiApp} from '~/public/game/controllers/game/gameSetup.js';
 import * as state from '~/public/game/controllers/common/state';
+import {gameClock} from '../game/gameClock';
 
 
 // let {pixiApp.screen.width, pixiApp.screen.height} = pixiApp.screen;
@@ -126,12 +127,12 @@ const getGameProgressInMonths = (month) => {
 };
 
 const getDateString = () => {
-    const days = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
+    const days = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
     const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sept', 'Oct', 'Nov', 'Dec'];
     const d = new Date();
     const gameMonth = (d.getMonth() + getGameProgressInMonths(d.getMonth())) % months.length;
     console.log(`game month is ${months[gameMonth]}`);
-    const hourString = `${d.getHours() > 0 ? d.getHours() : `0${d.getHours()}`}:${d.getMinutes() > 0 ? d.getMinutes() : `0${d.getMinutes()}`}`;
+    const hourString = String(d.getHours()).padStart(2, '0') + ':' + String(d.getMinutes()).padStart(2, '0');
     return `${days[d.getDay()]} ${hourString}, ${months[gameMonth]} ${d.getDate()} ${d.getFullYear()}`;
 };
 
@@ -162,21 +163,16 @@ function animateTo({target, x, y, scale=1, scaleY, easing=PIXI.tween.Easing.inQu
 
 const waitForSeconds = (duration) => {
     const durationInMS = duration*1000;
-    return new Promise((resolve, reject) => {
-        setTimeout(() => {
-            resolve();
-        }, durationInMS);
-    });
+    return gameClock.wait(durationInMS);
 };
 
 const setCanvasBackground = ({color = undefined}) => {
     switch (color) {
-    case 'pink':
-        console.log('change pixi background color to pink!');
-        pixiApp.renderer.backgroundColor = 0xfeccc7;
+    case 'warm':
+        pixiApp.renderer.backgroundColor = 0xc9e5da;
         break;
     default:
-        pixiApp.renderer.backgroundColor = 0xf9f0e2;
+        pixiApp.renderer.backgroundColor = 0xe2f1ec;
     }
 };
 

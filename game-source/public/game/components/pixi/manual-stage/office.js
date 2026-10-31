@@ -221,6 +221,7 @@ class Office {
         };
 
         this.rejectedHandler = () => {
+            dataModule.recordReject(candidateInSpot);
             const rejectedPerson = this.allPeople[candidateInSpot];
             this.toReplaceX = rejectedPerson.uvX;
             this.placeCandidate(this.toReplaceX);

@@ -10,13 +10,13 @@ mixin replica(index, replica, totalSteps)
           ul(class="data-list")
             li(id="choice-google" class="data-list__choice")
               div(class="data-list__icon")
-              div(class="data-list__name") Google
+              div(class="data-list__name") Archive A
             li(id="choice-apple" class="data-list__choice")
               div(class="data-list__icon")
-              div(class="data-list__name") Apple
+              div(class="data-list__name") Archive B
             li(id="choice-amazon" class="data-list__choice")
               div(class="data-list__icon")
-              div(class="data-list__name") Amazon
+              div(class="data-list__name") Archive C
         else if replica.answer_choice
             each choice in replica.answer_choice
               include ../choice-button/choice-button.pug

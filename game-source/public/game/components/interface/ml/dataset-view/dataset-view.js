@@ -91,13 +91,11 @@ export default class extends UIBase {
 
     _handlePersonCardClick(event) {
         sound.play(SOUNDS.BUTTON_CLICK);
-        let personID;
-        if (event.target.matches('.PersonCard.is-parent')) {
-            personID = $(event.target).attr('data-id');
-        } else if (event.target.matches('.PersonCard-item')) {
-            personID = $(event.target).parent().attr('data-id');
-        };
+        const card = event.target.closest('.PersonCard[data-id]');
+        if (!card) return;
+        const personID = card.dataset.id;
         const activePerson = this.dataset.find((person) => person.getID() === parseInt(personID));
+        if (!activePerson) return;
         if (activePerson && activePerson !== this.activePerson) {
             this.resumePreview.previewNewPerson(activePerson.getData());
             this.activePerson = activePerson;

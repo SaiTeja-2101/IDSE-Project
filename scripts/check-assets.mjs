@@ -39,6 +39,11 @@ export async function checkAssets(root = project) {
         } catch { errors.push(`Missing build output: ${relative}`); }
     }
     const html = await fs.readFile(path.join(root, 'dist/game/index.html'), 'utf8');
+    const sounds = await fs.readFile(path.join(root, 'game-source/public/game/controllers/constants/sounds.js'), 'utf8');
+    for (const [, name] of sounds.matchAll(/^[\s]*[A-Z_]+: '([a-z-]+)'/gm)) {
+        try { await fs.access(path.join(assets, 'sound', name + '.mp3')); }
+        catch { errors.push(`Missing sound: ${name}`); }
+    }
     for (const [, target] of html.matchAll(/(?:src|href)="([^"]+)"/g)) {
         if (/^(?:https?:|#|data:)/.test(target)) continue;
         try { await fs.access(path.resolve(root, 'dist/game', target)); } catch { errors.push(`Broken game HTML resource: ${target}`); }

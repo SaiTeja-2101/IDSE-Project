@@ -4,6 +4,7 @@ import {CLASSES, EVENTS} from '~/public/game/controllers/constants';
 import UIBase from '~/public/game/components/interface/ui-base/ui-base';
 import {clamp} from '~/public/game/controllers/common/utils';
 import {eventEmitter} from '~/public/game/controllers/game/gameSetup.js';
+import {fillCandidateCard} from '../../../controllers/common/candidateView';
 
 export default class extends UIBase {
     constructor(options) {
@@ -43,13 +44,7 @@ export default class extends UIBase {
         this.setColor(cv.color);
         this.$nameEl.html(cv.name);
         // this.$taglineEl.html('personal tagline comes here');
-        this._resumeFeatures.forEach((feature, index) => {
-            const skillScore = cv.qualifications[index]*10;
-            const skillClass = `.${CLASSES.CV_CATEGORY}--${feature.class}`;
-            const $skillEl = this.$el.find(skillClass);
-            $skillEl.find(`.${CLASSES.CV_CATEGORY}__name`).html(feature.name);
-            $skillEl.find(`.${CLASSES.CV_CATEGORY}__progress`).css('width', `${clamp(skillScore, 5, 100)}%`);
-        });
+        fillCandidateCard(this.$el[0], cv);
 
         if (this.$el.hasClass(CLASSES.IS_INACTIVE)) this.show();
     }

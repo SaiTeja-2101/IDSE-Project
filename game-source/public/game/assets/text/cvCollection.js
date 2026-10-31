@@ -4,15 +4,16 @@ As of now, skills are scaled out of 10
 */// /////////////////
 
 import CLASSES from '~/public/game/controllers/constants/classes';
+import {normalizeCandidates} from '../../controllers/common/candidateData';
 
 const cvCollection = {
     cvFeatures: [
         {
-            name: 'Skill',
+            name: 'Practical skill',
             class: CLASSES.CV_SKILL,
         },
         {
-            name: 'School Prestige',
+            name: 'School score',
             class: CLASSES.CV_SCHOOL,
         },
         {
@@ -24,9 +25,9 @@ const cvCollection = {
             class: CLASSES.CV_AMBITION,
         },
     ],
-    cvData: require('./cvData.json').candidates,
-    cvDataEqual: require('./equalCvData.json').candidates,
-    specialCandidate: {"name": "Elvan Yang", "city": 1, "color": "blue", "empl": 0, "qualifications": [10, 9, 8, 9]}
+    cvData: normalizeCandidates(require('./cvData.json').candidates),
+    cvDataEqual: normalizeCandidates(require('./equalCvData.json').candidates),
+    specialCandidate: normalizeCandidates([{"name": "Elvan Yang", "city": 1, "color": "blue", "empl": 0, "qualifications": [10, 9, 8, 9]}])[0]
 };
 
 export {cvCollection};

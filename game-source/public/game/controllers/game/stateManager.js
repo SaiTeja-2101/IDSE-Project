@@ -1,230 +1,81 @@
 import * as machina from 'machina';
-import {eventEmitter} from './gameSetup.js';
-import {Office} from '~/public/game/components/pixi/manual-stage/office.js';
-import MlLabNarrator from '~/public/game/controllers/game/mlLabNarrator';
-import TitlePageUI from '~/public/game/components/interface/ui-title/ui-title.js';
-import TextBoxUI from '~/public/game/components/interface/ui-textbox/ui-textbox';
-import TransitionOverlay from '~/public/game/components/interface/transition/transition-overlay/transition-overlay';
-import TrainingStageOverlay from '~/public/game/components/interface/training-stage/training-overlay/training-overlay';
-import {EVENTS, STAGES} from '~/public/game/controllers/constants';
-import EndGameOverlay from '~/public/game/components/interface/ml/endgame-overlay/endgame-overlay';
-import * as state from '~/public/game/controllers/common/state';
+import FirstShiftUI from '../../components/interface/first-shift/first-shift';
+import {stopTweenManager} from './gameSetup';
+import {gameClock} from './gameClock';
+import {createJourney, restoreJourney} from '../../learning/journey';
+import {restoreFirstShift} from '../../learning/firstShift';
+import {createProgressStore} from '../../learning/persistence';
+import ReviewUI from '../../components/interface/review/review';
 
-let office;
-let currentStage;
-let transitionOverlay;
-let trainingStageOverlay;
-let mlLab;
-
-/**
- * MINIMIZE GAME SETUP CODE HERE. Try to shift setup into other files respective to stage
- * Gamestates is for the orchestration and sequencing of object creation.
- */
+let storage;
+try { storage = window.localStorage; } catch (error) { storage = null; }
+const progress = createProgressStore(storage);
+let active, firstCheckpoint, firstSession, restoredFirst, restoredReview, invalidSave = false, skipSaving = false;
+function save(review = null) {
+    if (skipSaving) return;
+    const saved = progress.write({first: firstCheckpoint, review});
+    document.getElementById('storage-note').hidden = saved;
+}
+function fresh() {
+    skipSaving = true; progress.clear();
+    window.location.assign(window.location.pathname);
+}
+const continueSave = () => gameFSM.transition(restoredReview ? 'review' : 'firstShift');
+const freshSave = () => { progress.clear(); restoredFirst = null; restoredReview = null; gameFSM.transition('firstShift'); };
+function hideResume() {
+    document.getElementById('resume-panel').hidden = true;
+    document.getElementById('continue-save').removeEventListener('click', continueSave);
+    document.getElementById('fresh-save').removeEventListener('click', freshSave);
+}
 const gameFSM = new machina.Fsm({
-    namespace: 'game-fsm',
+    namespace: 'hire-and-seek',
     states: {
-        uninitialized: {
-            startGame: function() {
-                this.transition('titleStage');
-                // this.transition('smallOfficeStage');
-                // this.transition('mlTransitionStage');
-                // this.transition('mlTrainingStage');
-                // this.transition('mlLabStage');
-                // this.transition('gameBreakdown');
+        uninitialized: {startGame() {
+            const saved = progress.read();
+            if (saved.kind === 'empty') { this.transition('firstShift'); return; }
+            try {
+                if (saved.kind !== 'saved') throw new Error('Invalid save.');
+                restoredFirst = restoreFirstShift(saved.value.first, {now: () => gameClock.now()});
+                firstCheckpoint = restoredFirst.checkpoint(); firstSession = restoredFirst.getState().session;
+                if (saved.value.review) {
+                    if (restoredFirst.getState().phase !== 'summary') throw new Error('The saved shift is incomplete.');
+                    restoredReview = restoreJourney(firstSession, saved.value.review);
+                }
+            } catch (error) { invalidSave = true; restoredFirst = null; restoredReview = null; }
+            this.transition('resume');
+        }},
+        resume: {
+            _onEnter() {
+                document.getElementById('resume-panel').hidden = false;
+                document.getElementById('resume-message').textContent = invalidSave ? 'This saved game could not be read. Start a fresh shift to play.' : 'Your progress is saved on this browser. Continue your shift or start a new one.';
+                const button = document.getElementById('continue-save'); button.hidden = invalidSave;
+                button.addEventListener('click', continueSave);
+                document.getElementById('fresh-save').addEventListener('click', freshSave);
+                (invalidSave ? document.getElementById('fresh-save') : button).focus();
             },
+            _onExit() { hideResume(); },
         },
-
-        /* ///////////////////
-        // Title stage
-        */// /////////////////
-        titleStage: {
-            _onEnter: function() {
-                state.set('stage', STAGES.TITLE);
-                new TitlePageUI({
-                    headerText: txt.titleStage.header,
-                    content: txt.titleStage.instruction,
-                    responses: txt.titleStage.responses,
-                    show: true,
-                });
-
-                eventEmitter.on(EVENTS.TITLE_STAGE_COMPLETED, () => {
-                    this.handle('nextStage');
-                });
-                gtag('event', 'enter-title-stage', {'event_category': 'progress', 'event_label': 'states'});
-            },
-
-            nextStage: 'smallOfficeStage',
-
-            _onExit: function() {
-
-            },
+        firstShift: {
+            _onEnter() { active = new FirstShiftUI({flow: restoredFirst,
+                onSave(checkpoint) { firstCheckpoint = checkpoint; save(); },
+                onContinue(session, checkpoint) { firstSession = session; firstCheckpoint = checkpoint; restoredReview = createJourney(session); gameFSM.transition('review'); },
+            }); },
+            _onExit() { if (active) { active.destroy(); active = null; } },
         },
-
-        /* ///////////////////
-        // Small Office Stage
-        */// /////////////////
-        smallOfficeStage: {
-            _onEnter: function() {
-                state.set('stage', STAGES.MANUAL_SMALL);
-                currentStage = 0;
-                new TextBoxUI({
-                    subject: txt.smallOfficeStage.subject,
-                    content: txt.smallOfficeStage.messageFromVc,
-                    responses: txt.smallOfficeStage.responses,
-                    show: true,
-                    stageNumber: currentStage,
-                    overlay: true,
-                });
-                setTimeout(() => office = new Office(), 500);
-                gtag('event', 'enter-small-office', {'event_category': 'progress', 'event_label': 'states'});
-            },
-
-            nextStage: 'mediumOfficeStage',
-
-            _onExit: function() {
-            },
+        review: {
+            _onEnter() { active = new ReviewUI({flow: restoredReview, session: firstSession,
+                onSave(checkpoint) { save(checkpoint); }, onNew: fresh, storageStatus: () => progress.available()}); },
+            _onExit() { if (active) { active.destroy(); active = null; } },
         },
-
-        /* //////////////////
-        // Medium Small Office Stage
-        */// /////////////////
-        mediumOfficeStage: {
-            _onEnter: function() {
-                state.set('stage', STAGES.MANUAL_MEDIUM);
-                currentStage = 1;
-                state.set('hiring-stage-number', currentStage);
-                new TextBoxUI({
-                    stageNumber: currentStage,
-                    subject: txt.mediumOfficeStage.subject,
-                    content: txt.mediumOfficeStage.messageFromVc,
-                    responses: txt.mediumOfficeStage.responses,
-                    show: true,
-                    overlay: true,
-                    displayScore: true,
-                });
-                gtag('event', 'enter-medium-office', {'event_category': 'progress', 'event_label': 'states'});
-                state.set('hiring-stage-success', false);
-            },
-
-            nextStage: 'largeOfficeStage',
-
-            _onExit: function() {
-            },
-        },
-
-        /* //////////////////
-        // Large Small Office Stage
-        */// /////////////////
-        largeOfficeStage: {
-            _onEnter: function() {
-                state.set('stage', STAGES.MANUAL_LARGE);
-                currentStage = 2;
-                state.set('hiring-stage-number', currentStage);
-                const {messageFromVc: successMessage, previousStageFailed: failMessage} = txt.largeOfficeStage;
-                const previousStageSuccess = state.get('hiring-stage-success');
-                new TextBoxUI({
-                    stageNumber: currentStage,
-                    subject: txt.largeOfficeStage.subject,
-                    content: previousStageSuccess ? successMessage : failMessage,
-                    responses: txt.largeOfficeStage.responses,
-                    show: true,
-                    overlay: true,
-                    displayScore: true,
-                });
-                gtag('event', 'enter-large-office', {'event_category': 'progress', 'event_label': 'states'});
-                state.set('hiring-stage-success', false);
-            },
-
-            nextStage: 'mlTransitionStage',
-
-            _onExit: function() {
-            },
-        },
-
-       
-        mlTransitionStage: {
-            _onEnter: function() {
-                if (office) office.delete();
-                state.set('stage', STAGES.TRANSITION);
-                currentStage = 3;
-                const {messageFromVc: successMessage, previousStageFailed: failMessage} = txt.mlTransition;
-                const previousStageSuccess = state.get('hiring-stage-success');
-                new TextBoxUI({
-                    stageNumber: currentStage,
-                    subject: txt.mlTransition.subject,
-                    content: previousStageSuccess ? successMessage : failMessage,
-                    responses: txt.mlTransition.responses,
-                    show: true,
-                    overlay: true,
-                    isTransition: true,
-                    displayScore: false,
-                });
-
-                eventEmitter.on(EVENTS.TRANSITION_INSTRUCTION_ACKED, () => {
-                    transitionOverlay = new TransitionOverlay({show: true});
-                });
-                gtag('event', 'enter-transition-stage', {'event_category': 'progress', 'event_label': 'states'});
-            },
-
-            nextStage: 'mlTrainingStage',
-
-            _onExit: function() {
-                transitionOverlay.destroy();
-            },
-        },
-
-        mlTrainingStage: {
-            _onEnter: function() {
-                state.set('stage', STAGES.TRAINING);
-                if (office) office.delete();
-                trainingStageOverlay = new TrainingStageOverlay();
-                gtag('event', 'enter-training-stage', {'event_category': 'progress', 'event_label': 'states'});
-            },
-
-            nextStage: 'mlLabStage',
-
-            _onExit: function() {
-                trainingStageOverlay.destroy();
-            },
-        },
-
-        mlLabStage: {
-            _onEnter: function() {
-                if (office) office.delete();
-                state.set('stage', STAGES.ML_LAB);
-                mlLab = new MlLabNarrator();
-                gtag('event', 'enter-mllab', {'event_category': 'progress', 'event_label': 'states'});
-            },
-
-            nextStage: 'gameBreakdown',
-
-            _onExit: function() {
-            },
-        },
-
-        gameBreakdown: {
-            _onEnter: function() {
-                gtag('event', 'enter-game-end', {'event_category': 'progress', 'event_label': 'states'});
-                gtag('event', 'open-wrap-up-first-page', {'event_category': 'progress', 'event_label': 'resources-page'});
-                state.set('stage', STAGES.GAME_END);
-                new EndGameOverlay();
-                if (mlLab) mlLab.destroy();
-            },
-        },
-
     },
-
-    startGame: function() {
-        this.handle('startGame');
-    },
-
-    nextStage: function() {
-        this.handle('nextStage');
-    },
-
-    repeatStage: function() {
-        this.handle('repeatStage');
-    },
+    startGame() { this.handle('startGame'); },
+    nextStage() { this.handle('nextStage'); },
 });
 
+export function disposeGame() {
+    if (active) { active.destroy(); active = null; }
+    hideResume();
+    stopTweenManager();
+}
+document.addEventListener('visibilitychange', () => { if (active && document.hidden) { if (active.sync) active.sync(); else active.save(); } });
 export {gameFSM};

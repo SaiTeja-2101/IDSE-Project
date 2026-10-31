@@ -29,4 +29,8 @@ export default class {
             y: this.machine.y,
         };
     }
+
+    destroy() {
+        if (this.machine.parent) this.machine.parent.removeChild(this.machine);
+    }
 }

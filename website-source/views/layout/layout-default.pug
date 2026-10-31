@@ -1,7 +1,15 @@
 doctype html
-html
-    include header
-    body
-        script(src='./game/assets/js/local-events.js')
-        block content
-        include footer
+html(lang='en')
+  include header
+  body
+    header.SiteHeader
+      a.SiteBrand(href='./')
+        img(src='./game/assets/img/hire-and-seek-logo.png' alt='' width='48' height='48')
+        | Hire & Seek
+      nav(aria-label='Main navigation')
+        a(href='./about.html') About
+        a(href='./resources.html') How to play
+        a.SitePlay(href='./game/') Play the game
+    main
+      block content
+    include footer

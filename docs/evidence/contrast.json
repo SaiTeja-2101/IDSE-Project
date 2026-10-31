@@ -1,0 +1,54 @@
+{
+  "kind": "sampled text/background pairs, not a full accessibility audit",
+  "minimum": 4.5,
+  "results": [
+    {
+      "name": "body",
+      "foreground": "142d4e",
+      "background": "e2f1ec",
+      "contrast": 11.9
+    },
+    {
+      "name": "paper",
+      "foreground": "142d4e",
+      "background": "f6f1e8",
+      "contrast": 12.32
+    },
+    {
+      "name": "small labels",
+      "foreground": "46646a",
+      "background": "f6f1e8",
+      "contrast": 5.67
+    },
+    {
+      "name": "small print",
+      "foreground": "48675a",
+      "background": "f6f1e8",
+      "contrast": 5.55
+    },
+    {
+      "name": "tree branches",
+      "foreground": "3c6752",
+      "background": "f6f1e8",
+      "contrast": 5.74
+    },
+    {
+      "name": "stars",
+      "foreground": "7d5a12",
+      "background": "f6f1e8",
+      "contrast": 5.58
+    },
+    {
+      "name": "tree route values",
+      "foreground": "644b1c",
+      "background": "f7ebc3",
+      "contrast": 6.87
+    },
+    {
+      "name": "header",
+      "foreground": "f6f1e8",
+      "background": "142d4e",
+      "contrast": 12.32
+    }
+  ]
+}

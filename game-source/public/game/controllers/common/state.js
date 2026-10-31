@@ -1,3 +1,4 @@
+import {updateShell} from '../../components/interface/game-shell/game-shell';
 const store = {
     'big-tech-company': String('BIG COMPANY'),
     'hiring-stage-number': Number(0),
@@ -11,7 +12,8 @@ const store = {
 export const set = (prop, value) => {
     if (store.hasOwnProperty(prop)) {
         console.log(`update property ${prop} with value: ${value}`);
-        store[prop] = value; 
+        store[prop] = value;
+        if (prop === 'stage') updateShell(value);
     } else {
         console.warn(`State property ${prop} is invalid`);
     }

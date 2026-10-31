@@ -7,7 +7,8 @@ import {SCALES, EVENTS, ANCHORS} from '~/public/game/controllers/constants';
 
 export default class {
     constructor() {
-        eventEmitter.on(EVENTS.RESIZE, this._draw.bind(this));
+        this.resizeHandler = this._draw.bind(this);
+        eventEmitter.on(EVENTS.RESIZE, this.resizeHandler);
         this.beltContainer = new PIXI.Container();
         mlLabStageContainer.addChild(this.beltContainer);
         this._draw();
@@ -18,13 +19,16 @@ export default class {
 
         for (let i = this.beltContainer.children.length - 1; i >= 0; i--) {
             if (this.beltContainer.children[i].type && this.beltContainer.children[i].type === 'belt') {
-                this.beltContainer.removeChild(this.beltContainer.children[i]);
+                this.beltContainer.children[i].destroy();
             }
         }
 
         // draw new belt pieces
         for (let j = 0; j<this.numOfPieces; j++) {
             const belt = new PIXI.Sprite(beltTexture);
+            const palette = new PIXI.filters.ColorMatrixFilter();
+            palette.matrix = [0.12,0.24,0.04,0,0.05, 0.22,0.45,0.08,0,0.06, 0.22,0.42,0.08,0,0.12, 0,0,0,1,0];
+            belt.filters = [palette];
             belt.scale.set(this.scale);
             belt.x = belt.width * j;
             belt.type = 'belt';
@@ -41,12 +45,13 @@ export default class {
 
     // it is dangerous to not remove the event listener when destroying sprites
     destroy() {
-        eventEmitter.off(EVENTS.RESIZE, this.draw.bind(this));
+        eventEmitter.off(EVENTS.RESIZE, this.resizeHandler);
 
         for (let i = this.beltContainer.children.length - 1; i >= 0; i--) {
             if (this.beltContainer.children[i].type && this.beltContainer.children[i].type === 'belt') {
-                this.beltContainer.removeChild(this.beltContainer.children[i]);
+                this.beltContainer.children[i].destroy();
             }
         }
+        this.beltContainer.destroy({children: true});
     }
 };

@@ -86,3 +86,14 @@ Existing artwork, audio, font, sprite-sheet metadata, and text/data resources ar
 | text/equalCvTestData.json | 56016 | Upstream game assets; original notices retained |
 | text/goodCvTestData.json | 56016 | Upstream game assets; original notices retained |
 | text/textTemplate.js | 15518 | Upstream game assets; original notices retained |
+
+## Added for Phase 2
+
+| File | Source | Use |
+| --- | --- | --- |
+| `game-source/public/game/assets/img/orbit-mark.svg` | Made for Hire and Seek in this project | Orbit Works symbol in messages |
+| `game-source/public/game/assets/img/hire-and-seek-logo.png` | Generated with the built-in imagegen tool for this project | Hire and Seek folder-and-Scout logo, headers, title, and browser tab; prompt in [BRAND.md](BRAND.md) |
+
+## Phase 3 library notice
+
+`game-source/public/game/vendor/ml-cart.js` is the retained ml-cart 1.0.8 implementation with the documented class-count repair. Its MIT notice is in `vendor/ml-cart.LICENSE` and the distributable asset `assets/text/ml-cart-LICENSE.txt`. See [ML_CART.md](ML_CART.md).

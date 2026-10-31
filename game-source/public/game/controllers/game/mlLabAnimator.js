@@ -91,12 +91,7 @@ export default class MlLabAnimator {
 
     evalFirstPerson() {
         const firstPerson = this.people.getFirstPerson();
-        let status = dataModule.predict(firstPerson.getData()) == 1 ? 'accepted' : 'rejected';
-
-        // make sure to always reject the person to be inspected
-        if (firstPerson.id == this.people.toInspectId) {
-            status = 'rejected';
-        }
+        const status = dataModule.predict(firstPerson.getData()) == 1 ? 'accepted' : 'rejected';
 
         this.people.removeFirstPerson(status);
         this.datasetView.handleNewResume({status: status, data: firstPerson.getData()});

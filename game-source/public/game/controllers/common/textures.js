@@ -30,6 +30,18 @@ async function loadAssets() {
             SPRITES.rayAnim = new PIXI.extras.AnimatedSprite(resources.rayAnim.spritesheet.animations['ray']);
             SPRITES.dataServerAccepted = new PIXI.extras.AnimatedSprite(resources.dataServerAccepted.spritesheet.animations['data-server-accepted']);
             SPRITES.dataServerRejected = new PIXI.extras.AnimatedSprite(resources.dataServerRejected.spritesheet.animations['data-server-rejected']);
+            // Colour the retained office art at render time. Character pixels
+            // and all original sprite-sheet files stay unchanged.
+            const officePalette = new PIXI.filters.ColorMatrixFilter();
+            officePalette.matrix = [
+                0.12, 0.24, 0.04, 0, 0.05,
+                0.22, 0.45, 0.08, 0, 0.06,
+                0.22, 0.42, 0.08, 0, 0.12,
+                0, 0, 0, 1, 0,
+            ];
+            for (const key of ['doorAccepted', 'doorEntry', 'doorRejected', 'machine', 'dataServerAccepted', 'dataServerRejected']) {
+                SPRITES[key].filters = [officePalette];
+            }
             // TODO: move data server scales to the data server component
             SPRITES.dataServerAccepted.scale.set(SCALES.DATA_SERVER[screenSizeDetector()]);
             SPRITES.dataServerRejected.scale.set(SCALES.DATA_SERVER[screenSizeDetector()]);
