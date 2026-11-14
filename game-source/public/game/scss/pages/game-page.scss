@@ -1,34 +1,6 @@
-body.Page--Game {
-    overflow: hidden;
-}
+// Use page scrolling for the office and story.
+body.Page--Game { position: static; height: auto; min-height: 100%; overflow: visible; }
 
 #gameCanvas {
   display: block;
-  @include mq($until: mobile) {
-      display: none;
-  }
-}
-
-/* !important is needed sometimes */
-::-webkit-scrollbar {
-  width: 4px !important;
-}
-
-/* Track */
-::-webkit-scrollbar-track {
- -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.1);
- //-webkit-border-radius: 10px !important;
- border-radius: 10px !important;
-}
-
-/* Handle */
-::-webkit-scrollbar-thumb {
- -webkit-border-radius: 10px !important;
- border-radius: 10px !important;
- background: rgb(230, 230, 230) !important; 
- -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.1) !important; 
-
-}
-::-webkit-scrollbar-thumb:window-inactive {
- background: rgb(230, 230, 230) !important; 
 }

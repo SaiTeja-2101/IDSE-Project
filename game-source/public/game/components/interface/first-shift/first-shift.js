@@ -164,7 +164,7 @@ export default class FirstShiftUI {
         if (this.disposed || this.generation !== generation) return;
         this.cvOpen = false; this.setBusy(false); this.render();
         this.announce(before.currentApplicant.name + ': ' + (decision ? 'Shortlist.' : 'Pass.') + ' ' + this.flow.getState().decisionCount + ' choices saved.');
-        if (this.flow.getState().phase === 'manual') this.find('[data-action="open-cv"]').focus({preventScroll: true});
+        if (this.flow.getState().phase === 'manual') this.find('[data-action="open-cv"]').focus();
     }
     click(event) {
         const applicant = event.target.closest('[data-applicant]');

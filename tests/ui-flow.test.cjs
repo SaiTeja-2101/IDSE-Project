@@ -12,6 +12,16 @@ function environment(t, map = new Map(), factoryError = null) {
     t.after(() => Object.assign(global, before));
     const dom = parseHTML(pug.renderFile(path.resolve(__dirname, '../game-source/views/pages/game/index.pug')));
     global.window = dom.window; global.document = dom.document;
+    const media = {matches: false, addEventListener() {}, removeEventListener() {}};
+    Object.defineProperty(dom.window, 'matchMedia', {configurable: true, value: () => media});
+    const focusLog = [];
+    t.mock.method(dom.window.HTMLElement.prototype, 'focus', function () { focusLog.push(this); });
+    const dialogProto = Object.getPrototypeOf(document.createElement('dialog'));
+    Object.defineProperties(dialogProto, {
+        showModal: {configurable: true, value() { this.setAttribute('open', ''); }},
+        close: {configurable: true, value() { this.removeAttribute('open'); }},
+        open: {configurable: true, get() { return this.hasAttribute('open'); }},
+    });
     // LinkeDOM intentionally has no select.value setter. Supply just that DOM
     // property; this harness does not emulate layout, media or WebGL.
     const descriptor = Object.getOwnPropertyDescriptor(dom.window.HTMLSelectElement.prototype, 'value');
@@ -62,7 +72,7 @@ function environment(t, map = new Map(), factoryError = null) {
         const error = document.querySelector('#story-error');
         if (error && !error.hidden) assert.fail(error.textContent);
     }
-    return {runtime, clock, map, assigned, scenes, factories, click, load, dom};
+    return {runtime, clock, map, assigned, scenes, factories, click, load, dom, media, focusLog};
 }
 
 test('the new UI runs from hiring to its computed receipt and keeps the result locked on resume', async t => {
@@ -108,7 +118,26 @@ test('the new UI runs from hiring to its computed receipt and keeps the result l
     const {restoreScoutStory} = env.load('public/game/learning/scoutStory.js');
     const readFlow = () => restoreScoutStory(restoreFirstShift(saved().first).getState().session, saved().review);
     const caseId = readFlow().getState().case.applicant.id;
-    await act('select', caseId); await act('reply');
+    const otherId = readFlow().getState().screened.find(item => item.applicant.id !== caseId).applicant.id;
+    env.media.matches = true;
+    const opened = () => document.querySelector('#inspector-cv-dialog[open]');
+    await act('select', otherId);
+    assert.ok(opened());
+    assert.equal(opened().querySelector('[data-story-action="reply"]').disabled, true);
+    await act('close-cv');
+    assert.equal(opened(), null);
+    assert.equal(env.focusLog.at(-1).dataset.value, otherId);
+    await act('select', caseId);
+    assert.equal(opened().querySelector('[data-story-action="reply"]').disabled, false);
+    const cancelled = new window.Event('cancel', {cancelable: true});
+    opened().dispatchEvent(cancelled);
+    assert.equal(cancelled.defaultPrevented, true);
+    assert.equal(opened(), null);
+    assert.equal(env.focusLog.at(-1).dataset.value, caseId);
+    await act('select', caseId);
+    await click('#inspector-cv-dialog[open] [data-story-action="reply"]');
+    assert.equal(opened(), null);
+    env.media.matches = false;
     if (stage() === 'scout-screening') await act('run');
     assert.equal(stage(), 'scout-city-report');
     await act('reopen');
