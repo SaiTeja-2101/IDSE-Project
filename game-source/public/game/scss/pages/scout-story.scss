@@ -1,4 +1,4 @@
-.ScoutStory { width: min(1120px, 100%); margin: 0 auto; padding: 28px; color: var(--ink); scroll-margin-top: 108px; }
+.ScoutStory { width: min(1120px, 100%); margin: 0 auto; padding: 28px; color: var(--ink); }
 .StoryHeading { margin-bottom: 20px; }
 .StoryHeading h1 { font-size: clamp(34px, 5vw, 58px); font-weight: normal; margin: 3px 0 8px; line-height: 1; }
 .StoryHeading p, .StoryCard p, .StoryNote { line-height: 1.25; }
@@ -16,6 +16,40 @@
 .StoryFile strong { font-size: 23px; font-weight: normal; }
 .StoryFile[aria-pressed='true'], .StoryCard button[aria-pressed='true'] { border: 2px solid #246a5c; background: #cce5d7; color: var(--ink); }
 .InspectorColumns .StoryFile { width: 100%; margin-right: 0; }
+.InspectorColumns { align-items: start; }
+.InspectorDialog {
+  position: fixed;
+  inset: 0;
+  margin: auto;
+  width: min(500px, calc(100% - 24px));
+  max-width: none;
+  max-height: calc(100vh - 24px);
+  max-height: calc(100dvh - 24px);
+  overflow: hidden;
+  padding: 0;
+  border: 1px solid #719b8e;
+  color: var(--ink);
+  background: var(--paper);
+  box-shadow: 6px 6px 0 #276357;
+}
+.InspectorDialog::backdrop { background: #102a42d9; }
+.InspectorDialogFrame {
+  display: grid;
+  grid-template-rows: auto minmax(0, 1fr) auto;
+  max-height: calc(100vh - 26px);
+  max-height: calc(100dvh - 26px);
+}
+.InspectorDialogHeader, .InspectorDialogActions {
+  display: flex; flex-wrap: wrap; align-items: center; gap: 8px 12px; padding: 10px 12px; background: #dcebe1;
+}
+.InspectorDialogHeader { justify-content: space-between; border-bottom: 1px solid #9ebdaf; }
+.InspectorDialogHeader h2 { font-size: 25px; font-weight: 400; }
+.InspectorDialogContent { overflow-y: auto; overscroll-behavior: contain; padding: 12px; }
+.InspectorDialogContent .StoryCard { padding: 12px; border: 0; background: transparent; box-shadow: none; margin: 0; }
+.InspectorDialogActions { justify-content: space-between; border-top: 1px solid #9ebdaf; }
+.InspectorDialogHeader button, .InspectorDialogActions button { min-height: 44px; padding: 8px 12px; font-size: 20px; }
+.InspectorDialogActions p { font-size: 18px; }
+.Page--Game:has(.InspectorDialog[open]) { overflow: hidden; }
 .CvName { font-size: 28px; font-weight: normal; }
 .StoryCard dl > div { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; padding: 8px; border-bottom: 1px solid #b8cabf; }
 .StoryCard dt, .StoryCard dd { margin: 0; overflow-wrap: anywhere; }
@@ -26,7 +60,7 @@
 .CaseDecision { font-size: 26px; }
 .StoryFeedback, .StoryNote { padding: 12px 15px; border-left: 4px solid #35796c; background: #d3e7da; margin: 10px 0; }
 .StoryTable { overflow: auto; }
-.StoryTable table { width: 100%; border-collapse: collapse; font-size: clamp(16px, 2.5vw, 22px); }
+.StoryTable table { width: 100%; table-layout: fixed; border-collapse: collapse; font-size: clamp(16px, 2.5vw, 22px); }
 .StoryTable th, .StoryTable td { text-align: left; padding: 8px; border-bottom: 1px solid #a9c2b4; overflow-wrap: anywhere; }
 .StoryTable thead th { background: #d6e8db; }
 #story-canvas { margin-bottom: 15px; }
@@ -53,17 +87,23 @@ body[data-stage='scout-trained'] #story-canvas { height: 130px; }
 @media (max-width: 899px) {
   [data-view='manual'] .OfficeViewport { height: clamp(180px, 36svh, 340px); }
 }
+@media (max-width: 760px) {
+  .InspectorColumns, .StoryPair { grid-template-columns: minmax(0, 1fr); }
+  .InspectorModalReady .InspectorPreview, .InspectorModalReady > .InspectorDesktopReply { display: none; }
+}
 @media (max-width: 680px) {
   .ScoutStory { padding: 16px; }
-  .StoryFiles, .InspectorColumns { grid-template-columns: minmax(0, 1fr); }
-  .InspectorColumns > :nth-child(2) { order: 3; }
-  .StoryPair { gap: 8px; }
-  .StoryPair .StoryCard { padding: 10px; }
-  .StoryPair .StoryCard h2 { font-size: 23px; }
-  .StoryPair .StoryCard dl > div { grid-template-columns: minmax(0, 1fr); gap: 0; padding: 4px; }
-  .StoryPair .CvName { font-size: 23px; }
+  .StoryFiles { grid-template-columns: minmax(0, 1fr); }
+  .StoryPair { gap: 6px; }
+  .StoryCard { padding: 12px; }
+  .StoryCard button, #story-body > button { max-width: 100%; white-space: normal; overflow-wrap: anywhere; }
   .StoryTable th, .StoryTable td { padding: 5px; }
   #factory-canvas { height: clamp(160px, 32svh, 260px); }
   .FactoryReadouts p { padding: 3px 5px; }
   .FactoryHeader span, .FactoryStatus { font-size: 17px; }
+}
+@media (max-height: 480px) {
+  #factory-canvas { height: clamp(142px, 35svh, 220px); }
+  [data-view='manual'] .OfficeViewport { height: clamp(154px, 39svh, 250px); }
+  .InspectorDialogHeader, .InspectorDialogActions { padding-block: 5px; }
 }

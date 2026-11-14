@@ -150,11 +150,11 @@ body[data-stage="title"] .ChapterInfo, body[data-stage="title"] .CreditCount { v
 .PersonCard-city { font-size: 15px; color: #385e60; }
 .NewsFeed { top: 82px; background: var(--paper); }
 .Footer { display: none; }
-.PauseScreen { position: fixed; inset: 0; z-index: 100; background: #102a42e8; display: grid; place-items: center; }
-.PauseCard { background: var(--paper); padding: 38px; max-width: 440px; margin: 20px; border: 2px solid #639b86; box-shadow: 8px 8px 0 #237567; }
+.PauseScreen { position: fixed; inset: 0; z-index: 100; background: #102a42e8; display: flex; padding: 16px; overflow-y: auto; overscroll-behavior: contain; }
+.PauseCard { background: var(--paper); padding: clamp(18px, 5vw, 38px); width: min(100%, 440px); margin: auto; border: 2px solid #639b86; box-shadow: 6px 6px 0 #237567; }
 .PauseCard h1 { font-size: 52px; font-weight: 400; margin: 12px 0; }
 .PauseCard p { font-size: 23px; line-height: 1.3; }
-.PauseCard button { background: var(--ink); color: #fff; padding: 12px 20px; margin: 24px 0 14px; }
+.PauseCard button { background: var(--ink); color: #fff; padding: 12px 20px; margin: 24px 0 14px; min-height: 44px; }
 .PauseCard .PauseHint { font-size: 17px; color: #526d65; }
 .game-paused *, .game-paused *:before, .game-paused *:after { animation-play-state: paused !important; transition: none !important; }
 .MobileOrientationOverlay { z-index: 90; background: var(--paper); text-align: center; }

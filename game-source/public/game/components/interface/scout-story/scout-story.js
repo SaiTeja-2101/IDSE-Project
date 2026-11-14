@@ -121,12 +121,72 @@ export default class ScoutStoryUI {
         this.factory = this.root.querySelector('#factory-board');
         this.factoryCanvas = this.factory.querySelector('#factory-canvas');
         this.field = flow.getState().experiment?.field || 'city';
+        this.inspectorMedia = window.matchMedia?.('(max-width: 760px)');
+        this.resizeInspector = () => {
+            if (!this.inspectorMedia?.matches) this.closeInspector();
+        };
+        this.inspectorMedia?.addEventListener?.('change', this.resizeInspector);
         this.busy = false; this.disposed = false; this.view = null;
         this.click = this.click.bind(this); this.change = this.change.bind(this);
         this.root.addEventListener('click', this.click); this.root.addEventListener('change', this.change);
         this.root.hidden = false; this.render(); this.save();
     }
     save() { this.onSave(this.flow.checkpoint()); }
+    closeInspector() {
+        const dialog = this.body.querySelector('#inspector-cv-dialog[open]');
+        if (!dialog) return;
+        dialog.close();
+        this.inspectorTrigger()?.focus({preventScroll: true});
+    }
+    inspectorTrigger() {
+        return [...this.body.querySelectorAll('[data-story-action="select"]')].find(item => item.dataset.value === this.selectedId);
+    }
+    renderInspector(s, board) {
+        const name = s.case.applicant.name;
+        const canReply = this.selectedId === s.case.applicant.id;
+        const selected = s.screened.find(item => item.applicant.id === this.selectedId);
+        const addResults = panel => panel.append(node('p', 'Scout: ' + label(selected.prediction.decision)),
+            node('p', 'Work test: ' + (selected.applicant.assessedReady ? 'Passed' : 'Did not pass')));
+        const addReply = parent => {
+            const reply = button(parent, 'Reply to Maya', 'reply'); reply.disabled = !canReply;
+            return reply;
+        };
+        board.append(node('p', 'Find ' + name + ' in the ' + (s.case.prediction.decision ? 'Shortlisted' : 'Passed over') + ' column.', 'StoryNote'));
+        const dialog = node('dialog', undefined, 'InspectorDialog');
+        if (typeof dialog.showModal === 'function') board.classList.add('InspectorModalReady');
+        const columns = node('div', undefined, 'InspectorColumns'); board.append(columns);
+        const accepted = card(columns, 'Shortlisted');
+        const preview = selected ? cv(columns, selected.applicant, 'Open CV') : card(columns, 'Open a CV');
+        preview.classList.add('InspectorPreview');
+        if (selected) addResults(preview);
+        const rejected = card(columns, 'Passed over');
+        for (const [decision, column] of [[true, accepted], [false, rejected]]) {
+            const applicants = s.screened.filter(p => p.prediction.decision === decision);
+            if (!applicants.length) column.append(node('p', 'No CVs here yet.'));
+            applicants.forEach(item => {
+                const open = file(column, item.applicant.name, item.applicant.city, 'select', item.applicant.id);
+                open.setAttribute('aria-pressed', String(this.selectedId === item.applicant.id));
+            });
+        }
+        addReply(board).classList.add('InspectorDesktopReply');
+        if (!selected || typeof dialog.showModal !== 'function') return;
+        dialog.id = 'inspector-cv-dialog';
+        dialog.setAttribute('aria-labelledby', 'inspector-cv-title');
+        // Escape can also come from the browser's native dialog controls.
+        dialog.addEventListener('cancel', event => { event.preventDefault(); this.closeInspector(); });
+        const frame = node('div', undefined, 'InspectorDialogFrame');
+        const header = node('header', undefined, 'InspectorDialogHeader');
+        const title = node('h2', 'Applicant CV'); title.id = 'inspector-cv-title';
+        header.append(title);
+        button(header, 'Back to list', 'close-cv', undefined, false);
+        const content = node('div', undefined, 'InspectorDialogContent'); content.tabIndex = 0;
+        content.setAttribute('role', 'region'); content.setAttribute('aria-label', 'Applicant details');
+        addResults(cv(content, selected.applicant));
+        const footer = node('footer', undefined, 'InspectorDialogActions');
+        if (!canReply) footer.append(node('p', 'Open ' + name + '’s CV to reply.'));
+        addReply(footer);
+        frame.append(header, content, footer); dialog.append(frame); board.append(dialog);
+    }
     feedback(text) {
         const el = this.root.querySelector('#story-feedback'); el.textContent = text; el.hidden = !text;
     }
@@ -199,6 +259,7 @@ export default class ScoutStoryUI {
             view === 'city-report' && s.case.kind === 'routine' ? 'Even when everyone who qualifies gets a shortlist, it is worth checking the results by city.' : intro;
         if (factoryViews.includes(view)) this.updateFactory(s);
         this.body.replaceChildren();
+        this.body.classList.remove('InspectorModalReady');
         if (this.training) return;
         const board = this.body;
         if (view === 'handoff') {
@@ -224,23 +285,7 @@ export default class ScoutStoryUI {
                 'Scout didn’t miss anyone who passed the work test in this batch. Let’s still check ' + s.case.applicant.name + '’s CV.'));
             button(mail, 'Open the CV inspector', 'open');
         } else if (view === 'inspector') {
-            board.append(node('p', 'Find ' + s.case.applicant.name + ' in the ' + (s.case.prediction.decision ? 'Shortlisted' : 'Passed over') + ' column.', 'StoryNote'));
-            const columns = node('div', undefined, 'InspectorColumns'); board.append(columns);
-            const accepted = card(columns, 'Shortlisted');
-            const selected = s.screened.find(item => item.applicant.id === this.selectedId);
-            const preview = selected ? cv(columns, selected.applicant, 'Open CV') : card(columns, 'Open a CV');
-            if (selected) preview.append(node('p', 'Scout: ' + label(selected.prediction.decision)),
-                node('p', 'Work test: ' + (selected.applicant.assessedReady ? 'Passed' : 'Did not pass')));
-            const rejected = card(columns, 'Passed over');
-            for (const [decision, column] of [[true, accepted], [false, rejected]]) {
-                const applicants = s.screened.filter(p => p.prediction.decision === decision);
-                if (!applicants.length) column.append(node('p', 'No CVs here yet.'));
-                applicants.forEach(item => {
-                    const open = file(column, item.applicant.name, item.applicant.city, 'select', item.applicant.id);
-                    open.setAttribute('aria-pressed', String(this.selectedId === item.applicant.id));
-                });
-            }
-            const reply = button(board, 'Reply to Maya', 'reply'); reply.disabled = this.selectedId !== s.case.applicant.id;
+            this.renderInspector(s, board);
         } else if (view === 'city-report') {
             const panel = card(board, 'The first 12 scans');
             table(panel, s.cityReport); button(panel, 'Reopen the case file', 'reopen');
@@ -378,6 +423,7 @@ export default class ScoutStoryUI {
         this.root.querySelector('#story-error').hidden = true;
         this.feedback('');
         sound.play(SOUNDS.BUTTON_CLICK);
+        if (action === 'close-cv') { this.closeInspector(); return; }
         let focusTarget;
         try {
             this.setBusy(true);
@@ -393,7 +439,7 @@ export default class ScoutStoryUI {
             case 'ack': this.flow.acknowledge(); break;
             case 'open': this.flow.openMail(); break;
             case 'select': this.selectedId = value; break;
-            case 'reply': this.flow.reply(this.selectedId); break;
+            case 'reply': this.flow.reply(this.selectedId); this.closeInspector(); break;
             case 'reopen': this.flow.reopen(); break;
             case 'copy': this.flow.copy(this.field); break;
             case 'repairs': this.flow.openRepairs(); break;
@@ -434,7 +480,12 @@ export default class ScoutStoryUI {
         } finally {
             if (!this.disposed) {
                 this.setBusy(false);
-                focusTarget?.focus({preventScroll: true});
+                const dialog = action === 'select' && this.inspectorMedia?.matches && this.body.querySelector('#inspector-cv-dialog');
+                if (dialog?.showModal && !dialog.open) {
+                    this.inspectorTrigger()?.focus({preventScroll: true});
+                    dialog.showModal();
+                    dialog.querySelector('[data-story-action="close-cv"]').focus();
+                } else focusTarget?.focus({preventScroll: true});
                 if (action === 'run-step') this.root.scrollIntoView?.({block: 'start'});
             }
         }
@@ -449,6 +500,8 @@ export default class ScoutStoryUI {
         this.root.append(link); link.click(); link.remove(); setTimeout(() => URL.revokeObjectURL(url), 1000);
     }
     destroy() {
+        this.closeInspector();
+        this.inspectorMedia?.removeEventListener?.('change', this.resizeInspector);
         this.save(); this.disposed = true;
         if (this.trainingJob) gameClock.cancel(this.trainingJob);
         this.trainingDone?.();
