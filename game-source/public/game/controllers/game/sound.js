@@ -48,7 +48,9 @@ export function stop(name) {
     const sound = find(name);
     if (!sound) return;
     sound.resumeAfterPause = false;
-    if (sound.player && sound.playerID != null) sound.player.stop(sound.playerID);
+    const id = sound.playerID;
+    sound.playerID = null;
+    if (sound.player && id != null) sound.player.stop(id);
 }
 export function schedule(name, waitForSeconds) {
     gameClock.cancel(jobs.get(name));
@@ -83,7 +85,9 @@ export function loadSound(name) {
         });
         player.on('playerror', id => {
             player.once('unlock', () => {
-                if (!gamePaused && !soundMuted && sound.player === player) sound.playerID = player.play(id);
+                if (sound.player !== player || sound.playerID !== id || player.playing(id)) return;
+                if (gamePaused) sound.resumeAfterPause = true;
+                else sound.playerID = player.play(id);
             });
         });
     });

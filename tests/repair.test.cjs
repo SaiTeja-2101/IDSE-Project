@@ -23,9 +23,9 @@ test('audio unlock retries, muted playback, paused loops and cancelled warnings 
     let failResume = true, muted = false, nextId = 0;
     const context = {state: 'suspended', resume() { if (failResume) return Promise.reject(new Error('gesture required')); this.state = 'running'; return Promise.resolve(); }};
     class Howl {
-        constructor(options) { this.options = options; this.handlers = {}; this.active = new Set(); queueMicrotask(() => this.handlers[options.src[0] === 'broken' ? 'loaderror' : 'load']()); }
-        once(name, fn) { this.handlers[name] = fn; }
-        on(name, fn) { this.handlers[name] = fn; }
+        constructor(options) { this.options = options; this.events = new EventEmitter(); this.active = new Set(); queueMicrotask(() => this.events.emit(options.src[0] === 'broken' ? 'loaderror' : 'load')); }
+        once(name, fn) { this.events.once(name, fn); }
+        on(name, fn) { this.events.on(name, fn); }
         play(id) { id = id == null ? ++nextId : id; this.active.add(id); return id; }
         playing(id) { return this.active.has(id); }
         pause(id) { this.active.delete(id); }
@@ -56,6 +56,23 @@ test('audio unlock retries, muted playback, paused loops and cancelled warnings 
     assert.equal(sound.toggleVolume(), true); assert.equal(muted, true);
     assert.equal(sound.toggleVolume(), false); assert.equal(muted, false);
     assert.doesNotThrow(() => sound.play('broken'));
+    sound.play('warning');
+    const warning = manifest[1], blocked = warning.playerID;
+    warning.player.active.delete(blocked);
+    warning.player.events.emit('playerror', blocked);
+    sound.setGamePaused(true);
+    warning.player.events.emit('unlock');
+    assert.equal(warning.player.playing(blocked), false, 'unlock must respect pause');
+    sound.setGamePaused(false);
+    assert.equal(warning.player.playing(blocked), true, 'resuming can retry the current warning');
+    sound.stop('warning');
+    sound.play('warning');
+    const pending = warning.playerID;
+    warning.player.active.delete(pending);
+    warning.player.events.emit('playerror', pending);
+    sound.stop('warning');
+    warning.player.events.emit('unlock');
+    assert.equal(warning.player.playing(pending), false, 'leaving a round cancels its blocked warning');
 });
 
 test('canvas follows its container, disconnects old observers and starts only one render loop', t => {
@@ -101,7 +118,7 @@ test('a timer transition invalidates the pending choice animation without writin
     ui.flow = createFirstShift(17, {now: () => time}); ui.flow.begin();
     while (ui.flow.getState().phase === 'manual') ui.flow.decide(ui.flow.getState().selectedId, true);
     ui.flow.nextRound();
-    ui.busy = false; ui.disposed = false; ui.generation = 1;
+    ui.busy = false; ui.disposed = false; ui.generation = 1; ui.cvOpen = true;
     ui.setBusy = value => { ui.busy = value; }; ui.sync = () => {}; ui.render = () => { renders++; }; ui.announce = () => {};
     ui.scene = {animateDecision() { return new Promise(resolve => { finish = resolve; }); }};
     time = 44999; const pending = ui.decide(false);

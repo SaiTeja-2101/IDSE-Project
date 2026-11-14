@@ -161,6 +161,7 @@ test('actual click handler locks during an applicant animation and prevents a do
     const ui = Object.create(UI.prototype);
     ui.flow = createFirstShift(42); ui.flow.begin();
     ui.busy = false; ui.disposed = false;
+    ui.cvOpen = true;
     ui.root = {setAttribute() {}, querySelectorAll() { return []; }};
     ui.find = () => ({disabled: false, focus() {}}); ui.render = () => {}; ui.announce = () => {};
     let finish;
@@ -179,13 +180,14 @@ test('actual click handler locks during an applicant animation and prevents a do
 test('active Pug route has one first-shift surface, native actions, valid CV units, and no old game overlays', () => {
     const pug = require('../game-source/node_modules/pug');
     const html = pug.renderFile(path.resolve(__dirname, '../game-source/views/pages/game/index.pug'));
-    for (const action of ['begin', 'next-round', 'shortlist', 'pass', 'train', 'watch', 'next', 'finish', 'archive', 'investigate']) {
+    for (const action of ['begin', 'next-round', 'shortlist', 'pass', 'handoff']) {
         assert.match(html, new RegExp('<button[^>]*data-action="' + action + '"'));
     }
     assert.equal((html.match(/id="first-shift"/g) || []).length, 1);
     assert.match(html, /max="100"/);
     assert.match(html, /max="5"/);
-    assert.match(html, /MATCH TO PAST HIRING DECISIONS/);
+    assert.match(html, /id="scout-story"/);
+    assert.doesNotMatch(html, /id="research-credits"|id="review-game"/);
     assert.doesNotMatch(html, /id="js-task-timer"|id="dataset-overlay"|id="TransitionOverlay"/);
     assert.doesNotMatch(html, /js-titlepage|play-mode|MobileOrientationOverlay|ApplicantQueue|ChapterTrack/);
 });
