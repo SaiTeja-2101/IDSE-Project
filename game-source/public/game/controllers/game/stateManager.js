@@ -2,14 +2,14 @@ import * as machina from 'machina';
 import FirstShiftUI from '../../components/interface/first-shift/first-shift';
 import {stopTweenManager} from './gameSetup';
 import {gameClock} from './gameClock';
-import {createJourney, restoreJourney} from '../../learning/journey';
+import {createScoutStory, restoreScoutStory} from '../../learning/scoutStory';
 import {restoreFirstShift} from '../../learning/firstShift';
 import {createProgressStore} from '../../learning/persistence';
-import ReviewUI from '../../components/interface/review/review';
+import ScoutStoryUI from '../../components/interface/scout-story/scout-story';
 
 let storage;
 try { storage = window.localStorage; } catch (error) { storage = null; }
-const progress = createProgressStore(storage);
+const progress = createProgressStore(storage, {key: 'hire-and-seek:v2', version: 2});
 let active, firstCheckpoint, firstSession, restoredFirst, restoredReview, invalidSave = false, skipSaving = false;
 function save(review = null) {
     if (skipSaving) return;
@@ -20,7 +20,14 @@ function fresh() {
     skipSaving = true; progress.clear();
     window.location.assign(window.location.pathname);
 }
-const continueSave = () => gameFSM.transition(restoredReview ? 'review' : 'firstShift');
+function continueSave() {
+    // Validation runs when the resume prompt opens. Rebase a timed round
+    // from the stored time when the player actually resumes it.
+    if (firstCheckpoint.phase === 'manual') {
+        restoredFirst = restoreFirstShift(firstCheckpoint, {now: () => gameClock.now()});
+    }
+    gameFSM.transition(restoredReview ? 'review' : 'firstShift');
+}
 const freshSave = () => { progress.clear(); restoredFirst = null; restoredReview = null; gameFSM.transition('firstShift'); };
 function hideResume() {
     document.getElementById('resume-panel').hidden = true;
@@ -36,10 +43,10 @@ const gameFSM = new machina.Fsm({
             try {
                 if (saved.kind !== 'saved') throw new Error('Invalid save.');
                 restoredFirst = restoreFirstShift(saved.value.first, {now: () => gameClock.now()});
-                firstCheckpoint = restoredFirst.checkpoint(); firstSession = restoredFirst.getState().session;
+                firstCheckpoint = saved.value.first; firstSession = restoredFirst.getState().session;
                 if (saved.value.review) {
-                    if (restoredFirst.getState().phase !== 'summary') throw new Error('The saved shift is incomplete.');
-                    restoredReview = restoreJourney(firstSession, saved.value.review);
+                    if (restoredFirst.getState().phase !== 'ready') throw new Error('The saved shift is incomplete.');
+                    restoredReview = restoreScoutStory(firstSession, saved.value.review);
                 }
             } catch (error) { invalidSave = true; restoredFirst = null; restoredReview = null; }
             this.transition('resume');
@@ -58,12 +65,12 @@ const gameFSM = new machina.Fsm({
         firstShift: {
             _onEnter() { active = new FirstShiftUI({flow: restoredFirst,
                 onSave(checkpoint) { firstCheckpoint = checkpoint; save(); },
-                onContinue(session, checkpoint) { firstSession = session; firstCheckpoint = checkpoint; restoredReview = createJourney(session); gameFSM.transition('review'); },
+                onContinue(session, checkpoint) { firstSession = session; firstCheckpoint = checkpoint; restoredReview = createScoutStory(session); gameFSM.transition('review'); },
             }); },
             _onExit() { if (active) { active.destroy(); active = null; } },
         },
         review: {
-            _onEnter() { active = new ReviewUI({flow: restoredReview, session: firstSession,
+            _onEnter() { active = new ScoutStoryUI({flow: restoredReview,
                 onSave(checkpoint) { save(checkpoint); }, onNew: fresh, storageStatus: () => progress.available()}); },
             _onExit() { if (active) { active.destroy(); active = null; } },
         },

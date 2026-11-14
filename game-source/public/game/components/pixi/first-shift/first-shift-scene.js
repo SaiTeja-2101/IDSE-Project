@@ -18,6 +18,10 @@ export default class FirstShiftScene {
         this.root = new PIXI.Container();
         (mode === 'manual' ? officeStageContainer : mlLabStageContainer).addChild(this.root);
         this.floor = new Floor({type: 'first_floor'}).addToPixi(this.root);
+        if (mode === 'manual') {
+            this.queueFloor = new PIXI.Graphics();
+            this.root.addChild(this.queueFloor);
+        }
         this.doors = [
             new Door({type: 'doorAccepted', floor: 'first_floor', floorParent: this.floor, xAnchorUV: 0.85, scaleName: 'DOOR'}).addToPixi(this.root),
             new Door({type: 'doorRejected', floor: 'first_floor', floorParent: this.floor, xAnchorUV: 0.06, scaleName: 'DOOR'}).addToPixi(this.root),
@@ -79,24 +83,29 @@ export default class FirstShiftScene {
     resize() {
         this.finishAnimation();
         const {width, height} = pixiApp.screen;
-        const floorY = height * 0.82;
+        const floorY = height * (this.mode === 'manual' ? 0.56 : 0.82);
         this.floor.surface.y = floorY;
-        this.floor.surface.height = height - floorY;
+        this.floor.surface.height = this.mode === 'manual' ? 20 : height - floorY;
         this.floor.side.y = floorY + 12;
         this.floor.side.height = 12;
         this.doors.forEach((door, i) => {
             door.sprite.scale.set(1);
             door.sprite.scale.set(Math.min(height * 0.57 / door.sprite.height, width * 0.12 / door.sprite.width));
-            door.sprite.position.set(width * (i === 0 ? 0.85 : 0.03), floorY - door.sprite.height);
+            door.sprite.position.set(width * (this.mode === 'manual' ? (i === 0 ? 0.10 : 0.75) : (i === 0 ? 0.85 : 0.03)), floorY - door.sprite.height);
         });
+        if (this.queueFloor) {
+            this.queueFloor.clear().beginFill(0xc2ded2).drawRect(0, height * 0.91, width, height * 0.09)
+                .endFill().beginFill(0x8ab6a6).drawRect(0, height * 0.91, width, 4).endFill();
+        }
         let index = 0;
         this.sprites.forEach(sprite => {
             sprite.scale.set(1);
-            const factor = Math.min(150, height * 0.45, width * 0.12 * 2) / sprite.height;
+            const selected = this.mode === 'manual' && sprite.record.id === this.selectedId;
+            const factor = Math.min(150, height * (this.mode === 'manual' ? 0.29 : 0.45), width * (selected ? 0.21 : 0.16)) / sprite.height;
             sprite.scale.set(factor);
             const count = this.sprites.size;
-            sprite.x = this.mode === 'manual' ? width * (0.22 + index * (count > 1 ? 0.54 / (count - 1) : 0)) : width * 0.22;
-            sprite.y = floorY;
+            sprite.x = this.mode === 'manual' ? width * (selected ? 0.48 : 0.17 + index * (count > 1 ? 0.64 / (count - 1) : 0)) : width * 0.22;
+            sprite.y = this.mode === 'manual' && !selected ? height * 0.91 : floorY;
             index++;
         });
         if (this.machine) {

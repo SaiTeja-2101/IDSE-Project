@@ -27,7 +27,7 @@ main#first-shift.FirstShift(hidden aria-label='Your first shift')
       span INBOX / ORBIT WORKS
       span 01
     .ShiftWindowBody
-      p.SmallLabel FROM MAYA / PEOPLE TEAM
+      p.SmallLabel FROM THE INVESTOR / ORBIT WORKS
       h1#briefing-heading(tabindex='-1') The desk is yours.
       p Read a CV. Choose who gets an interview. Fill the shortlist over three rounds as the office gets busier.
       .BriefingChoices
@@ -54,9 +54,11 @@ main#first-shift.FirstShift(hidden aria-label='Your first shift')
       .OfficeViewport(data-canvas-host='manual' aria-label='The hiring office')
       .ApplicantNavigation(aria-label='Choose an applicant')
         button.ShiftSecondary(type='button' data-action='previous-applicant' aria-label='Previous applicant') ← Previous
-        p Choose a person, or use these buttons.
+        button.ShiftPrimary(type='button' data-action='open-cv') Open CV
         button.ShiftSecondary(type='button' data-action='next-applicant' aria-label='Next applicant') Next →
-    aside.DecisionCard(aria-label='Open applicant CV')
+    aside.DecisionCard.OfficeFile(aria-label='Open applicant CV')
+      .OfficeFileTab APPLICANT CV
+      p#cv-closed Click someone in the queue, or select Open CV.
       +shiftCV()
       .DecisionActions
         p.ReadyToChoose Your choice becomes a learning example.
@@ -71,7 +73,7 @@ main#first-shift.FirstShift(hidden aria-label='Your first shift')
 
   section.ShiftWindow(data-view='round-break' hidden aria-labelledby='round-break-heading')
     .ShiftWindowTop
-      span ROUND NOTES / ORBIT WORKS
+      span INVESTOR MAIL / ORBIT WORKS
       span#round-finished-number
     .ShiftWindowBody
       p.SmallLabel#round-outcome
@@ -96,105 +98,7 @@ main#first-shift.FirstShift(hidden aria-label='Your first shift')
         ol.ChoiceLedger#choice-ledger(aria-label='Your recorded decisions')
       p.ShiftNote#ready-exclusions
     .ShiftWindowActions
-      button.ShiftPrimary(type='button' data-action='train') Train on my choices →
-
-  section.ShiftWindow.TrainingWindow(data-view='training' hidden aria-labelledby='training-heading')
-    .ShiftWindowTop
-      span SCOUT / LEARNING
-      span#training-total
-    .ShiftWindowBody
-      .ScoutFace.TrainingFace(aria-hidden='true')
-        span
-        span
-      p.SmallLabel#training-source
-      h1#training-heading(tabindex='-1') Scout is learning.
-      p#training-message
-      .TrainingCounts
-        span
-          strong#training-player-count
-          |  your choices
-        span +
-        span
-          strong#training-archive-count
-          |  past records
-      .TrainingViewport(data-canvas-host='training' aria-hidden='true')
-      p.ShiftNote#training-note
-    .ShiftWindowActions
-      button.ShiftPrimary(type='button' data-action='watch' disabled) Watch Scout →
-
-  section.ShiftDeskLayout(data-view='screening' hidden aria-labelledby='screening-heading')
-    .DeskColumn
-      .DeskHeading
-        p.SmallLabel#screening-source
-        h1#screening-heading New CVs. Learned questions.
-        p#demo-count
-      .OfficeViewport(data-canvas-host='screening' aria-label='Scout screening applicants')
-      .DemoControls
-        p#demo-message Scout is ready for the next CV.
-        .DemoButtonRow
-          button.ShiftPrimary(type='button' data-action='next') Screen first CV →
-          button.ShiftSecondary(type='button' data-action='finish') Screen the rest
-        p.ShiftFootnote Each choice comes from the tree Scout just learned.
-    aside.DecisionCard(aria-label="CV being screened by Scout")
-      +shiftCV()
-      .ScoutDecision#scout-decision
-        span.SmallLabel SCOUT'S CHOICE
-        strong#demo-decision Waiting to scan
-        p#demo-support
-
-  section.ShiftWindow.SummaryWindow(data-view='personal-summary' hidden aria-labelledby='personal-heading')
-    .ShiftWindowTop
-      span SCOUT / YOUR EXAMPLES ONLY
-      span#personal-example-count
-    .ShiftWindowBody
-      p.SmallLabel BEFORE ADDING COMPANY RECORDS
-      h1#personal-heading(tabindex='-1') This is what Scout learned from you.
-      p#personal-result
-      .LearnedQuestion
-        span.SmallLabel A LEARNED QUESTION
-        p#personal-question
-      p.ShiftNote#personal-limit
-      p#archive-invitation
-      p We will keep this version and try both versions on the same CVs. More records can change the patterns Scout learns.
-    .ShiftWindowActions
-      button.ShiftPrimary(type='button' data-action='archive') Add company records →
-
-  section.ShiftWindow.SummaryWindow(data-view='summary' hidden aria-labelledby='summary-heading')
-    .ShiftWindowTop
-      span SHIFT NOTES / ORBIT WORKS
-      span#summary-total
-    .ShiftWindowBody
-      p.SmallLabel MAYA LEFT YOU A NOTE
-      h1#summary-heading(tabindex='-1') Fast choices. Time to look closer.
-      p#comparison-message
-      p#comparison-training-counts
-      .MatchResult
-        div
-          span.SmallLabel MATCH TO PAST HIRING DECISIONS
-          strong#match-percentage
-          p#match-count
-        p#shortlist-count
-      p.ShiftNote This measures agreement with old hiring choices. It does not measure who is ready for the job.
-      .LearnedQuestion
-        span.SmallLabel A QUESTION SCOUT LEARNED
-        p#learned-question
-        p Small questions joined together make a decision tree. Scout follows them to reach Shortlist or Pass.
-      details
-        summary Your recorded choices
-        ol.ChoiceLedger#summary-choices
-      details
-        summary Compare both versions on the same CVs
-        .ComparisonScroll
-          table.ComparisonTable
-            thead
-              tr
-                th(scope='col') Applicant
-                th(scope='col') Your choices only
-                th(scope='col') With company records
-            tbody#comparison-rows
-    .ShiftWindowActions
-      button.ShiftPrimary(type='button' data-action='investigate') Look closer →
-      p.ShiftFootnote Next: check the evidence behind Scout's choices.
+      button.ShiftPrimary(type='button' data-action='handoff') Open the engineer's message →
 
   p#shift-status.ShiftStatus(role='status' aria-live='polite' aria-atomic='true')
   p#shift-error.ShiftError(role='alert' hidden)

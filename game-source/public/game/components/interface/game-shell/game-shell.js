@@ -29,7 +29,7 @@ const stageInfo = {
     'review-receipt': [6, 'Audit receipt', 'Look back at the evidence'],
 };
 export function updateShell(stage) {
-    const [, title, status] = stageInfo[stage] || stageInfo.title;
+    const [, title, status] = stageInfo[stage] || (stage.startsWith('scout-') ? [2, 'Scout at Orbit Works', 'Follow the case'] : stageInfo.title);
     document.body.dataset.stage = stage;
     document.getElementById('chapter-name').textContent = title;
     document.getElementById('scout-status').textContent = status;
@@ -53,7 +53,7 @@ export function initShell() {
         gameClock.setPaused(paused);
         sound.setGamePaused(paused);
         document.body.classList.toggle('game-paused', paused);
-        for (const selector of ['#gameCanvas', '#first-shift', '#review-game', '#resume-panel', '.GameBar', '.ScoutPanel', '.js-titlepage', '.Overlay', '#js-resume', '.js-yes-no']) {
+        for (const selector of ['#gameCanvas', '#first-shift', '#scout-story', '#resume-panel', '.GameBar', '.ScoutPanel', '.js-titlepage', '.Overlay', '#js-resume', '.js-yes-no']) {
             document.querySelectorAll(selector).forEach(element => { element.inert = paused; });
         }
         dialog.hidden = !paused;

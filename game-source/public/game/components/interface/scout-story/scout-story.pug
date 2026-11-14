@@ -1,0 +1,19 @@
+section#resume-panel.ResumePanel(hidden aria-labelledby='resume-heading')
+  .ShiftWindow
+    .ShiftWindowTop YOUR DESK / SAVED
+    .ShiftWindowBody
+      h1#resume-heading Pick up where you left off.
+      p#resume-message Your progress is saved on this browser.
+    .ShiftWindowActions.ResumeActions
+      button#continue-save.ShiftPrimary(type='button') Continue
+      button#fresh-save.ShiftSecondary(type='button') Start fresh
+
+main#scout-story.ScoutStory(hidden aria-label='Scout at Orbit Works')
+  header.StoryHeading
+    p.SmallLabel#story-section
+    h1#story-title(tabindex='-1')
+    p#story-intro
+  .OfficeViewport#story-canvas(hidden aria-label='Scout scanner')
+  #story-body
+  #story-feedback.StoryFeedback(role='status' hidden)
+  #story-error.ShiftError(role='alert' hidden)
