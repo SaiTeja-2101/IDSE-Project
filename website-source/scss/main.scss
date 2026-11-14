@@ -11,9 +11,10 @@ a:focus-visible { outline: 3px solid #99691b; outline-offset: 5px; }
 .HeroMasthead .Eyebrow { font-size: 16px; }
 .SiteHero { border-top: 3px solid #f0b84b; }
 .SiteHeader a { color: inherit; text-decoration: none; }
-.SiteHeader nav { display: flex; align-items: center; gap: 28px; font-size: 22px; }
+.SiteHeader nav { display: flex; align-items: center; flex-wrap: wrap; gap: 28px; font-size: 22px; }
+.SiteHeader nav a { display: inline-flex; align-items: center; min-height: 44px; }
 .SitePlay { padding: 8px 18px; border: 1px solid #7ba6a1; background: #214a5b; }
-.SiteHero { min-height: 650px; display: grid; grid-template-columns: 1fr 1fr; align-items: center; gap: 7%; padding: 60px 7% 80px; }
+.SiteHero { min-height: 650px; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); align-items: center; gap: 7%; padding: 60px 7% 80px; }
 .Eyebrow { letter-spacing: 3px; color: #377969; font-size: 18px; }
 h1 { font-weight: 400; font-size: clamp(70px, 8vw, 115px); line-height: .95; letter-spacing: -2px; margin: 25px 0; }
 .Tagline { color: #237c6f; font-size: 36px; margin: 20px 0; }
@@ -49,17 +50,25 @@ h3 { font-size: 30px; font-weight: 400; margin: 10px 0; }
 .TextPage { max-width: 850px; margin: 65px auto 90px; padding: 0 28px; }
 .TextPage h1 { font-size: 64px; margin-bottom: 30px; }
 .TextPage h2 { font-size: 34px; margin-top: 45px; }
-.TextPage p, .PlaySteps li { font-size: 24px; line-height: 1.4; color: #365549; }
+.TextPage p, .PlaySteps li { font-size: clamp(21px, 3vw, 24px); line-height: 1.4; color: #365549; overflow-wrap: anywhere; }
+.PlaySteps { padding-inline-start: 1.25em; }
 .PlaySteps li { margin-bottom: 15px; padding-left: 8px; }
 @media(max-width:900px) { .SiteHero { gap: 5%; padding: 50px 5%; min-height: 600px; } .HeroBoard { min-height: 330px; } .BoardFile { right: 6%; width: 145px; padding: 14px; } .BoardScreen { left: 7%; width: 110px; } }
-@media(max-width:650px) { .SiteHeader { padding: 15px 5%; } .SiteBrand { font-size: 25px; } .SiteHeader nav { gap: 12px; font-size: 18px; } .SiteHeader nav a:first-child { display: none; } .SiteHero { grid-template-columns: 1fr; padding: 40px 7% 55px; gap: 40px; } h1 { font-size: 85px; } .HeroBoard { min-height: 330px; } .HowGrid { grid-template-columns: 1fr; gap: 20px; } .SiteFooter { flex-direction: column; gap: 12px; } .TextPage { margin-top: 40px; } .TextPage h1 { font-size: 52px; } }
+@media(max-width:650px) { .SiteHeader { padding: 12px 5%; } .SiteBrand { font-size: 25px; } .SiteHeader nav { gap: 12px; font-size: 18px; } .SiteHero { grid-template-columns: minmax(0, 1fr); padding: 40px 7% 55px; gap: 40px; min-height: 0; } .HeroBoard { min-height: 330px; } .HowGrid { grid-template-columns: 1fr; gap: 20px; } .SiteFooter { flex-direction: column; gap: 12px; } .TextPage { margin-top: 40px; padding-inline: 18px; } .TextPage h1 { font-size: clamp(40px, 10vw, 52px); } }
 @media(prefers-reduced-motion:reduce) { * { scroll-behavior: auto !important; } }
 @media(max-width:650px) {
-  .SiteHeader { flex-wrap: wrap; gap: 16px; }
-  .SiteHeader nav { flex-wrap: wrap; }
+  .SiteHeader { flex-wrap: wrap; gap: 6px 16px; }
+  .SiteHeader nav { flex-wrap: wrap; justify-content: space-between; }
+  .SitePlay { padding: 6px 10px; }
   .SiteHero h1 { font-size: clamp(54px, 14vw, 85px); }
   .Tagline { font-size: 30px; }
   .HeroMasthead { flex-wrap: wrap; gap: 10px; }
   .HeroMasthead img { width: 52px; height: 52px; }
   .SiteHero { padding: 30px 6%; }
+}
+@media (max-width: 370px) {
+  .BoardHead { padding-inline: 12px; }
+  .BoardScreen { left: 5%; width: 86px; padding: 6px; height: 105px; }
+  .BoardFile { right: 7%; width: 128px; }
+  .BoardLabel { left: 12px; font-size: 17px; }
 }

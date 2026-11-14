@@ -134,6 +134,7 @@ test('switching tabs pauses controls, clock and audio until the player explicitl
     t.after(() => Object.assign(global, old));
     const documentEvents = new Map(), windowEvents = new Map(), elements = new Map();
     let stops = 0, starts = 0, restored = 0;
+    let openCv;
     const focus = {isConnected: true, focus() { restored++; }};
     const interactive = {inert: false};
     const element = id => {
@@ -142,7 +143,7 @@ test('switching tabs pauses controls, clock and audio until the player explicitl
     };
     global.document = {hidden: false, activeElement: focus,
         body: {dataset: {}, classList: {toggle() {}}},
-        getElementById: element, querySelectorAll() { return [interactive]; },
+        getElementById: element, querySelector() { return openCv; }, querySelectorAll() { return [interactive]; },
         addEventListener(name, fn) { documentEvents.set(name, fn); }};
     global.window = {addEventListener(name, fn) { windowEvents.set(name, fn); }};
     const ticker = () => ({started: true, stop() { this.started = false; }, start() { this.started = true; }});
@@ -157,6 +158,10 @@ test('switching tabs pauses controls, clock and audio until the player explicitl
         'public/game/controllers/game/sound.js': {setGamePaused(value) { paused.push(value); }, getStatus() { return status; }, toggleVolume() { status.muted = !status.muted; return status.muted; }},
     })('public/game/components/interface/game-shell/game-shell.js');
     shell.initShell();
+    openCv = {click() { openCv = null; }};
+    documentEvents.get('keydown')({key: 'Escape', preventDefault() {}});
+    assert.equal(openCv, null);
+    assert.equal(clock.paused, false, 'Escape closes the CV before it can pause the game');
     global.document.hidden = true; documentEvents.get('visibilitychange')(); documentEvents.get('visibilitychange')();
     assert.equal(clock.paused, true); assert.equal(interactive.inert, true); assert.equal(stops, 1);
     assert.equal(localTicker.started, false); assert.equal(element('pause-dialog').hidden, false);

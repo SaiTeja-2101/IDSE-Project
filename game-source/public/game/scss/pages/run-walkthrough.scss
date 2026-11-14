@@ -75,8 +75,8 @@
 .RunChips li { padding: 3px 8px; background: #e1eee6; border: 1px solid #9dbbad; font-size: 0.88rem; }
 .RunChips .RunRemoved { background: #f4e4bc; border-color: #ad823b; }
 .RunResultGroup { margin-top: 13px; padding-top: 13px; border-top: 1px solid #b9cec1; }
-.RunBarRow { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 4px 12px; align-items: center; margin: 14px 0; }
-.RunBarRow strong { text-align: right; }
+.RunBarRow { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 4px 12px; align-items: center; margin: 14px 0; }
+.RunBarRow strong { text-align: right; overflow-wrap: anywhere; }
 .RunBarTrack { grid-column: 1 / -1; height: 13px; background: #dae7dd; border: 1px solid #b5cac0; }
 .RunBarFill { width: var(--run-fill); height: 100%; background: #365873; animation: run-grow 360ms ease-out both; transform-origin: left; }
 .RunBarRow.repaired .RunBarFill { background: #387e6e; }

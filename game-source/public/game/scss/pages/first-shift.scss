@@ -86,7 +86,7 @@ body[data-stage^='first-shift'] .OfficeLabel, body[data-stage^='first-shift'] .O
 
 // The DOM owns the layout. Pixi draws only inside its measured office area.
 html, body { min-height: 100%; height: auto; }
-body { position: static; overflow-x: hidden; overflow-y: auto; }
+html:has(.Page--Game) { scroll-padding-block-start: 98px; }
 .GameBar { position: sticky; top: 0; min-height: 76px; gap: 18px; }
 .ChapterInfo { display: block; }
 #chapter-number, .ChapterTrack { display: none; }
@@ -94,8 +94,8 @@ body { position: static; overflow-x: hidden; overflow-y: auto; }
 #gameCanvas { position: absolute; inset: 0; width: 100%; height: 100%; overflow: hidden; }
 #gameCanvas canvas { display: block; width: 100%; height: 100%; }
 .FirstShift { position: static; width: 100%; max-width: 1600px; height: auto; margin: 0 auto; padding: 28px; min-height: calc(100svh - 76px); pointer-events: auto; }
-.ShiftWindow { position: static; left: auto; top: auto; transform: none; width: min(100%, 760px); margin: 20px auto; max-height: calc(100svh - 155px); }
-.ShiftWindowBody { padding: 24px 30px; min-height: 0; }
+.ShiftWindow { position: static; left: auto; top: auto; transform: none; width: min(100%, 760px); margin: 20px auto; max-height: none; }
+.ShiftWindowBody { padding: 24px 30px; min-height: 0; overflow: visible; }
 .ShiftWindowActions { padding: 16px 30px 22px; border-top: 1px solid #c4d2c5; flex-shrink: 0; background: var(--paper); }
 .ShiftWindow h1 { font-size: clamp(32px, 4vw, 46px); }
 .ShiftWindow p { font-size: 22px; }
@@ -126,6 +126,7 @@ body { position: static; overflow-x: hidden; overflow-y: auto; }
 .ShiftStatus { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
 .MobileOrientationOverlay { display: none !important; }
 @media (max-width: 899px) {
+  html:has(.Page--Game) { scroll-padding-block-start: 113px; }
   .FirstShift { padding: 18px; }
   .GameBar { display: flex; flex-wrap: wrap; padding: 10px 18px; gap: 10px; }
   .GameBrand { font-size: 25px; }
@@ -135,24 +136,26 @@ body { position: static; overflow-x: hidden; overflow-y: auto; }
   .ShiftDeskLayout { grid-template-columns: minmax(0, 1fr); gap: 20px; }
   .DeskHeading { padding-top: 0; }
   .OfficeViewport { height: clamp(210px, 35svh, 340px); }
-  .DecisionActions { position: sticky; bottom: 0; z-index: 3; background: var(--paper); padding: 12px 0 8px; border-top: 1px solid #c4d2c5; }
+  .DecisionActions { background: var(--paper); padding: 12px 0 8px; border-top: 1px solid #c4d2c5; }
   .ChoicePair kbd { display: none; }
-  .ShiftWindow { margin: 8px auto; max-height: calc(100svh - 155px); }
+  .ShiftWindow { margin: 8px auto; }
   .ShiftWindowBody { padding: 20px; }
   .ShiftWindowActions { padding: 14px 20px 18px; }
   .DecisionCard { padding: 20px; }
 }
 @media (max-width: 480px) {
+  html:has(.Page--Game) { scroll-padding-block-start: 94px; }
   .FirstShift { padding: 14px; }
-  .GameBar { padding: 10px 14px; }
+  .GameBar { min-height: 0; padding: 6px 10px; gap: 2px 8px; }
   .GameBrand { font-size: 23px; gap: 7px; }
   .BrandIcon { width: 28px; height: 28px; }
-  .GameControls button { font-size: 17px; padding: 7px; min-height: 44px; }
+  .GameControls { flex-wrap: wrap; gap: 5px; }
+  .GameControls button { font-size: 17px; padding: 5px 6px; min-height: 44px; }
   .DeskHeading h1 { font-size: 29px; }
   .DeskHeading > p { font-size: 17px; }
   .RoundMission { font-size: 21px; padding: 12px; margin-top: 14px; }
-  .ApplicantNavigation { flex-wrap: wrap; }
-  .ApplicantNavigation p { order: 3; flex-basis: 100%; }
+  .ApplicantNavigation { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 6px; }
+  .ApplicantNavigation button { font-size: 19px; padding-inline: 5px; white-space: normal; }
   .ShiftWindowTop { padding: 12px 16px; font-size: 14px; }
   .ShiftWindow p { font-size: 20px; }
   .ShiftWindowActions > button { width: 100%; }
@@ -160,8 +163,8 @@ body { position: static; overflow-x: hidden; overflow-y: auto; }
   .MatchResult { flex-direction: column; align-items: start; gap: 4px; }
 }
 @media (max-height: 550px) {
-  .ShiftWindow { max-height: none; }
-  .ShiftWindowBody { overflow: visible; }
+  .GameBar { min-height: 0; padding-block: 4px; gap: 2px 10px; }
+  .GameControls button { min-height: 44px; }
 }
 
 @media (prefers-reduced-motion: reduce) { .ShiftPrimary, .ShiftSecondary { transition: none; } }

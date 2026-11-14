@@ -39,9 +39,11 @@ export function initShell() {
     const dialog = document.getElementById('pause-dialog');
     const resume = document.getElementById('resume-game');
     let previousFocus, tickerWasRunning, sharedWasRunning;
+    const inspectorClose = () => document.querySelector('#inspector-cv-dialog[open] [data-story-action="close-cv"]');
     function setPaused(paused) {
         if (paused === gameClock.paused) return;
         if (paused) {
+            inspectorClose()?.click();
             previousFocus = document.activeElement;
             tickerWasRunning = pixiApp.ticker.started;
             sharedWasRunning = PIXI.ticker.shared.started;
@@ -70,7 +72,11 @@ export function initShell() {
     document.addEventListener('visibilitychange', () => { if (document.hidden) setPaused(true); });
     resume.addEventListener('click', () => setPaused(false));
     document.addEventListener('keydown', event => {
-        if (event.key === 'Escape') { event.preventDefault(); setPaused(!gameClock.paused); }
+        if (event.key === 'Escape') {
+            event.preventDefault();
+            const closeCv = inspectorClose();
+            if (closeCv) closeCv.click(); else setPaused(!gameClock.paused);
+        }
         if (gameClock.paused && event.key === 'Tab') { event.preventDefault(); resume.focus(); }
         if (!gameClock.paused && ['Enter', ' '].includes(event.key) && event.target.matches('[role="button"]')) {
             event.preventDefault(); event.target.click();

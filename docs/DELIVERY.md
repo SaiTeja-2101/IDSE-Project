@@ -8,6 +8,7 @@ The current game uses the journey documented in [GAME_DESIGN.md](GAME_DESIGN.md)
 - The resume check waits on the Continue screen and verifies that the full saved time remains. The audio checks cover playback blocked by the browser, including pause and cancelling a warning at the end of a round.
 - Factory checks cover both rack routes, a resize during a scan, cleanup, and reduced motion. The full story check keeps the factory visible during mail, rebuilds the preview queue from the save, and can finish screening even when the animation fails. The engine also checks that watching all four previews has the same final result as skipping them.
 - The ending walkthrough uses the saved CV, actual tree paths and final report. The DOM tests cover all four scenes, matching chart numbers to the receipt, skipping, reopening, and reloading halfway through without repeating the quiz.
+- The game page scrolls when its content is taller than the screen. At phone widths, the inspector opens a separate CV panel with a scrollable body. The DOM checks cover closing it, returning focus to the same name, and replying only for the applicant in the email.
 - The production build and asset checker validate the deployed paths, sprite atlases and sound files.
 - The browser preview tool was unavailable during the recheck. Rendered layout at desktop and mobile sizes, actual touch interaction, and audible sound playback remain unverified.
 - The [beginner playtest guide](PLAYTEST.md) is ready. Peer sessions and a revision based on what they found are pending.
