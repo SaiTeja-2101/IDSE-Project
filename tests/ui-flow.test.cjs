@@ -131,10 +131,22 @@ test('the new UI runs from hiring to its computed receipt and keeps the result l
     await act('answer', 'skill'); await act('answer', 'pass');
     assert.match(document.querySelector('#story-feedback').textContent, /recorded/);
     await act('answer', 'shortlist');
+    assert.match(document.querySelector('#story-body').textContent, /Original CV \(1 of 2\)/);
+    let copyHandoffs = 0;
     while (readFlow().getState().lesson.part.endsWith('-path')) {
         const {lesson} = readFlow().getState();
+        if (lesson.part === 'copy-path' && lesson.index === 0) {
+            assert.match(document.querySelector('#story-body').textContent, /Original CV complete/);
+            assert.match(document.querySelector('#story-body').textContent, /see the same questions again/);
+            await act('lesson-copy');
+            assert.match(document.querySelector('#story-body').textContent, /Test copy \(2 of 2\)/);
+            copyHandoffs++;
+        }
+        if (lesson.step) assert.ok(document.querySelector('#story-body').textContent.includes('Question ' + (lesson.index + 1) + ' of ' + lesson.questionCount));
         await act('answer', lesson.step?.branch || 'continue');
     }
+    assert.equal(copyHandoffs, 1);
+    assert.match(document.querySelector('#story-body').textContent, /Tree replay complete/);
     const result = readFlow().getState().finalResult;
     const a = result.original.overallMetrics.falseNegative, b = result.repaired.overallMetrics.falseNegative;
     await act('answer', a === b ? 'same' : a < b ? 'original' : 'repaired');

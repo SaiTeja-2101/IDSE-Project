@@ -76,9 +76,10 @@ export function createScoutStory(session) {
     }
     function lessonView() {
         if (lesson.part.endsWith('-path')) {
-            const step = lessonModelPath().decisionPath[lesson.index];
+            const path = lessonModelPath().decisionPath;
+            const step = path[lesson.index];
             const node = step && question(step.nodeId);
-            return {...lesson, step, question: node?.question, choices: step ? [{id: 'left', label: node.leftLabel}, {id: 'right', label: node.rightLabel}] : [{id: 'continue', label: 'Continue'}], decision: lessonModelPath().decision};
+            return {...lesson, step, questionCount: path.length, question: node?.question, choices: step ? [{id: 'left', label: node.leftLabel}, {id: 'right', label: node.rightLabel}] : [{id: 'continue', label: 'Continue'}], decision: lessonModelPath().decision};
         }
         return lesson;
     }
