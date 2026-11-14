@@ -1,0 +1,98 @@
+.RunDesk {
+  --run-paper: #fffaf0;
+  --run-ink: #142d4e;
+  --run-teal: #185f54;
+  --run-line: #a8c3b8;
+  color: var(--run-ink);
+  background: #dbeae2;
+  border: 1px solid #7da396;
+  box-shadow: 6px 7px 0 #a5c7b7;
+  font: 1rem/1.5 system-ui, sans-serif;
+}
+.RunDesk h2, .RunDesk h3, .RunDesk h4, .RunEyebrow, .RunRail, .RunStamp { font-family: 'VT323', monospace; font-weight: normal; }
+.RunDesk p { margin: 0; }
+.RunRail {
+  list-style: none;
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  margin: 0;
+  padding: 0;
+  color: #f3f0e6;
+  background: var(--run-ink);
+}
+.RunRail li { display: flex; align-items: center; gap: 10px; min-width: 0; padding: 14px 18px 11px; border-bottom: 3px solid #41627b; }
+.RunRail span { color: #aed7c9; font-size: 19px; }
+.RunRail strong { font-size: clamp(19px, 2.6vw, 25px); line-height: 1; font-weight: normal; }
+.RunRail li.RunDone { border-color: #67b7a2; }
+.RunRail li[aria-current='step'] { background: #244965; border-color: #efbf68; }
+.RunRail li[aria-current='step'] span { color: #ffcf78; }
+.RunScene { padding: clamp(14px, 3vw, 32px); }
+.RunHead { margin-bottom: 22px; }
+.RunDesk .RunEyebrow { font-size: 17px; letter-spacing: 0.12em; color: #34675b; line-height: 1.1; }
+.RunHead h2 { margin: 3px 0 6px; font-size: clamp(36px, 5vw, 58px); line-height: 0.94; }
+.RunGrid, .RunDiagram { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 18px; }
+.RunDiagram { grid-template-columns: minmax(0, 1.1fr) 40px minmax(0, 0.9fr); align-items: center; }
+.RunInputs { display: grid; gap: 12px; }
+.RunArrow { position: relative; height: 2px; background: #397d6d; }
+.RunArrow::after { content: ''; position: absolute; right: 0; top: -5px; width: 10px; height: 10px; border-top: 2px solid #397d6d; border-right: 2px solid #397d6d; transform: rotate(45deg); }
+.RunCard { min-width: 0; background: var(--run-paper); border: 1px solid var(--run-line); border-top: 4px solid var(--run-ink); padding: clamp(14px, 2vw, 22px); box-shadow: 3px 3px #b7cec2; }
+.RunCard h3 { font-size: clamp(27px, 3.7vw, 35px); line-height: 1; margin: 4px 0 12px; overflow-wrap: anywhere; }
+.RunCard h4 { font-size: 25px; line-height: 1.1; margin: 0 0 10px; }
+.RunControls { display: flex; align-items: center; flex-wrap: wrap; gap: 8px; }
+.RunScene > .RunControls { margin: 12px 0; }
+.RunButton {
+  min-height: 44px;
+  padding: 7px 14px;
+  border: 1px solid #789c8f;
+  background: var(--run-paper);
+  color: var(--run-ink);
+  font: 600 0.91rem/1.25 system-ui, sans-serif;
+  text-align: left;
+  border-radius: 3px;
+}
+.RunButton[aria-pressed='true'], .RunButton--next { background: var(--run-ink); color: #fffaf0; border-color: var(--run-ink); }
+.RunButton:hover:not(:disabled):not([aria-pressed='true']):not(.RunButton--next) { background: #cee7db; }
+.RunButton--next:hover { background: #244965; }
+.RunFields { display: grid; gap: 6px; }
+.RunFields .RunButton { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 4px 14px; width: 100%; }
+.RunFields strong { overflow-wrap: anywhere; }
+.RunDesk .RunAnswerTitle { margin: 18px 0 7px; }
+.RunReadout { margin-top: 13px; }
+.RunStamp { display: inline-block; margin: 0 0 6px; padding: 3px 9px; background: #daecdf; border: 1px solid #75a68f; color: #17483c; font-size: 25px; line-height: 1; }
+.RunNote { margin-top: 16px; display: grid; gap: 4px; padding: 12px 16px; background: #eff7ef; border-left: 4px solid #387a6a; }
+.RunNote strong { color: #185143; }
+.RunQuiet { color: #395a55; font-size: 0.91rem; }
+.RunCard .RunChanged { width: fit-content; padding: 6px 8px; background: #f4e4bc; color: #62451b; }
+.RunRoute { list-style: none; margin: 0 0 14px; padding: 0 0 0 10px; border-left: 2px solid #64988a; display: grid; gap: 8px; }
+.RunFork { position: relative; display: grid; gap: 3px; padding: 9px 11px; background: #e4efe7; border: 1px solid #a6caba; animation: run-reveal 220ms ease-out both; }
+.RunFork::before { content: ''; position: absolute; width: 8px; height: 8px; left: -16px; top: 15px; border-radius: 50%; background: #2c7565; }
+.RunFork span, .RunFork small { font-size: 0.89rem; }
+.RunFork--split { border-color: #ad823b; background: #f4e4bc; }
+.RunFork--split::before { background: #955f17; }
+.RunFork small { font-weight: 700; color: #62451b; }
+.RunCard--changed { border-top-color: #a77323; background: #fff3d7; }
+.RunChips { display: flex; gap: 6px; flex-wrap: wrap; list-style: none; margin: 0; padding: 0; }
+.RunChips li { padding: 3px 8px; background: #e1eee6; border: 1px solid #9dbbad; font-size: 0.88rem; }
+.RunChips .RunRemoved { background: #f4e4bc; border-color: #ad823b; }
+.RunResultGroup { margin-top: 13px; padding-top: 13px; border-top: 1px solid #b9cec1; }
+.RunBarRow { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 4px 12px; align-items: center; margin: 14px 0; }
+.RunBarRow strong { text-align: right; }
+.RunBarTrack { grid-column: 1 / -1; height: 13px; background: #dae7dd; border: 1px solid #b5cac0; }
+.RunBarFill { width: var(--run-fill); height: 100%; background: #365873; animation: run-grow 360ms ease-out both; transform-origin: left; }
+.RunBarRow.repaired .RunBarFill { background: #387e6e; }
+.RunDesk .RunResultLine { margin-top: 8px; font-weight: 700; }
+.RunNav { display: flex; justify-content: space-between; flex-wrap: wrap; gap: 8px; padding: 12px clamp(14px, 3vw, 32px); border-top: 1px solid #a2bfb2; background: #c9e0d4; }
+.RunNav > .RunControls { margin-left: auto; }
+@keyframes run-reveal { from { opacity: 0.35; transform: translateY(3px); } to { opacity: 1; transform: none; } }
+@keyframes run-grow { from { transform: scaleX(0); } to { transform: scaleX(1); } }
+@media (max-width: 700px) {
+  .RunGrid, .RunDiagram { grid-template-columns: minmax(0, 1fr); gap: 10px; }
+  .RunRail { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .RunRail li { padding: 8px 10px; gap: 6px; }
+  .RunDesk { box-shadow: 3px 4px 0 #a5c7b7; }
+  .RunBarRow { font-size: 0.91rem; }
+  .RunArrow { width: 24px; margin: 10px auto; transform: rotate(90deg); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .RunFork, .RunBarFill { animation: none; }
+}

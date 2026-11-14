@@ -13,7 +13,20 @@ main#scout-story.ScoutStory(hidden aria-label='Scout at Orbit Works')
     p.SmallLabel#story-section
     h1#story-title(tabindex='-1')
     p#story-intro
-  .OfficeViewport#story-canvas(hidden aria-label='Scout scanner')
+  section.FactoryBoard#factory-board(hidden aria-label='Scout factory')
+    .FactoryHeader
+      strong#factory-model
+      span#factory-progress
+    .FactoryDeck
+      .FactoryReadouts
+        p Shortlisted #[strong#factory-shortlisted 0]
+        p.FactoryScanner SCANNER
+        p Passed over #[strong#factory-passed 0]
+      .OfficeViewport#factory-canvas(aria-hidden='true')
+    .FactoryStatus
+      p#factory-current(role='status' aria-atomic='true')
+      p#factory-queue
+  .OfficeViewport#story-canvas(hidden aria-hidden='true')
   #story-body
   #story-feedback.StoryFeedback(role='status' hidden)
   #story-error.ShiftError(role='alert' hidden)

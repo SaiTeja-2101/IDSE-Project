@@ -113,7 +113,18 @@ test('repairs fit independently, hold out practice and final, and cannot change 
     assert.equal(flow.getState().finalResult, null);
     assert.throws(() => flow.repair('hide-city'), /Finish/);
     const skipped = restoreScoutStory(session, flow.checkpoint());
-    flow.scanFinal(); flow.scanFinal(); flow.finishFinal();
+    const repaired = trainModel(records, {labelSource: 'assessed'});
+    const sample = [];
+    while (flow.getState().finalQueue.length) {
+        const {finalQueue} = flow.getState();
+        const scanned = flow.scanFinal();
+        assert.equal(scanned.applicant.id, finalQueue[0].id);
+        assert.deepEqual(scanned.prediction, predictApplicant(repaired, scanned.applicant));
+        sample.push(scanned);
+    }
+    assert.equal(new Set(sample.map(item => item.applicant.id)).size, 4);
+    assert.deepEqual(restoreScoutStory(session, flow.checkpoint()).getState().finalScreened, sample);
+    flow.finishFinal();
     skipped.finishFinal();
     assert.deepEqual(flow.getState().finalResult, skipped.getState().finalResult);
     assert.deepEqual(flow.getState().finalResult.original.cityMetrics, evaluateModel(original, session.pools.final).cityMetrics);

@@ -26,7 +26,7 @@ The game fits a CART decision tree with the pinned ml-cart implementation, using
 
 ## Phase 3: Scanner, complaint and inspector
 
-The same fitted Scout scans 12 new CVs. The player can scan one by one or run until a message interrupts. An investor message comes after scan three. After that message, the first scanned person whom Scout passed over despite passing the work test triggers a complaint. If all 12 are scanned without such an error, a routine case uses a qualified person who was scanned. The game never invents a missed applicant.
+The same fitted Scout scans 12 new CVs. People queue on the lower floor while their CVs travel through the scanner on the belt above. Each CV goes to the Shortlisted or Passed over rack based on Scout's prediction. The player can scan one at a time or run until a message interrupts. An investor message comes after scan three. After that message, the first scanned person whom Scout passed over despite passing the work test triggers a complaint. If all 12 are scanned without such an error, a routine case uses a qualified person who was scanned. The same factory stays visible for both messages.
 
 The inbox points to the named person. The player finds that person in the inspector, reads both decisions and replies. The scanner finishes the batch if needed. The news screen reports qualified shortlist rates by city, then lets the player reopen the same case. Twelve observations give the player a clue; the final batch is a better check.
 
@@ -47,13 +47,15 @@ The player can try both details. They run at least one copy test to continue. Th
 | Hide city | Remove city from the tree's inputs and fit again | Same training rows and labels |
 | Learn from work tests | Use the synthetic work test results as the training labels and fit again | Same training rows and features |
 
-Both repairs start from the original setup. The player can switch freely between them. Each uses the same cutoff and compares with the original Scout on the same 80 practice CVs. The player chooses one before seeing the final dataset results. Watching the optional preview has no effect on the final calculation. The original and repaired models screen the same 200 fresh CVs. The scanner, practice and final pools are distinct and excluded from training.
+Both repairs start from the original setup. The player can switch freely between them. Each uses the same cutoff and compares with the original Scout on the same 80 practice CVs. The player chooses one before seeing the final dataset results. The factory previews up to four predictions from the repaired model. Watching the preview has no effect on the final calculation. The original and repaired models screen the same 200 fresh CVs. The scanner, practice and final pools are distinct and excluded from training.
 
 The table shows missed qualified applicants (false negatives), shortlisted applicants who failed the work test (false positives), and qualified shortlist rates by city. That rate is the number of qualified applicants shortlisted divided by the number of qualified applicants in that city. The game presents actual counts and changes, including ties or regressions. The synthetic work test is a teaching benchmark, not a recommendation for hiring.
 
 ## Phase 6: Interactive recap and receipt
 
 The player picks a feature on the first CV they actually reviewed, then identifies their recorded label. They follow the learned branches of the original and copy, with feedback and retries. Finally, they read both models' results and say which missed fewer qualified applicants or whether they tied. The downloadable JSON receipt records the seed, archive, number of training examples, case, copy outcome, chosen repair and final comparison.
+
+After the last recap answer, **What your run revealed** explains the same concepts without scoring. Players can switch between the hiring choice and the work test, replay the paths, inspect the chosen repair, and explore the final charts. Each scene uses their own evidence. Players can skip to the receipt or return to the walkthrough later. If they leave partway through, Continue reopens the walkthrough at its first scene without repeating the quiz.
 
 ## Phase 7: Classroom delivery
 

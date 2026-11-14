@@ -37,11 +37,13 @@ export function createScoutStory(session) {
     });
     if (!reviewed.length) throw new Error('Review some CVs before training Scout.');
     const scanner = session.pools.introductory;
+    const preview = Array.from({length: finalSampleSize}, (_, i) =>
+        session.pools.final[Math.floor(i * session.pools.final.length / finalSampleSize)]);
     const profiles = new Map(scanner.map(p => [p.id, p]));
     const archives = ARCHIVES.map(a => ({...a, count: a.pools.reduce((sum, pool) => sum + session.pools[pool].length, 0)}));
     let phase = 'handoff', archive = null, records, original, tree, results = [], caseFile = null, replied = false, investorSeen = false;
-    let experiment = null, repairId = null, finalResult = null, finalIndex = 0;
-    let lesson = {part: 'feature', index: 0}, actions = [];
+    let experiment = null, repairId = null, finalResult = null, finalScreened = [];
+    let lesson = {part: 'feature', index: 0}, actions = [], walkthrough = null;
     const trials = new Map();
     let practiceOriginal, cityReport;
     const requirePhase = wanted => { if (wanted !== phase) throw new Error('Finish this step first.'); };
@@ -90,12 +92,15 @@ export function createScoutStory(session) {
     const flow = {
         getState() {
             return deepFreeze({phase, reviewedCount: reviewed.length, firstReviewed: reviewed[0], archives, archive, original, tree,
-                scanIndex: results.length, scanTotal: scanner.length, nextApplicant: phase === 'screening' ? scanner[results.length] : null,
+                scanIndex: results.length, scanTotal: scanner.length, scanQueue: scanner.slice(results.length),
+                nextApplicant: phase === 'screening' ? scanner[results.length] : null,
                 screened: results.map(p => ({applicant: profiles.get(p.id), prediction: p})),
                 case: caseFile && {kind: caseFile.kind, applicant: profiles.get(caseFile.id), prediction: results.find(p => p.id === caseFile.id)},
                 cityReport: cityReport || null,
                 experiment, repair: repairId && {id: repairId, ...trials.get(repairId).comparison},
-                finalIndex, finalSampleSize, finalResult, lesson: lessonView(), receipt: phase === 'receipt' ? receipt() : null});
+                finalIndex: finalScreened.length, finalSampleSize, finalScreened: finalScreened.slice(),
+                finalQueue: phase === 'final' ? preview.slice(finalScreened.length) : [],
+                finalResult, lesson: lessonView(), receipt: phase === 'receipt' ? receipt() : null});
         },
         send() { requirePhase('handoff'); phase = 'archives'; remember('send'); },
         train(id) {
@@ -146,12 +151,12 @@ export function createScoutStory(session) {
         },
         scanFinal() {
             requirePhase('final');
-            if (finalIndex >= finalSampleSize) throw new Error('The sample is complete.');
-            const batch = session.pools.final;
-            const applicant = batch[Math.floor(finalIndex * batch.length / finalSampleSize)];
+            if (finalScreened.length >= finalSampleSize) throw new Error('The sample is complete.');
+            const applicant = preview[finalScreened.length];
             const prediction = predictApplicant(trials.get(repairId).model, applicant, cutoff);
-            finalIndex++; remember('scanFinal');
-            return {applicant, prediction};
+            const sample = deepFreeze({applicant, prediction});
+            finalScreened.push(sample); remember('scanFinal');
+            return sample;
         },
         finishFinal() {
             requirePhase('final');
@@ -183,8 +188,10 @@ export function createScoutStory(session) {
             if (hint) return {correct: false, hint};
             remember('answer', value); return {correct: true};
         },
+        startWalkthrough() { requirePhase('receipt'); phase = 'walkthrough'; walkthrough = 'open'; },
+        finishWalkthrough() { requirePhase('walkthrough'); phase = 'receipt'; walkthrough = 'finished'; },
         receipt,
-        checkpoint() { return {version: 2, actions: actions.map(a => a.slice())}; },
+        checkpoint() { return {version: 2, actions: actions.map(a => a.slice()), ...(walkthrough ? {walkthrough} : {})}; },
     };
     return flow;
 }
@@ -199,6 +206,11 @@ export function restoreScoutStory(session, saved) {
             (action.length === 2 && typeof action[1] !== 'string')) throw new Error('The saved case has an invalid action.');
         const result = flow[action[0]](action[1]);
         if (action[0] === 'answer' && !result.correct) throw new Error('The saved lesson answer is invalid.');
+    }
+    if (saved.walkthrough !== undefined) {
+        if (!['open', 'finished'].includes(saved.walkthrough)) throw new Error('The saved walkthrough is invalid.');
+        flow.startWalkthrough();
+        if (saved.walkthrough === 'finished') flow.finishWalkthrough();
     }
     return flow;
 }
