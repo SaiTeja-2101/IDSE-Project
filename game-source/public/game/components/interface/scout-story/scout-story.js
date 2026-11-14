@@ -314,14 +314,27 @@ export default class ScoutStoryUI {
                 panel.append(node('p', 'That CV detail is a feature. Which answer did Scout learn from for this CV?'));
                 button(panel, 'Shortlist', 'answer', 'shortlist'); button(panel, 'Pass', 'answer', 'pass', false);
             }
+        } else if (part === 'copy-path' && s.lesson.index === 0 && !this.copyLessonStarted) {
+            const panel = card(this.body, 'Original CV complete');
+            panel.append(node('p', 'Scout’s decision: ' + label(s.experiment.before.decision), 'CaseDecision'),
+                node('p', 'Next, follow Scout’s tree for the test copy. Only ' + fields[s.experiment.field].toLowerCase() +
+                    ' changed: ' + s.experiment.from + ' to ' + s.experiment.to + '.'),
+                node('p', 'You might see the same questions again. This time, use the details on the test copy.'));
+            button(panel, 'Follow the test copy', 'lesson-copy');
         } else if (part.endsWith('-path')) {
-            const panel = cv(this.body, part === 'original-path' ? s.experiment.original : s.experiment.copy,
-                '2 · Follow Scout’s tree: ' + (part === 'original-path' ? 'original' : 'copy'));
-            panel.append(node('p', 'Your saved answer is a label. Scout learned these questions from labelled examples.'));
-            panel.append(node('p', s.lesson.question || 'No more questions. Scout’s answer: ' + label(s.lesson.decision), 'StoryNote'));
+            const original = part === 'original-path';
+            const panel = cv(this.body, original ? s.experiment.original : s.experiment.copy,
+                '2 · Follow Scout’s tree: ' + (original ? 'Original CV (1 of 2)' : 'Test copy (2 of 2)'),
+                original ? undefined : s.experiment.field);
+            panel.append(node('p', s.lesson.step ? 'Question ' + (s.lesson.index + 1) + ' of ' + s.lesson.questionCount +
+                ' · Use the ' + (original ? 'original CV' : 'test copy') + ' above.' : 'Scout learned no questions for this tree.'));
+            const prompt = node('p', s.lesson.question || 'Scout’s decision: ' + label(s.lesson.decision), 'StoryNote');
+            prompt.id = 'lesson-question'; prompt.tabIndex = -1; panel.append(prompt);
             s.lesson.choices.forEach(c => button(panel, c.label, 'answer', c.id, false));
         } else {
             const panel = card(this.body, '3 · Read the final result');
+            panel.append(node('p', 'Tree replay complete. Original CV: ' + label(s.experiment.before.decision) +
+                '. Test copy: ' + label(s.experiment.after.decision) + '.', 'StoryNote'));
             panel.append(node('p', s.experiment.outcome === 'decision' ? 'The changed detail mattered for this CV even though it did not affect the work test. That is evidence of a shortcut.' :
                 'This copy test did not change the final decision. One CV cannot tell us what happens to everyone.'));
             if (s.experiment.field === 'academy' && s.experiment.outcome !== 'same') {
@@ -388,6 +401,7 @@ export default class ScoutStoryUI {
             case 'lock': this.flow.lock(); break;
             case 'final-one': { const sample = this.flow.scanFinal(); this.save(); await this.animate(sample); break; }
             case 'finish': this.flow.finishFinal(); break;
+            case 'lesson-copy': this.copyLessonStarted = true; break;
             case 'answer': {
                 const answer = this.flow.answer(value);
                 if (!answer.correct) { this.feedback(answer.hint); return; }
@@ -409,7 +423,8 @@ export default class ScoutStoryUI {
                     focusTarget = [...this.body.querySelectorAll('button:not([disabled])')].find(el =>
                         el.dataset.storyAction === action && el.dataset.value === value);
                     if (action === 'run-step' || (action === 'run-branch' && !focusTarget)) focusTarget = this.body.querySelector('#run-scene-title');
-                    if (action === 'answer' || !focusTarget) focusTarget = this.body.querySelector('button:not([disabled])');
+                    if (action === 'answer' || action === 'lesson-copy') focusTarget = this.body.querySelector('#lesson-question');
+                    if (!focusTarget) focusTarget = this.body.querySelector('button:not([disabled])');
                 }
             }
         } catch (error) {
