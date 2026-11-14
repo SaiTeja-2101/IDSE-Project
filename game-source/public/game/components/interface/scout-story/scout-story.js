@@ -5,14 +5,15 @@ import {mountCanvas} from '../../../controllers/game/gameSetup';
 import * as state from '../../../controllers/common/state';
 import * as sound from '../../../controllers/game/sound';
 import {SOUNDS} from '../../../controllers/constants';
-import FirstShiftScene from '../../pixi/first-shift/first-shift-scene';
+import ScoutFactory from '../../pixi/scout-factory/scout-factory';
 import CircleGrid from '../../pixi/training-stage/circle-grid';
+import RunWalkthrough from './run-walkthrough';
 
 const titles = {
     handoff: ['INBOX', 'An email from the engineer', 'We need to get through the queue faster. Send me the CVs you reviewed so Scout can learn from your choices.'],
     archives: ['HR LAPTOP', 'Choose a training archive', 'Scout will learn from your choices and the old hiring decisions in the file you choose.'],
     trained: ['TRAINING ROOM', 'Scout is ready', 'Scout learned questions from the answers in the training files. Let’s see what it does with new CVs.'],
-    screening: ['SCANNER', 'Scout takes the desk', 'Watch where each CV goes. Scout makes the decision this time.'],
+    screening: ['SCOUT FACTORY', 'Scout takes the desk', 'Send CVs down the belt and watch where Scout files them.'],
     investor: ['INVESTOR MAIL', 'The scanner is running', 'Three CVs are through the scanner. Keep an eye on who gets an interview.'],
     mail: ['INBOX / MAYA', 'A message for the hiring team', 'Maya has forwarded a case for you to check.'],
     inspector: ['HR LAPTOP', 'Dataset Inspector', 'Find the named CV in the scanner records before replying.'],
@@ -21,9 +22,11 @@ const titles = {
     repair: ['CASE FILE', 'Try a repair', 'Start from the original Scout each time. Change one thing, then compare the results on the same 80 practice CVs.'],
     final: ['FINAL TEST', 'A fresh batch', 'Your repair is locked. Both versions of Scout will screen the same 200 new CVs.'],
     debrief: ['TAKING A STEP BACK', 'What did you learn?', 'Use the choices and results from your own run.'],
+    walkthrough: ['ORBIT WORKS / FIELD NOTES', 'What your run revealed', 'Open the case notes and see what your choices taught you about Scout.'],
     receipt: ['ORBIT WORKS', 'Your audit receipt', 'Here is what you tested, what you changed, and how Scout did.'],
 };
 const label = decision => decision ? 'Shortlist' : 'Pass';
+const factoryViews = ['screening', 'investor', 'mail', 'final'];
 const fields = {skill: 'Skill', experience: 'Experience', city: 'City', academy: 'Academy'};
 function node(tag, text, className) {
     const el = document.createElement(tag);
@@ -115,6 +118,8 @@ export default class ScoutStoryUI {
         this.flow = flow; this.onSave = onSave; this.onNew = onNew;
         this.root = document.getElementById('scout-story');
         this.body = this.root.querySelector('#story-body'); this.canvas = this.root.querySelector('#story-canvas');
+        this.factory = this.root.querySelector('#factory-board');
+        this.factoryCanvas = this.factory.querySelector('#factory-canvas');
         this.field = flow.getState().experiment?.field || 'city';
         this.busy = false; this.disposed = false; this.view = null;
         this.click = this.click.bind(this); this.change = this.change.bind(this);
@@ -134,20 +139,56 @@ export default class ScoutStoryUI {
             else if (el.dataset.wasDisabled !== undefined) { el.disabled = el.dataset.wasDisabled === 'true'; delete el.dataset.wasDisabled; }
         });
     }
+    factoryText(id, text) {
+        const el = this.factory.querySelector('#factory-' + id);
+        if (el.textContent !== text) el.textContent = text;
+    }
+    factoryFallback(error) {
+        console.warn('Scout factory animation unavailable:', error);
+        if (this.scene) { this.scene.destroy(); this.scene = null; }
+        this.factoryCanvas.hidden = true;
+        mountCanvas(null);
+    }
+    updateFactory(s, status) {
+        const final = s.phase === 'final';
+        const queue = final ? s.finalQueue : s.scanQueue;
+        const done = final ? s.finalScreened : s.screened;
+        const shortlisted = done.filter(item => item.prediction.decision).length;
+        const last = done[done.length - 1];
+        this.factoryText('model', final ? 'REPAIRED SCOUT' : 'ORIGINAL SCOUT');
+        this.factoryText('progress', done.length + ' of ' + (final ? s.finalSampleSize + ' preview CVs' : s.scanTotal + ' CVs') + ' scanned');
+        this.factoryText('shortlisted', String(shortlisted));
+        this.factoryText('passed', String(done.length - shortlisted));
+        this.factoryText('current', status || (last ? last.applicant.name + ': ' + (last.prediction.decision ? 'Shortlisted' : 'Passed over') : 'Ready to scan.'));
+        this.factoryText('queue', queue.length ? queue.length + ' waiting · Next: ' + queue[0].name : 'Queue complete');
+        if (this.scene) {
+            try { this.scene.setQueue(queue); }
+            catch (error) { this.factoryFallback(error); }
+        }
+    }
+    setStageScene(view) {
+        const factory = factoryViews.includes(view), wasFactory = factoryViews.includes(this.view);
+        if (this.grid) { this.grid.destroy(); this.grid = null; }
+        if (!factory && this.scene) { this.scene.destroy(); this.scene = null; }
+        this.factory.hidden = !factory;
+        this.canvas.hidden = view !== 'trained';
+        if (factory && !wasFactory) {
+            this.factoryCanvas.hidden = false;
+            try { mountCanvas(this.factoryCanvas); this.scene = new ScoutFactory({onError: error => this.factoryFallback(error)}); }
+            catch (error) { this.factoryFallback(error); }
+        } else if (!factory) {
+            mountCanvas(this.canvas.hidden ? null : this.canvas);
+            if (view === 'trained') this.grid = new CircleGrid();
+        }
+        sound.stop(SOUNDS.ML_LAB_AMBIENT);
+        if (view === 'screening' || view === 'final') sound.play(SOUNDS.ML_LAB_AMBIENT);
+        if (['investor', 'mail', 'city-report'].includes(view)) sound.play(view === 'city-report' ? SOUNDS.BREAKING_NEWS : SOUNDS.NEW_MESSAGE);
+    }
     render() {
         const s = this.flow.getState(), view = this.training ? 'trained' : s.phase;
         const changed = view !== this.view;
         if (changed) {
-            if (this.scene) { this.scene.destroy(); this.scene = null; }
-            if (this.grid) { this.grid.destroy(); this.grid = null; }
-            const scanner = view === 'screening' || view === 'final';
-            this.canvas.hidden = !scanner && view !== 'trained';
-            mountCanvas(this.canvas.hidden ? null : this.canvas);
-            if (scanner) this.scene = new FirstShiftScene({mode: 'demo'});
-            if (view === 'trained') this.grid = new CircleGrid();
-            sound.stop(SOUNDS.ML_LAB_AMBIENT);
-            if (scanner) sound.play(SOUNDS.ML_LAB_AMBIENT);
-            if (['investor', 'mail', 'city-report'].includes(view)) sound.play(view === 'city-report' ? SOUNDS.BREAKING_NEWS : SOUNDS.NEW_MESSAGE);
+            this.setStageScene(view);
             this.view = view; state.set('stage', 'scout-' + view);
         }
         const [section, title, intro] = titles[view];
@@ -156,6 +197,7 @@ export default class ScoutStoryUI {
         heading.textContent = this.training ? 'Scout is learning' : title;
         this.root.querySelector('#story-intro').textContent = this.training ? 'Reading your choices and the selected archive.' :
             view === 'city-report' && s.case.kind === 'routine' ? 'Even when everyone who qualifies gets a shortlist, it is worth checking the results by city.' : intro;
+        if (factoryViews.includes(view)) this.updateFactory(s);
         this.body.replaceChildren();
         if (this.training) return;
         const board = this.body;
@@ -171,11 +213,7 @@ export default class ScoutStoryUI {
             panel.append(node('p', s.original.trainingIds.length + ' examples: ' + s.reviewedCount + ' of your choices + ' + s.archive.count + ' old hiring decisions.'));
             button(panel, 'Start the scanner', 'start');
         } else if (view === 'screening') {
-            const panel = card(board, s.scanIndex + ' of ' + s.scanTotal + ' CVs screened');
-            const last = s.screened[s.screened.length - 1];
-            if (last) panel.append(node('p', last.applicant.name + ': ' + label(last.prediction.decision)));
-            this.scene.setApplicants([s.nextApplicant], s.nextApplicant.id);
-            panel.append(node('p', 'Next: ' + s.nextApplicant.name + ' · ' + s.nextApplicant.city));
+            const panel = card(board, 'Factory controls');
             button(panel, 'Run scanner', 'run'); button(panel, 'Scan one CV', 'one', undefined, false);
         } else if (view === 'investor') {
             button(card(board, 'Continue screening'), 'Back to the scanner', 'ack');
@@ -219,10 +257,14 @@ export default class ScoutStoryUI {
                 compare(panel, s.repair); button(panel, 'Use this repair on the final batch', 'lock');
             }
         } else if (view === 'final') {
-            const panel = card(board, 'Preview scans: ' + s.finalIndex + ' of ' + s.finalSampleSize);
+            const panel = card(board, 'Final test controls');
             if (s.finalIndex < s.finalSampleSize) button(panel, 'Watch next CV', 'final-one');
             button(panel, 'See results for all 200 CVs', 'finish');
         } else if (view === 'debrief') this.renderLesson(s);
+        else if (view === 'walkthrough') {
+            if (!this.walkthrough) this.walkthrough = new RunWalkthrough();
+            board.append(this.walkthrough.render(s));
+        }
         else if (view === 'receipt') {
             const panel = card(board, REPAIRS.find(r => r.id === s.receipt.repair).name);
             panel.append(node('p', s.archive.name + ' · ' + s.receipt.trainingCount + ' training examples'),
@@ -231,7 +273,8 @@ export default class ScoutStoryUI {
                     label(s.receipt.experiment.before.decision) + ' → ' + label(s.receipt.experiment.after.decision) + '.'));
             compare(panel, s.finalResult);
             panel.append(node('p', 'The final CVs stayed out of training and practice. The job rule and applicants are fictional.'));
-            button(panel, 'Download receipt', 'download'); button(panel, 'Start a new shift', 'new', undefined, false);
+            button(panel, 'Download receipt', 'download'); button(panel, 'Review what you learned', 'run-open', undefined, false);
+            button(panel, 'Start a new shift', 'new', undefined, false);
         }
         if (changed) { heading.focus({preventScroll: true}); this.root.scrollIntoView?.({block: 'start'}); }
     }
@@ -291,10 +334,18 @@ export default class ScoutStoryUI {
     }
     async animate(sample) {
         const {applicant, prediction} = sample;
-        this.scene.setApplicants([applicant], applicant.id);
-        this.feedback(applicant.name + ': ' + label(prediction.decision));
-        await this.scene.animateDecision(applicant.id, prediction.decision, true);
-        if (!this.disposed && prediction.decision) sound.play(SOUNDS.PERSON_ACCEPTED);
+        this.factoryText('current', 'Scanning ' + applicant.name + '…');
+        if (this.scene) {
+            try {
+                if (!this.scene.motion.matches) sound.play(SOUNDS.ML_DRONE);
+                await this.scene.animate(sample);
+            } catch (error) { if (!this.disposed) this.factoryFallback(error); }
+            finally { sound.stop(SOUNDS.ML_DRONE); }
+        }
+        if (!this.disposed) {
+            this.updateFactory(this.flow.getState());
+            if (prediction.decision) sound.play(SOUNDS.PERSON_ACCEPTED);
+        }
     }
     async scans(all) {
         do {
@@ -340,17 +391,24 @@ export default class ScoutStoryUI {
             case 'answer': {
                 const answer = this.flow.answer(value);
                 if (!answer.correct) { this.feedback(answer.hint); return; }
+                if (this.view === 'debrief' && this.flow.getState().phase === 'receipt') this.flow.startWalkthrough();
                 break;
             }
+            case 'run-open': this.walkthrough = null; this.flow.startWalkthrough(); break;
+            case 'run-close': this.walkthrough = null; this.flow.finishWalkthrough(); break;
+            case 'run-step': case 'run-feature': case 'run-answer': case 'run-branch': case 'run-model': case 'run-metric':
+                this.walkthrough.act(action, value, this.flow.getState()); break;
             case 'download': this.download(); return;
             case 'new': this.onNew(); return;
             }
             if (!this.disposed) {
                 const oldView = this.view;
-                this.save(); this.render();
+                if (this.view !== 'walkthrough' || action === 'run-close') this.save();
+                this.render();
                 if (oldView === this.view) {
                     focusTarget = [...this.body.querySelectorAll('button:not([disabled])')].find(el =>
                         el.dataset.storyAction === action && el.dataset.value === value);
+                    if (action === 'run-step' || (action === 'run-branch' && !focusTarget)) focusTarget = this.body.querySelector('#run-scene-title');
                     if (action === 'answer' || !focusTarget) focusTarget = this.body.querySelector('button:not([disabled])');
                 }
             }
@@ -359,7 +417,11 @@ export default class ScoutStoryUI {
             this.render();
             const message = this.root.querySelector('#story-error'); message.textContent = error.message; message.hidden = false;
         } finally {
-            if (!this.disposed) { this.setBusy(false); focusTarget?.focus({preventScroll: true}); }
+            if (!this.disposed) {
+                this.setBusy(false);
+                focusTarget?.focus({preventScroll: true});
+                if (action === 'run-step') this.root.scrollIntoView?.({block: 'start'});
+            }
         }
     }
     change(event) {
@@ -376,7 +438,7 @@ export default class ScoutStoryUI {
         if (this.trainingJob) gameClock.cancel(this.trainingJob);
         this.trainingDone?.();
         this.scene?.destroy(); this.grid?.destroy();
-        sound.stop(SOUNDS.ML_LAB_AMBIENT); sound.stop(SOUNDS.TRAIN_ALGORITHM);
+        sound.stop(SOUNDS.ML_DRONE); sound.stop(SOUNDS.ML_LAB_AMBIENT); sound.stop(SOUNDS.TRAIN_ALGORITHM);
         this.root.removeEventListener('click', this.click); this.root.removeEventListener('change', this.change);
         mountCanvas(null); this.root.hidden = true;
     }

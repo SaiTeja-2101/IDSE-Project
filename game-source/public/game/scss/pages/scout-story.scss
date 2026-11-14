@@ -31,6 +31,21 @@
 .StoryTable thead th { background: #d6e8db; }
 #story-canvas { margin-bottom: 15px; }
 body[data-stage='scout-trained'] #story-canvas { height: 130px; }
+.FactoryBoard { margin-bottom: 18px; border: 1px solid #72998d; background: var(--paper); box-shadow: 5px 5px #a7c5b6; }
+.FactoryHeader, .FactoryStatus { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 4px 14px; padding: 9px 14px; }
+.FactoryHeader { background: var(--ink); color: var(--paper); border-bottom: 3px solid #62988b; }
+.FactoryHeader strong { font-weight: normal; letter-spacing: 0.08em; }
+.FactoryHeader span, .FactoryStatus { font-size: 20px; }
+.FactoryDeck { background: #e2f1ec; }
+.FactoryReadouts { position: relative; display: grid; grid-template-columns: 36fr 28fr 36fr; align-items: start; justify-items: center; gap: 2px; padding: 10px 0 0; }
+.FactoryReadouts p { background: #cee4d8; border: 1px solid #80ac9e; padding: 3px 9px; text-align: center; line-height: 1.05; font-size: clamp(16px, 2.8vw, 23px); }
+.FactoryReadouts p:last-child { background: #f1e4cc; border-color: #b5a47f; }
+.FactoryReadouts strong { margin-left: 4px; font-size: 1.18em; font-weight: normal; }
+.FactoryReadouts .FactoryScanner { background: #23495c; color: var(--paper); border-color: #23495c; letter-spacing: 0.05em; }
+#factory-canvas { height: clamp(214px, 40svh, 420px); border: 0; }
+.FactoryStatus { min-height: 49px; border-top: 1px solid #a2bbae; }
+.FactoryStatus p { margin: 0; }
+#factory-queue { color: #365b52; }
 .OfficeFile { position: relative; }
 .OfficeFileTab { display: inline-block; background: var(--ink); color: var(--paper); padding: 3px 9px; margin: -8px 0 12px; }
 [data-view='manual'] .OfficeViewport { background: var(--paper); height: clamp(290px, 55svh, 580px); }
@@ -48,4 +63,7 @@ body[data-stage='scout-trained'] #story-canvas { height: 130px; }
   .StoryPair .StoryCard dl > div { grid-template-columns: minmax(0, 1fr); gap: 0; padding: 4px; }
   .StoryPair .CvName { font-size: 23px; }
   .StoryTable th, .StoryTable td { padding: 5px; }
+  #factory-canvas { height: clamp(160px, 32svh, 260px); }
+  .FactoryReadouts p { padding: 3px 5px; }
+  .FactoryHeader span, .FactoryStatus { font-size: 17px; }
 }

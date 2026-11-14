@@ -10,6 +10,9 @@ loader
     .add('rayAnim', 'assets/spritesheets/machine-ray/ray_spritesheet.json')
     .add('dataServerRejected', 'assets/spritesheets/data-server-rejected/data-server-rejected.json')
     .add('dataServerAccepted', 'assets/spritesheets/data-server-accepted/data-server-accepted.json')
+    .add('factoryCvBlue', 'assets/img/cv-flat-blue.png')
+    .add('factoryCvOrange', 'assets/img/cv-flat-orange.png')
+    .add('factoryBelt', 'assets/img/conveyor_belt.png')
     .add('doorAccepted', 'assets/img/door-accepted.png')
     .add('officeDoor', 'assets/spritesheets/office-door/office-door.json')
     .add('wayOutDoor', 'assets/spritesheets/way-out-door/door-rejected.json')
@@ -26,6 +29,9 @@ async function loadAssets() {
             SPRITES.doorEntry = new PIXI.extras.AnimatedSprite(resources.officeDoor.spritesheet.animations['door']);
             SPRITES.doorRejected = new PIXI.extras.AnimatedSprite(resources.wayOutDoor.spritesheet.animations['door']);
             SPRITES.machine = new PIXI.Sprite(resources.machine.texture);
+            SPRITES.factoryCvBlue = resources.factoryCvBlue.texture;
+            SPRITES.factoryCvOrange = resources.factoryCvOrange.texture;
+            SPRITES.factoryBelt = resources.factoryBelt.texture;
             SPRITES.scanRay = new PIXI.Sprite(resources.scanRay.texture);
             SPRITES.rayAnim = new PIXI.extras.AnimatedSprite(resources.rayAnim.spritesheet.animations['ray']);
             SPRITES.dataServerAccepted = new PIXI.extras.AnimatedSprite(resources.dataServerAccepted.spritesheet.animations['data-server-accepted']);

@@ -7,7 +7,7 @@ const {parseHTML} = require('../game-source/node_modules/linkedom');
 const pug = require('../game-source/node_modules/pug');
 const loader = require('./helpers/load-source.cjs');
 
-function environment(t, map = new Map()) {
+function environment(t, map = new Map(), factoryError = null) {
     const before = {window: global.window, document: global.document};
     t.after(() => Object.assign(global, before));
     const dom = parseHTML(pug.renderFile(path.resolve(__dirname, '../game-source/views/pages/game/index.pug')));
@@ -32,6 +32,17 @@ function environment(t, map = new Map()) {
         animateDecision(id, decision) { this.moves.push({id, decision}); return Promise.resolve(); }
         destroy() { this.destroyed = true; }
     }
+    const factories = [];
+    class Factory {
+        constructor() { this.moves = []; this.motion = {matches: false}; factories.push(this); }
+        setQueue(queue) { this.queue = queue; }
+        animate(sample) {
+            assert.equal(this.queue[0].id, sample.applicant.id);
+            this.moves.push(sample);
+            return this.moves.length === 1 && factoryError ? Promise.reject(factoryError) : Promise.resolve();
+        }
+        destroy() { this.destroyed = true; }
+    }
     const load = loader({
         'public/game/controllers/game/gameClock.js': {gameClock: clock},
         'public/game/controllers/game/gameSetup.js': {mountCanvas() {}, stopTweenManager() {}},
@@ -39,6 +50,7 @@ function environment(t, map = new Map()) {
         'public/game/controllers/game/sound.js': {play() {}, stop() {}},
         'public/game/controllers/constants.js': {SOUNDS: {}},
         'public/game/components/pixi/first-shift/first-shift-scene.js': Scene,
+        'public/game/components/pixi/scout-factory/scout-factory.js': Factory,
         'public/game/components/pixi/training-stage/circle-grid.js': class { destroy() {} },
     });
     const runtime = load('public/game/controllers/game/stateManager.js'); runtime.gameFSM.startGame();
@@ -50,7 +62,7 @@ function environment(t, map = new Map()) {
         const error = document.querySelector('#story-error');
         if (error && !error.hidden) assert.fail(error.textContent);
     }
-    return {runtime, clock, map, assigned, scenes, click, load};
+    return {runtime, clock, map, assigned, scenes, factories, click, load, dom};
 }
 
 test('the new UI runs from hiring to its computed receipt and keeps the result locked on resume', async t => {
@@ -72,14 +84,24 @@ test('the new UI runs from hiring to its computed receipt and keeps the result l
     await act('send'); await act('train', 'both'); clock.advance(650);
     await new Promise(resolve => setImmediate(resolve));
     assert.match(document.querySelector('#story-body').textContent, /256 examples/);
-    await act('start'); await act('run');
+    const factory = key => document.querySelector('#factory-' + key);
+    await act('start'); await act('one');
+    assert.match(factory('progress').textContent, /^1 of 12/);
+    await act('run');
     assert.equal(stage(), 'scout-investor');
     assert.equal(saved().review.actions.filter(a => a[0] === 'scan').length, 3);
+    assert.equal(factory('board').hidden, false);
+    assert.equal(env.factories.length, 1);
+    assert.equal(env.factories[0].moves.length, 3);
+    assert.equal(Number(factory('shortlisted').textContent) + Number(factory('passed').textContent), 3);
     await act('ack');
     if (stage() === 'scout-screening') await act('run');
     assert.equal(stage(), 'scout-mail');
+    assert.equal(factory('board').hidden, false);
+    assert.equal(env.factories.length, 1);
     await act('open');
     assert.equal(stage(), 'scout-inspector');
+    assert.equal(env.factories[0].destroyed, true);
     assert.equal(document.querySelector('[data-story-action="reply"]').disabled, true);
 
     const {restoreFirstShift} = env.load('public/game/learning/firstShift.js');
@@ -94,7 +116,18 @@ test('the new UI runs from hiring to its computed receipt and keeps the result l
     assert.equal(document.querySelector('[data-story-action="repairs"]').disabled, true);
     await act('copy'); await act('repairs'); await act('repair', 'hide-city'); await act('repair', 'work-tests');
     assert.match(document.querySelector('#story-body').textContent, /Practice: Learn from work tests/);
-    await act('lock'); await act('final-one'); await act('finish');
+    await act('lock'); await act('final-one');
+    assert.equal(factory('model').textContent, 'REPAIRED SCOUT');
+    assert.match(factory('progress').textContent, /^1 of 4 preview CVs/);
+    assert.equal(Number(factory('shortlisted').textContent) + Number(factory('passed').textContent), 1);
+    const previewResume = environment(t, map);
+    await previewResume.click('#continue-save');
+    assert.match(factory('progress').textContent, /^1 of 4 preview CVs/);
+    assert.equal(previewResume.factories[0].queue.length, 3);
+    previewResume.runtime.disposeGame();
+    global.window = env.dom.window;
+    global.document = env.dom.document;
+    await act('finish');
     await act('answer', 'skill'); await act('answer', 'pass');
     assert.match(document.querySelector('#story-feedback').textContent, /recorded/);
     await act('answer', 'shortlist');
@@ -105,14 +138,56 @@ test('the new UI runs from hiring to its computed receipt and keeps the result l
     const result = readFlow().getState().finalResult;
     const a = result.original.overallMetrics.falseNegative, b = result.repaired.overallMetrics.falseNegative;
     await act('answer', a === b ? 'same' : a < b ? 'original' : 'repaired');
+    assert.equal(stage(), 'scout-walkthrough');
+    const runText = () => document.querySelector('.RunScene').textContent;
+    assert.match(runText(), /Inside a training example/);
+    const {firstReviewed, experiment} = readFlow().getState();
+    assert.ok(runText().includes(firstReviewed.name));
+    await act('run-feature', 'city');
+    assert.ok(runText().includes('City: ' + firstReviewed.city));
+    await act('run-answer', 'test');
+    assert.match(runText(), new RegExp(firstReviewed.assessedReady ? 'Qualified' : 'Did not qualify'));
+    await act('run-step', 'next');
+    const depth = Math.max(experiment.before.decisionPath.length, experiment.after.decisionPath.length);
+    for (let i = 0; i < depth; i++) await act('run-branch', 'next');
+    assert.equal(document.querySelectorAll('.RunFork').length, experiment.before.decisionPath.length + experiment.after.decisionPath.length);
+    assert.equal(document.querySelectorAll('.RunStamp').length, 2);
+    await act('run-step', 'next');
+    await act('run-model', 'repaired');
+    assert.match(document.querySelector('.RunCard--changed').textContent, /Who passed the work test/);
+    await act('run-step', 'next');
+    const shownCounts = () => [...document.querySelectorAll('.RunBarRow strong')].map(el => el.textContent);
+    assert.deepEqual(shownCounts(), [String(a), String(b)]);
+    await act('run-metric', 'mistaken');
+    assert.deepEqual(shownCounts(), [result.original, result.repaired].map(r => String(r.overallMetrics.falsePositive)));
+    await act('run-metric', 'city');
+    assert.deepEqual(shownCounts(), ['Bengaluru', 'Chennai'].flatMap(city => [result.original, result.repaired].map(r => {
+        const m = r.cityMetrics[city]; return m.truePositive + ' of ' + m.ready + ' qualified people';
+    })));
+    assert.equal(saved().review.walkthrough, 'open');
+    const continued = environment(t, new Map(map));
+    await continued.click('#continue-save');
+    assert.equal(stage(), 'scout-walkthrough');
+    assert.match(runText(), /Inside a training example/);
+    await continued.click('[data-story-action="run-close"]');
     assert.equal(stage(), 'scout-receipt');
-    assert.equal(readFlow().receipt().final.repaired.overallMetrics.total, 200);
+    continued.runtime.disposeGame();
+    global.window = env.dom.window;
+    global.document = env.dom.document;
+    await act('run-close');
+    assert.equal(stage(), 'scout-receipt');
+    assert.deepEqual(readFlow().receipt().final, result);
+    const legacyReceipt = {...saved().review}; delete legacyReceipt.walkthrough;
+    assert.deepEqual(restoreScoutStory(restoreFirstShift(saved().first).getState().session, legacyReceipt).receipt(), readFlow().receipt());
     assert.equal(document.querySelector('[data-story-action="download"]').disabled, false);
     runtime.disposeGame();
     const resumed = environment(t, map);
     await resumed.click('#continue-save');
     assert.equal(stage(), 'scout-receipt');
     assert.equal(document.querySelector('[data-story-action="lock"]'), null);
+    await resumed.click('[data-story-action="run-open"]');
+    assert.match(runText(), /Inside a training example/);
+    await resumed.click('[data-story-action="run-close"]');
     await resumed.click('[data-story-action="new"]'); resumed.runtime.disposeGame();
     assert.equal(map.has('hire-and-seek:v2'), false);
     assert.deepEqual(resumed.assigned, ['/game/']);
@@ -126,6 +201,34 @@ test('legacy saves stay intact and a malformed new save offers Start fresh', asy
     assert.equal(document.body.dataset.stage, 'first-shift-briefing');
     assert.equal(JSON.parse(map.get('hire-and-seek:v2')).first.phase, 'briefing');
     assert.equal(map.get('hire-and-seek:v1'), 'old save');
+    env.runtime.disposeGame();
+});
+
+test('a factory animation failure keeps the computed decisions and advances to mail', async t => {
+    const error = new Error('Renderer unavailable');
+    t.mock.method(console, 'warn', () => {});
+    const env = environment(t, new Map(), error);
+    const act = (id, value) => env.click('[data-story-action="' + id + '"]' + (value ? '[data-value="' + value + '"]' : ''));
+    await env.click('[data-action="begin"]');
+    for (let round = 0; round < 3; round++) {
+        for (let i = 0; i < [3, 5, 8][round]; i++) {
+            await env.click('[data-action="open-cv"]');
+            await env.click('[data-action="shortlist"]');
+        }
+        if (round < 2) await env.click('[data-action="next-round"]');
+    }
+    await env.click('[data-action="handoff"]');
+    await act('send'); await act('train', 'company'); env.clock.advance(650);
+    await new Promise(resolve => setImmediate(resolve));
+    await act('start'); await act('run');
+    assert.equal(env.factories[0].destroyed, true);
+    assert.equal(document.querySelector('#factory-canvas').hidden, true);
+    assert.equal(document.body.dataset.stage, 'scout-investor');
+    assert.match(document.querySelector('#factory-progress').textContent, /^3 of 12/);
+    assert.equal(console.warn.mock.callCount(), 1);
+    await act('ack');
+    if (document.body.dataset.stage === 'scout-screening') await act('run');
+    assert.equal(document.body.dataset.stage, 'scout-mail');
     env.runtime.disposeGame();
 });
 

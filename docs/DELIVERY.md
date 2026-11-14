@@ -6,6 +6,8 @@ The current game uses the journey documented in [GAME_DESIGN.md](GAME_DESIGN.md)
 
 - The full suite covers manual-round limits, the original and repaired tree paths, the complaint and routine-case branches, held-out evaluation and receipt replay. The DOM walkthrough uses the actual UI handlers, model and save controller with Pixi, sound and timing isolated.
 - The resume check waits on the Continue screen and verifies that the full saved time remains. The audio checks cover playback blocked by the browser, including pause and cancelling a warning at the end of a round.
+- Factory checks cover both rack routes, a resize during a scan, cleanup, and reduced motion. The full story check keeps the factory visible during mail, rebuilds the preview queue from the save, and can finish screening even when the animation fails. The engine also checks that watching all four previews has the same final result as skipping them.
+- The ending walkthrough uses the saved CV, actual tree paths and final report. The DOM tests cover all four scenes, matching chart numbers to the receipt, skipping, reopening, and reloading halfway through without repeating the quiz.
 - The production build and asset checker validate the deployed paths, sprite atlases and sound files.
 - The browser preview tool was unavailable during the recheck. Rendered layout at desktop and mobile sizes, actual touch interaction, and audible sound playback remain unverified.
 - The [beginner playtest guide](PLAYTEST.md) is ready. Peer sessions and a revision based on what they found are pending.
