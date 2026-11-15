@@ -2,7 +2,7 @@
   "name": "hire-and-seek",
   "version": "0.1.0",
   "private": true,
-  "description": "Attributed Survival of the Best Fit baseline for Hire and Seek",
+  "description": "A classroom game about how hiring decisions train a model",
   "engines": {"node": ">=22 <23", "npm": ">=10"},
   "scripts": {
     "setup": "node scripts/project.mjs setup",
