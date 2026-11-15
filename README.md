@@ -2,6 +2,8 @@
 
 This repository contains both parts of the course project. Open [submission](submission/README.md) for the final reports and presentation.
 
+**[Play Hire & Seek online](https://hireandseek-liart.vercel.app/)**
+
 | Part | Project | What to open |
 | --- | --- | --- |
 | A | [ResilientBite](resilientbite/README.md) forecasts how many portions a dining hall should prepare for each dish. | [Report](resilientbite/ResilientBite%20Phase%20Report.pdf), [analysis notebook](resilientbite/food_pred%20%281%29.ipynb), [app source](resilientbite/forecast_app/) |

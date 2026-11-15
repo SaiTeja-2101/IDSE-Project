@@ -2,6 +2,8 @@
 
 **You hire. It learns.**
 
+**[Play the live demo](https://hireandseek-liart.vercel.app/)**
+
 Course project for **CS3006: Introduction to Data Science for Engineers**.
 
 | Team member | Roll number |
