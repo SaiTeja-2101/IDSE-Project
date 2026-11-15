@@ -2,7 +2,7 @@
 
 ## Goal and audience
 
-The player runs the hiring desk at Orbit Works. They train Scout to help with a growing queue, investigate one of its decisions, then try to reduce errors. A beginner should be able to use one run to explain what the model learned, why a prediction changed or stayed the same, and how to test whether a repair helped.
+The player runs the hiring desk at Orbit Works. They train Scout, check one of its decisions, and see if a fix helps. Start with the [player guide](../README.md#how-to-play). The [learning objectives](../README.md#learning-objectives) list what a beginner should be able to explain after playing.
 
 ## Phase 1: Manual hiring
 

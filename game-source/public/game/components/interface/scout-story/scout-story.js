@@ -159,7 +159,10 @@ export default class ScoutStoryUI {
             const reply = button(parent, 'Reply to Maya', 'reply'); reply.disabled = !canReply;
             return reply;
         };
-        board.append(node('p', 'Find ' + name + ' in the ' + (s.case.prediction.decision ? 'Shortlisted' : 'Passed over') + ' column.', 'StoryNote'));
+        const caseHint = node('p', undefined, 'StoryNote');
+        caseHint.append(node('strong', 'Maya’s message: ' + name + '. '),
+            document.createTextNode('Look for the CASE CV tag in the ' + (s.case.prediction.decision ? 'Shortlisted' : 'Passed over') + ' list.'));
+        board.append(caseHint);
         const dialog = node('dialog', undefined, 'InspectorDialog');
         if (typeof dialog.showModal === 'function') board.classList.add('InspectorModalReady');
         const columns = node('div', undefined, 'InspectorColumns'); board.append(columns);
@@ -173,6 +176,10 @@ export default class ScoutStoryUI {
             if (!applicants.length) column.append(node('p', 'No CVs here yet.'));
             applicants.forEach(item => {
                 const open = file(column, item.applicant.name, item.applicant.city, 'select', item.applicant.id);
+                if (item.applicant.id === s.case.applicant.id) {
+                    open.classList.add('InspectorCaseFile');
+                    open.append(node('span', 'CASE CV', 'InspectorCaseTag'));
+                }
                 open.setAttribute('aria-pressed', String(this.selectedId === item.applicant.id));
             });
         }
@@ -315,7 +322,7 @@ export default class ScoutStoryUI {
             const options = node('div', undefined, 'StoryPair'); board.append(options);
             REPAIRS.forEach(r => {
                 const panel = card(options, r.name); panel.append(node('p', r.detail));
-                const control = button(panel, 'Try ' + r.name.toLowerCase(), 'repair', r.id);
+                const control = button(panel, r.id === 'hide-city' ? 'Try hiding city' : 'Try work test results', 'repair', r.id);
                 control.setAttribute('aria-pressed', String(s.repair?.id === r.id));
             });
             if (s.repair) {
@@ -360,7 +367,14 @@ export default class ScoutStoryUI {
         }
         summary.append(metrics);
         table(summary, original, repaired);
-        summary.append(node('p', 'Read each city row as “people Scout shortlisted out of the people who qualified.”', 'StoryNote'));
+        const city = CITIES.find(name => original.cityMetrics[name].ready);
+        if (city) {
+            const {truePositive, ready} = original.cityMetrics[city];
+            const explanation = node('p', undefined, 'StoryNote CityWorkedExample');
+            explanation.append(node('strong', 'How to read the city row: '),
+                document.createTextNode('In ' + city + ', Original Scout shortlisted ' + truePositive + ' out of the ' + ready + ' people who qualified.'));
+            summary.append(explanation);
+        }
         const examples = card(this.body, 'See what happened to one CV');
         examples.append(node('p', 'Open an example from the final batch. The work test tells you which decision matched the game’s job rule.'));
         for (const item of s.finalExamples) {
