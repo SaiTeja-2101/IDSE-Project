@@ -12,7 +12,7 @@ The current game uses the journey documented in [GAME_DESIGN.md](GAME_DESIGN.md)
 - The 200-CV report now opens before the recap. Each example comes from the evaluated batch, and older saves can still resume within the quiz or open their receipt.
 - The production build and asset checker validate the deployed paths, sprite atlases and sound files.
 - The browser preview tool was unavailable during the recheck. Rendered layout at desktop and mobile sizes, actual touch interaction, and audible sound playback remain unverified.
-- The [beginner playtest guide](PLAYTEST.md) is ready. Peer sessions and a revision based on what they found are pending.
+- The [playtest evidence log](PLAYTEST_EVIDENCE.md) records five peer comments and the changes made in response. A follow-up peer test has not been recorded.
 
 ## Run and package
 

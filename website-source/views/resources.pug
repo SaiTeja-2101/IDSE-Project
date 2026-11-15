@@ -3,18 +3,23 @@ block content
   article.TextPage
     p.Eyebrow BEFORE YOUR FIRST SHIFT
     h1 How to play
+    p You decide who gets an interview. Then you train Scout to help and check whether it makes good choices.
+    p
+      a(href='#objectives') See what you’ll learn
     ol.PlaySteps
-      li Shortlist 3 people in the first round, 5 in the next, and 8 in the last. A round ends when you reach its target, run out of CVs, or run out of time.
-      li Start with six available CVs. The next rounds have ten and fourteen. Choose a person in the office or use Previous and Next to open a CV.
-      li Read their skill, experience, academy, and city.
-      li Choose Shortlist or Pass. You can also press S or P. Arrow keys switch CVs. Take your time in round one. You get 45 seconds in each later round. Missing a target does not block the story.
-      li Open the engineer's email. Send the reviewed CV file, peek at the old records and choose which ones Scout should learn from.
-      li Run the scanner. Open Maya's message, find the named applicant in the inspector and reply.
-      li Compare the city results and reopen the case. Change only city or academy on a copy and choose Scan both.
-      li Choose Hide city or Learn from work tests. Try either repair on the same 80 practice CVs.
-      li Lock one repair and see the results for 200 fresh CVs. Open an example to see both decisions and the work test result. Watching the sample scans is optional.
-      li Click Continue to recap. Then explore your own run in the interactive case notes or skip to your audit receipt.
-    p Use Pause or press Esc to take a break. Switching tabs pauses the game. You can reload and continue a saved shift.
-    h2 What will you learn?
-    p A model can learn to repeat old choices, including their mistakes. Run an experiment and use a fresh batch to see whether a repair helps.
+      li #[strong Pick who gets an interview.] Open a CV. Choose #[strong Shortlist] to invite them or #[strong Pass] to move on. Aim for 3, then 5, then 8 shortlists. The first round has no timer. The next two give you 45 seconds each. You can keep playing if you miss the target.
+      li #[strong Teach Scout.] Send your saved choices to the engineer. Choose a file of old hiring decisions to go with them. Click #[strong Run scanner] to watch Scout make its own choices.
+      li #[strong Check a decision.] Open Maya’s message and find the person’s CV. The work test tells you whether they qualified. Compare it with Scout’s answer, then click #[strong Reply to Maya].
+      li #[strong Test one change.] Open the case from the city report. Change only city or academy on a copy, then click #[strong Scan both]. Did the decision change, or did it stay the same?
+      li #[strong Try a fix.] Compare #[strong Hide city] and #[strong Learn from work tests] on 80 practice CVs. Choose one, then click #[strong See results for all 200 CVs] to compare both versions on new people. The four preview scans are optional.
+      li #[strong Look back.] Click #[strong Continue to recap]. Use your own run to answer the recap questions. Then explore the case notes or skip to your receipt, a short report you can download.
+    p To take a break, click Pause or press Esc. Click Continue when you reopen the game in the same browser.
+    section(aria-labelledby='objectives')
+      h2#objectives Learning objectives
+      p After playing, you should be able to:
+      ul.PlaySteps
+        li Tell a #[strong feature] from a #[strong label]. Skill is a detail Scout reads. Your Shortlist or Pass choice is an answer it learns from.
+        li Follow a #[strong decision tree]. It works like a flowchart: each answer leads to another question or a final decision.
+        li Check for a #[strong shortcut]. Change one detail and see if Scout gives a different answer even though the person’s skill and experience stayed the same.
+        li Check whether a fix helps on #[strong new CVs]. Both versions see the same people they didn’t learn from. Count how many qualified people each version missed, and how many it invited who didn’t qualify.
     a.MainButton(href='./game/') Start your shift

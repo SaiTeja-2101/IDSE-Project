@@ -16,6 +16,8 @@
 .StoryFile strong { font-size: 23px; font-weight: normal; }
 .StoryFile[aria-pressed='true'], .StoryCard button[aria-pressed='true'] { border: 2px solid #246a5c; background: #cce5d7; color: var(--ink); }
 .InspectorColumns .StoryFile { width: 100%; margin-right: 0; }
+.InspectorColumns .InspectorCaseFile { border: 2px solid #95611d; }
+.InspectorColumns .InspectorCaseTag { grid-column: 2; justify-self: start; margin-top: 4px; padding: 2px 6px; background: #f2dfab; color: #583b13; font-size: 15px; }
 .InspectorColumns { align-items: start; }
 .InspectorDialog {
   position: fixed;

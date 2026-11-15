@@ -121,6 +121,8 @@ test('the new UI runs from hiring to its computed receipt and keeps the result l
     const {restoreScoutStory} = env.load('public/game/learning/scoutStory.js');
     const readFlow = () => restoreScoutStory(restoreFirstShift(saved().first).getState().session, saved().review);
     const caseId = readFlow().getState().case.applicant.id;
+    assert.equal(document.querySelectorAll('.InspectorCaseTag').length, 1);
+    assert.equal(document.querySelector('.InspectorCaseTag').closest('button').dataset.value, caseId);
     const otherId = readFlow().getState().screened.find(item => item.applicant.id !== caseId).applicant.id;
     env.media.matches = true;
     const opened = () => document.querySelector('#inspector-cv-dialog[open]');
@@ -164,6 +166,8 @@ test('the new UI runs from hiring to its computed receipt and keeps the result l
     assert.match(document.querySelector('#story-title').textContent, /200 CV results/);
     assert.match(document.querySelector('#story-body').textContent, /Qualified people missed/);
     const resultsData = readFlow().getState();
+    const cityResult = resultsData.finalResult.original.cityMetrics.Bengaluru;
+    assert.match(document.querySelector('.CityWorkedExample').textContent, new RegExp(cityResult.truePositive + ' out of the ' + cityResult.ready + ' people'));
     assert.deepEqual([...document.querySelectorAll('.FinalExample summary')].map(el => el.textContent.split(' · ').at(-1)),
         resultsData.finalExamples.map(item => item.applicant.name));
     const resultResume = environment(t, new Map(map));

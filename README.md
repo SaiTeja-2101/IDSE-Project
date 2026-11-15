@@ -2,7 +2,16 @@
 
 **You hire. It learns.**
 
-You run the hiring desk at Orbit Works. Review CVs in three increasingly busy rounds, then train Scout to help. When a candidate asks why they were passed over, open their CV, test one change, and see if you can train a better Scout. The game is for learners with no coding experience.
+Course project for **Introduction to Data Science for Engineers**.
+
+| Team member | Roll number |
+| --- | --- |
+| Akula Sai Teja | CS24I1054 |
+| Karthik Kavuri | CS24I1025 |
+
+You decide who gets an interview at Orbit Works. Scout learns from your choices and old hiring records. See who it shortlists, check one decision, then see whether you can make Scout better. No coding needed.
+
+[How to play](#how-to-play) · [Learning objectives](#learning-objectives) · [Classroom demo](docs/DEMO.md) · [Rubric](docs/RUBRIC.md)
 
 ## Play locally
 
@@ -18,24 +27,25 @@ Open [the game](http://127.0.0.1:4000/game/). Keep the terminal open. If you hav
 
 ## How to play
 
-1. **Hire by hand.** Open each CV and choose **Shortlist** or **Pass**. Aim for 3, 5 and 8 shortlists over the three rounds. The last two give you 45 seconds each. Moving on leaves unreviewed CVs out of training.
-2. **Train Scout.** Send the reviewed CVs to the engineer. Peek at the old hiring records, then choose which to include. Run the factory or scan one CV at a time. Follow the belt to see which rack Scout uses. The line stops when a message arrives.
-3. **Investigate.** Find the named applicant in the CV inspector. Check Scout's answer against the work test, reply to Maya and finish the batch. Reopen the same case from the news report.
-4. **Change one detail.** Change only city or academy on a copy. Scan both CVs and compare the learned paths. The answer might change, or it might stay the same.
-5. **Try a repair.** Hide city or train on work test results. Compare each repair with the original Scout on 80 practice CVs. Lock one, then watch up to four factory scans or go straight to the comparison on 200 new CVs.
-6. **Read the results.** Compare the two versions of Scout, then open a CV from the final batch to see what each model did. Click **Continue to recap** when ready.
-7. **Explain your run.** Finish **What did you learn?** Then open the case notes to explore your first CV, replay Scout's paths, see what your repair changed, and compare charts from the final batch. Skip or revisit the walkthrough from your audit receipt.
+1. **Pick who gets an interview.** Open a CV. Choose **Shortlist** to invite them or **Pass** to move on. Aim for 3, 5, and 8 shortlists. The first round has no timer. The next two give you 45 seconds each. You can keep playing if you miss the target.
+2. **Teach Scout.** Send your choices to the engineer. Choose a file of old hiring decisions to go with them. Click **Run scanner** and watch Scout make its own choices.
+3. **Check a decision.** Open Maya’s message and find the person’s CV. The work test tells you whether they qualified. Compare it with Scout’s answer, then click **Reply to Maya**.
+4. **Test one change.** Open the case from the city report. Change city or academy on a copy and click **Scan both**. See whether Scout’s answer changes.
+5. **Try a fix.** Compare **Hide city** and **Learn from work tests** on 80 practice CVs. Choose one, then click **See results for all 200 CVs**. The four preview scans are optional.
+6. **Look back.** Compare the results, then click **Continue to recap**. Use your own run to answer the recap questions. Explore the case notes or skip to your receipt, a short report you can download.
 
-Mouse, touch and native buttons work with the CV interface. On a keyboard, use Tab and Enter, or use the arrow keys to open another CV and S/P to shortlist or pass once it is open. Use the pause menu to stop the clock. Continue resumes the current version of the game in the same browser.
+To take a break, click **Pause** or press **Esc**. Click **Continue** when you reopen the game in the same browser. On a keyboard, the arrow keys switch CVs. Press **S** to shortlist or **P** to pass after opening a CV.
 
-## What the game teaches
+## Learning objectives
 
-- **Features and labels:** Skill, experience, academy and city are details Scout can read. Your hiring answer is a label. Passing the fictional work test is a separate label.
-- **Decision trees:** Scout learns a set of questions from the examples. Follow the answers to see how it made its prediction.
-- **Bias, shortcuts and proxies:** A model can learn a pattern from old decisions. Academy can be an indirect clue about city in this fictional data. Changing one detail checks what happens to one prediction.
-- **Testing on new data:** Compare models on the same CVs. Count missed qualified applicants and mistaken shortlists, and compare qualified shortlist rates by city.
+After one run, a beginner should be able to:
 
-The archive, skill profiles and work test results are synthetic. The classifier really fits a CART decision tree in the browser. The data is designed for a lesson and does not describe real applicants, cities or academies.
+- **Tell a feature from a label.** Skill is a detail Scout reads. Your Shortlist or Pass choice is an answer it learns from.
+- **Follow a decision tree.** It works like a flowchart: each answer leads to another question or a final decision.
+- **Check for a shortcut.** Change one detail and see if Scout gives a different answer even though the person’s skill and experience stayed the same.
+- **Check whether a fix helps on new CVs.** Both versions see the same people they didn’t learn from. Count how many qualified people each version missed, and how many it invited who didn’t qualify.
+
+Scout trains a real decision tree in your browser. The applicants and work test are made up for the lesson.
 
 ## Project files
 
@@ -43,9 +53,10 @@ The archive, skill profiles and work test results are synthetic. The classifier 
 - [Assignment rubric](docs/RUBRIC.md)
 - [Classroom demo guide](docs/DEMO.md)
 - [Beginner playtest guide](docs/PLAYTEST.md)
+- [Playtest evidence log](docs/PLAYTEST_EVIDENCE.md)
 - [Delivery and verification](docs/DELIVERY.md)
 - [Remaining work](TODO.md)
 
 Run `npm test` for automated checks, `npm run check:assets` after a build, or `npm run package` for the local submission ZIP. Beginner playtest evidence must be collected from real sessions.
 
-This classroom game adapts **Survival of the Best Fit** by Alia ElKattan, Miha Klasinc, Gabor Csapo and Jihyun Kim. The adaptation retains original office and character art, sound and parts of the game engine. See [upstream provenance](docs/UPSTREAM.md), [asset credits](docs/ASSETS.md) and [classifier notes](docs/ML_CART.md).
+Source and asset credits are recorded in [the credits file](docs/UPSTREAM.md). For implementation details, see the [asset inventory](docs/ASSETS.md) and [classifier notes](docs/ML_CART.md).

@@ -9,8 +9,8 @@ export const ARCHIVES = deepFreeze([
     {id: 'both', name: 'Both archives', pools: ['historical', 'expansion']},
 ]);
 export const REPAIRS = deepFreeze([
-    {id: 'hide-city', name: 'Hide city', detail: 'Keep the old answers. Train again without city on the CV.'},
-    {id: 'work-tests', name: 'Learn from work tests', detail: 'Keep the CV details. Train again using who passed the work test as the answer.'},
+    {id: 'hide-city', name: 'Hide city', detail: 'Change what Scout reads: remove city from the CV and keep the same training answers.'},
+    {id: 'work-tests', name: 'Learn from work tests', detail: 'Change what Scout learns from: keep the same CV details and use work test results as the training answers.'},
 ]);
 const cutoff = 0.5;
 const finalSampleSize = 4;

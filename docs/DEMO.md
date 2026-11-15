@@ -1,6 +1,6 @@
 # Demo Hire & Seek in class
 
-The audience plays the hiring manager. They make choices, train Scout, change one thing on a CV and check whether a repair helps on new data. Allow about five minutes for the main idea. Use the receipt if you are short on time.
+Let someone in the audience make a hiring choice. Show how Scout learns from it, then change one detail on a CV. Finish by comparing the two versions of Scout on new CVs. If you only have a few minutes, show the copy test and the final results.
 
 ## A reproducible run
 
@@ -18,7 +18,7 @@ If your numbers differ, use the results on screen. The archive and the decisions
 | Question | Short answer |
 | --- | --- |
 | What is actually trained? | A decision tree fitted in the browser. It learns questions from the player's recorded choices plus the selected archive. |
-| What does the repair change? | Hiding city changes the inputs. Learning from work tests changes the answers used to train. |
+| What does the repair change? | Hiding city changes what Scout can read. Learning from work tests changes which answers it learns from. |
 | Why use 200 fresh CVs? | Both models get the same examples they never saw in training or practice. That is a fairer test of what each model learned. |
 | Is this proof about real hiring? | No. The CVs and job rule are fictional. The experiment shows how a model can repeat patterns from its examples. |
 | What can a beginner learn? | Point to a feature and a label, follow a decision path, explain a controlled change, and read the two kinds of error. |

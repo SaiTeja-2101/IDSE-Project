@@ -10,4 +10,5 @@ See [the detailed game design](docs/GAME_DESIGN.md) for rules, learning objectiv
 - [x] Phase 6: Interactive recap, local save and resume, downloadable audit receipt.
 - [x] Phase 7: Local build, automated checks, assignment documentation and packaging script.
 - [ ] Check rendered layout in Chrome at desktop and phone widths, keyboard and touch controls, and audible cues including mute/pause.
-- [ ] Run three to five beginner sessions, record what they learned, and check a revision informed by their feedback.
+- [x] Record five peer comments and improve the inspector, repair explanations, and final results using their feedback.
+- [ ] Ask a peer to try the revised screens and record what changed for them.

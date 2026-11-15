@@ -1,6 +1,6 @@
 # Beginner playtest guide
 
-Recruit three to five peers who have little or no coding experience. Ask whether you may keep anonymous notes about how they play and what they learned. Use labels like P1 and P2, and avoid collecting names or recordings.
+Ask three to five classmates with little or no coding experience to play. Ask if you can keep anonymous notes on what they learned. Use labels like P1 and P2. Put the results in the [playtest evidence log](PLAYTEST_EVIDENCE.md).
 
 ## Run a session
 
@@ -25,7 +25,8 @@ Recruit three to five peers who have little or no coding experience. Ask whether
 | Copy test and final batch explanation | |
 | Recycling answer | |
 | Participant's suggested change | |
+| Participant’s own rating and reason, if given | |
 
-After the sessions, report actual counts, such as "3 of 4 distinguished a feature from a label," with anonymous examples. Record a concrete improvement and what happened when a learner tried the revised game. Keep screenshots of the office, inspector, copy test and final comparison from actual play. Automated checks and the imported baseline screenshots are separate from learning evidence.
+After the sessions, count how many people could explain each idea without help. Note one thing that confused a player, what you changed, and whether it helped when someone tried it again. Keep automated checks and your own demo separate from peer feedback.
 
-**Status:** No beginner peer outcomes have been recorded for this version yet.
+**Status:** Five peer comments are recorded in the [evidence log](PLAYTEST_EVIDENCE.md#peer-sessions). Follow-up testing is still open.
