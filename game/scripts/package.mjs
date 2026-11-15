@@ -8,6 +8,7 @@ const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const combined = process.argv.includes('--combined');
 const courseRoot = path.dirname(root);
 const bite = path.join(courseRoot, 'resilientbite');
+const submission = path.join(courseRoot, 'submission');
 const output = path.join(combined ? courseRoot : root, 'artifacts/submission');
 const reportName = 'Hire-and-Seek-Project-Report.pdf';
 const sourceReport = path.join(root, 'report/hire-and-seek.pdf');
@@ -19,9 +20,13 @@ if (combined) {
     for (const name of ['README.md', 'food_pred (1).ipynb', 'ResilientBite Phase Report.pdf', 'forecast_app/app.py']) {
         await fs.access(path.join(bite, name));
     }
+    for (const name of ['README.md', 'Hire-and-Seek-Report.pdf', 'ResilientBite-Report.pdf', 'ResilientBite-Presentation.pptx']) {
+        await fs.access(path.join(submission, name));
+    }
 }
 await fs.mkdir(output, {recursive: true});
-const folder = await fs.mkdtemp(path.join(output, combined ? 'idse-course-project-' : 'hire-and-seek-'));
+const bundleName = combined ? 'idse-course-project' : 'hire-and-seek';
+const folder = await fs.mkdtemp(path.join(output, bundleName + '-'));
 const gameFolder = combined ? path.join(folder, 'game') : folder;
 const excluded = new Set(['node_modules', '.git', '.cache', '.env', '.DS_Store', '.venv', '__pycache__', '.ipynb_checkpoints']);
 const filter = source => !path.relative(courseRoot, source).split(path.sep).some(part => excluded.has(part) || part.startsWith('.env.'));
@@ -38,6 +43,7 @@ if (combined) {
     await fs.cp(bite, path.join(folder, 'resilientbite'), {recursive: true, filter: source =>
         filter(source) && !/\.(apk|idsig)$/i.test(source) &&
         !path.relative(bite, source).split(path.sep).includes('build')});
+    await fs.cp(submission, path.join(folder, 'submission'), {recursive: true, filter});
 }
 async function files(dir) {
     const entries = await fs.readdir(dir, {withFileTypes: true});
@@ -50,11 +56,19 @@ for (const file of (await files(folder)).sort()) {
     manifest.push(hash + '  ' + path.relative(folder, file).split(path.sep).join('/'));
 }
 await fs.writeFile(path.join(folder, 'MANIFEST.sha256'), manifest.join('\n') + '\n');
-const zip = folder + '.zip';
+const stagedZip = folder + '.zip';
+const zip = path.join(output, bundleName + '.zip');
 const quote = value => "'" + value.replace(/'/g, "''") + "'";
 const result = spawnSync('powershell.exe', ['-NoProfile', '-NonInteractive', '-Command',
-    `Compress-Archive -LiteralPath ${quote(folder)} -DestinationPath ${quote(zip)} -CompressionLevel Optimal`], {stdio: 'inherit', windowsHide: true});
+    `Compress-Archive -LiteralPath ${quote(folder)} -DestinationPath ${quote(stagedZip)} -CompressionLevel Optimal`], {stdio: 'inherit', windowsHide: true});
 if (result.error || result.status !== 0) throw result.error || new Error('Could not create the submission ZIP. The unpacked folder is still available: ' + folder);
-const digest = createHash('sha256').update(await fs.readFile(zip)).digest('hex');
+const digest = createHash('sha256').update(await fs.readFile(stagedZip)).digest('hex');
+await fs.copyFile(stagedZip, zip);
 await fs.writeFile(zip + '.sha256', digest + '  ' + path.basename(zip) + '\n');
-console.log(JSON.stringify({folder, zip, sha256: digest, files: manifest.length}, null, 2));
+const stagingRelative = path.relative(path.resolve(output), path.resolve(folder));
+if (!stagingRelative || stagingRelative.startsWith('..') || path.isAbsolute(stagingRelative) || !path.basename(folder).startsWith(bundleName + '-')) {
+    throw new Error('Refusing to remove a staging folder outside the package output directory.');
+}
+await fs.rm(folder, {recursive: true, force: true});
+await fs.rm(stagedZip);
+console.log(JSON.stringify({zip, sha256: digest, files: manifest.length}, null, 2));

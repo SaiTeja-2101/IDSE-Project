@@ -1,6 +1,6 @@
 # Hire & Seek delivery notes
 
-The current game uses the journey documented in [GAME_DESIGN.md](GAME_DESIGN.md). The older phase notes, baseline screenshots and scenario files describe earlier builds. The active route is served at `/game/`.
+The current game uses the journey documented in [GAME_DESIGN.md](GAME_DESIGN.md). The active route is served at `/game/`. Open the root [submission folder](../../submission/README.md) for the final course documents.
 
 ## Verification
 
@@ -18,7 +18,7 @@ The current game uses the journey documented in [GAME_DESIGN.md](GAME_DESIGN.md)
 
 Use Node.js 22 and npm 10. Run `npm run setup`, `npm run build`, then `npm run preview`. Open [the game](http://127.0.0.1:4000/game/). Run `npm test` and `npm run check:assets` to repeat the checks.
 
-Run `npm run package` to produce a folder, a ZIP and a checksum in `artifacts/submission/`. The ZIP includes the project report PDF at its top level, plus source, dependency manifests and lockfiles, tests, docs, and the compiled site. It excludes installed dependencies and Git history. Extract it and read `START-HERE.txt`. The prebuilt site can be served with Node without installing packages.
+From the game folder, run `npm run package` to produce `artifacts/submission/hire-and-seek.zip` and its checksum. The ZIP includes the project report PDF at its top level, plus source, dependency manifests and lockfiles, tests, docs, and the compiled site. It excludes installed dependencies and Git history. Extract it and read `START-HERE.txt`. The prebuilt site can be served with Node without installing packages. From the repository root, `npm run package` creates the combined course ZIP with both projects and the final submission documents.
 
 For Vercel, keep the Root Directory at the repository root. The course repository config runs the game setup and build, then serves `game/dist/`. A standalone game checkout or the game-only submission uses its own `vercel.json` and serves `dist/`. If a deploy fails with `gulp: command not found`, check that setup runs before the build.
 

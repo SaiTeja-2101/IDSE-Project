@@ -14,3 +14,10 @@ npm-debug.log
 dist/
 artifacts/
 .cache/
+.chart-data-*/
+~$*.pptx
+*.aux
+*.out
+*.toc
+*.fls
+*.fdb_latexmk

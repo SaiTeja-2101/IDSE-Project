@@ -1,13 +1,21 @@
-# Introduction to Data Science for Engineers
+# CS3006: Introduction to Data Science for Engineers
 
-This repository contains both parts of the course project.
+This repository contains both parts of the course project. Open [submission](submission/README.md) for the final reports and presentation.
 
 | Part | Project | What to open |
 | --- | --- | --- |
 | A | [ResilientBite](resilientbite/README.md) forecasts how many portions a dining hall should prepare for each dish. | [Report](resilientbite/ResilientBite%20Phase%20Report.pdf), [analysis notebook](resilientbite/food_pred%20%281%29.ipynb), [app source](resilientbite/forecast_app/) |
 | B | [Hire & Seek](game/README.md) is a game about how a model learns from hiring choices. | [How to play](game/README.md#how-to-play), [demo guide](game/docs/DEMO.md), [learning objectives](game/README.md#learning-objectives) |
 
-The Hire & Seek report is at `game/report/hire-and-seek.pdf` in the repository. In the submission ZIP, open `game/Hire-and-Seek-Project-Report.pdf`.
+## Submission documents
+
+| File | Contents |
+| --- | --- |
+| [Hire & Seek report](submission/Hire-and-Seek-Report.pdf) | Game design, learning objectives, screenshots, results and feedback |
+| [ResilientBite report](submission/ResilientBite-Report.pdf) | Data preparation, forecasting, evaluation and the app |
+| [ResilientBite presentation](submission/ResilientBite-Presentation.pptx) | Presentation with charts, app screenshots and speaker notes |
+
+The editable report sources remain in `game/report/` and `resilientbite/ResilientBite LaTeX/`.
 
 | Team member | Roll number |
 | --- | --- |
@@ -23,7 +31,7 @@ The Hire & Seek report is at `game/report/hire-and-seek.pdf` in the repository. 
 
 ## Package or deploy
 
-On Windows, `npm run package` builds the game and puts both projects, their reports and a file checksum list in one ZIP under `artifacts/submission/`. Use `npm run package:game` for the game alone.
+On Windows, `npm run package` builds the game and puts both projects, the `submission` folder and a file checksum list in `artifacts/submission/idse-course-project.zip`. Use `npm run package:game` for the game alone. Packaging replaces the previous ZIP for that command and removes its temporary staging folder.
 
 Vercel builds and serves Hire & Seek from the repository root. ResilientBite runs separately. When deploying it to Render from this repository, set its root directory to `resilientbite`.
 

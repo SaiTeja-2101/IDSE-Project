@@ -4,7 +4,7 @@ ResilientBite forecasts portions required for each scheduled menu item, meal and
 
 ## Project submission
 
-**IIITDM KANCHEEPURAM · IDSE Project**
+**IIITDM KANCHEEPURAM · CS3006: Introduction to Data Science for Engineers**
 
 | Team member | Roll number |
 | --- | --- |
@@ -14,6 +14,7 @@ ResilientBite forecasts portions required for each scheduled menu item, meal and
 
 [Muvvala Harsha Vardhan](https://github.com/ec24b1019-lab) contributed the [logo loading screens](https://github.com/Hackerliongloi/ResilientBite/commit/36935e163465d377d3edfb28cddd2fcb198dfc59) and [project submission materials](https://github.com/Hackerliongloi/ResilientBite/commit/4b1e4645a3fff35b40bebd1ed6b1b39c9a2ac376).
 
+- [Final submission documents](../submission/README.md), including the report and presentation.
 - [Project report (PDF)](ResilientBite%20Phase%20Report.pdf) and [editable LaTeX source](ResilientBite%20LaTeX/main.tex).
 - [Hosted web app](https://res-b7z8.onrender.com) and [Android APK](https://github.com/Hackerliongloi/ResilientBite/releases/download/v1.6/ResilientBite.apk).
 - [One week demo CSV](ResilientBite%20One%20Week%20Demo%202026-11-15.csv) reproduces the report's 15 November 2026 example. For a current forecast, use today's menu date and matching history or choose Historical demo in the app.

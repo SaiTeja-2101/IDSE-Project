@@ -2,7 +2,7 @@
 
 **You hire. It learns.**
 
-Course project for **Introduction to Data Science for Engineers**.
+Course project for **CS3006: Introduction to Data Science for Engineers**.
 
 | Team member | Roll number |
 | --- | --- |
@@ -50,7 +50,7 @@ Scout trains a real decision tree in your browser. The applicants and work test 
 
 ## Project files
 
-- Project report: `report/hire-and-seek.pdf` in the repository, or `Hire-and-Seek-Project-Report.pdf` next to `START-HERE.txt` in the submission ZIP.
+- Final submission documents: [submission](../submission/README.md). The game report is also kept at `report/hire-and-seek.pdf` for rebuilding and game-only packaging.
 - [Game design and phase plan](docs/GAME_DESIGN.md)
 - [Assignment rubric](docs/RUBRIC.md)
 - [Classroom demo guide](docs/DEMO.md)

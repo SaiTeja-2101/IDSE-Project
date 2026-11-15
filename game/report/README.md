@@ -1,6 +1,6 @@
 # Hire & Seek project report
 
-Open `hire-and-seek.pdf` for the finished report. The submission ZIP contains one copy of the PDF at its top level.
+Open `hire-and-seek.pdf` for the finished CS3006 report. The document for uploading is also available at [submission/Hire-and-Seek-Report.pdf](../../submission/Hire-and-Seek-Report.pdf). The game-only ZIP keeps its report beside `START-HERE.txt`.
 
 To edit the report, update `hire-and-seek.tex`. Run `pdflatex hire-and-seek.tex` twice from this folder, or upload the TeX file and the `figures` folder to Overleaf and choose pdfLaTeX.
 
