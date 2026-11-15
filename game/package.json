@@ -1,0 +1,17 @@
+{
+  "name": "hire-and-seek",
+  "version": "0.1.0",
+  "private": true,
+  "description": "A classroom game about how hiring decisions train a model",
+  "engines": {"node": ">=22 <23", "npm": ">=10"},
+  "scripts": {
+    "setup": "node scripts/project.mjs setup",
+    "dev": "node scripts/project.mjs dev",
+    "start": "npm run dev",
+    "build": "node scripts/project.mjs build",
+    "preview": "node scripts/preview.mjs",
+    "test": "node --test tests/*.test.cjs",
+    "check:assets": "node scripts/check-assets.mjs",
+    "package": "npm run build && node scripts/package.mjs"
+  }
+}

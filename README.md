@@ -1,8 +1,13 @@
-# Hire & Seek
+# Introduction to Data Science for Engineers
 
-**You hire. It learns.**
+This repository contains both parts of the course project.
 
-Course project for **Introduction to Data Science for Engineers**.
+| Part | Project | What to open |
+| --- | --- | --- |
+| A | [ResilientBite](resilientbite/README.md) forecasts how many portions a dining hall should prepare for each dish. | [Report](resilientbite/ResilientBite%20Phase%20Report.pdf), [analysis notebook](resilientbite/food_pred%20%281%29.ipynb), [app source](resilientbite/forecast_app/) |
+| B | [Hire & Seek](game/README.md) is a game about how a model learns from hiring choices. | [How to play](game/README.md#how-to-play), [demo guide](game/docs/DEMO.md), [learning objectives](game/README.md#learning-objectives) |
+
+The Hire & Seek report is at `game/report/hire-and-seek.pdf` in the repository. In the submission ZIP, open `game/Hire-and-Seek-Project-Report.pdf`.
 
 | Team member | Roll number |
 | --- | --- |
@@ -10,55 +15,16 @@ Course project for **Introduction to Data Science for Engineers**.
 | Karthik Kavuri | CS24I1025 |
 | Muvvala Harsha Vardhan | EC24B1019 |
 
-You decide who gets an interview at Orbit Works. Scout learns from your choices and old hiring records. See who it shortlists, check one decision, then see whether you can make Scout better. No coding needed.
+## Start here
 
-[How to play](#how-to-play) · [Learning objectives](#learning-objectives) · [Classroom demo](docs/DEMO.md) · [Rubric](docs/RUBRIC.md)
+- **Play Hire & Seek from the ZIP:** Open `game/START-HERE.txt`. With Node.js 22 installed, run `node game/scripts/preview.mjs` from this folder and visit `http://127.0.0.1:4000/game/`. The ZIP already includes the built game.
+- **Play Hire & Seek from a Git checkout:** With Node.js 22 and npm 10, run `npm run setup`, `npm run build`, then `npm run preview` from this folder.
+- **Try ResilientBite:** Start with its [README](resilientbite/README.md) for the hosted demo and setup steps for the Python notebook, local Streamlit app and Android client. Use the included demo CSV or the app's **Historical demo** to replay a dated example.
 
-## Play locally
+## Package or deploy
 
-Use Node.js 22 and npm 10. In this repository:
+On Windows, `npm run package` builds the game and puts both projects, their reports and a file checksum list in one ZIP under `artifacts/submission/`. Use `npm run package:game` for the game alone.
 
-```sh
-npm run setup
-npm run build
-npm run preview
-```
+Vercel builds and serves Hire & Seek from the repository root. ResilientBite runs separately. When deploying it to Render from this repository, set its root directory to `resilientbite`.
 
-Open [the game](http://127.0.0.1:4000/game/). Keep the terminal open. If you have the submission ZIP, extract it and follow `START-HERE.txt`; the included build can be played without installing packages.
-
-## How to play
-
-1. **Pick who gets an interview.** Open a CV. Choose **Shortlist** to invite them or **Pass** to move on. Aim for 3, 5, and 8 shortlists. The first round has no timer. The next two give you 45 seconds each. You can keep playing if you miss the target.
-2. **Teach Scout.** Send your choices to the engineer. Choose a file of old hiring decisions to go with them. Click **Run scanner** and watch Scout make its own choices.
-3. **Check a decision.** Open Maya’s message and find the person’s CV. The work test tells you whether they qualified. Compare it with Scout’s answer, then click **Reply to Maya**.
-4. **Test one change.** Open the case from the city report. Change city or academy on a copy and click **Scan both**. See whether Scout’s answer changes.
-5. **Try a fix.** Compare **Hide city** and **Learn from work tests** on 80 practice CVs. Choose one, then click **See results for all 200 CVs**. The four preview scans are optional.
-6. **Look back.** Compare the results, then click **Continue to recap**. Use your own run to answer the recap questions. Explore the case notes or skip to your receipt, a short report you can download.
-
-To take a break, click **Pause** or press **Esc**. Click **Continue** when you reopen the game in the same browser. On a keyboard, the arrow keys switch CVs. Press **S** to shortlist or **P** to pass after opening a CV.
-
-## Learning objectives
-
-After one run, a beginner should be able to:
-
-- **Tell a feature from a label.** Skill is a detail Scout reads. Your Shortlist or Pass choice is an answer it learns from.
-- **Follow a decision tree.** It works like a flowchart: each answer leads to another question or a final decision.
-- **Check for a shortcut.** Change one detail and see if Scout gives a different answer even though the person’s skill and experience stayed the same.
-- **Check whether a fix helps on new CVs.** Both versions see the same people they didn’t learn from. Count how many qualified people each version missed, and how many it invited who didn’t qualify.
-
-Scout trains a real decision tree in your browser. The applicants and work test are made up for the lesson.
-
-## Project files
-
-- Project report: `report/hire-and-seek.pdf` in the repository, or `Hire-and-Seek-Project-Report.pdf` next to `START-HERE.txt` in the submission ZIP.
-- [Game design and phase plan](docs/GAME_DESIGN.md)
-- [Assignment rubric](docs/RUBRIC.md)
-- [Classroom demo guide](docs/DEMO.md)
-- [Beginner playtest guide](docs/PLAYTEST.md)
-- [Playtest evidence log](docs/PLAYTEST_EVIDENCE.md)
-- [Delivery and verification](docs/DELIVERY.md)
-- [Remaining work](TODO.md)
-
-Run `npm test` for automated checks, `npm run check:assets` after a build, or `npm run package` for the local submission ZIP. Beginner playtest evidence must be collected from real sessions.
-
-For implementation details, see the [asset inventory](docs/ASSETS.md) and [classifier notes](docs/ML_CART.md).
+ResilientBite was imported from [Hackerliongloi/ResilientBite at a38e814](https://github.com/Hackerliongloi/ResilientBite/tree/a38e8147e2e324669473a05108bb50d4fc3a2327).

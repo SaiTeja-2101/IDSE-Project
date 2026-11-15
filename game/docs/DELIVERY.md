@@ -20,6 +20,6 @@ Use Node.js 22 and npm 10. Run `npm run setup`, `npm run build`, then `npm run p
 
 Run `npm run package` to produce a folder, a ZIP and a checksum in `artifacts/submission/`. The ZIP includes the project report PDF at its top level, plus source, dependency manifests and lockfiles, tests, docs, and the compiled site. It excludes installed dependencies and Git history. Extract it and read `START-HERE.txt`. The prebuilt site can be served with Node without installing packages.
 
-For Vercel, keep the Root Directory at the repository root. The included `vercel.json` installs both sets of dependencies, builds both portions of the site, and serves `dist/`. If a deploy fails with `gulp: command not found`, confirm the build is using the version that includes the config and that setup runs before the build.
+For Vercel, keep the Root Directory at the repository root. The course repository config runs the game setup and build, then serves `game/dist/`. A standalone game checkout or the game-only submission uses its own `vercel.json` and serves `dist/`. If a deploy fails with `gulp: command not found`, check that setup runs before the build.
 
 Progress uses `hire-and-seek:v2`. The previous version's save is left alone. The current game replays recorded choices and actions to reconstruct the run. It does not load scores or fitted models from local storage.

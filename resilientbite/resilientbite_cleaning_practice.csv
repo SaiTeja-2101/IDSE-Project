@@ -1,0 +1,12 @@
+date,year,month,day_of_week,is_weekend,is_vacation,is_exam_period,dining_hall,meal,food_item_id,food_item_name,food_category,vegetarian_indicator,temperature_max_c,rainfall_mm,weather_condition,expected_dining_hall_attendance,actual_dining_hall_attendance,planned_preparation_quantity,actual_preparation_quantity,actual_demand_portions,quantity_served,unmet_demand,leftover_portions,stockout_indicator,stockout_duration_min,kitchen_prep_waste_kg,serving_surplus_waste_kg,plate_waste_kg,total_food_waste_kg
+2024-01-01,2024,1,Monday,0,0,0,Dining Hall A,Breakfast,1,Idli,Breakfast,1,31.8,0.0,Clear / Sunny,925,925,292,297,313.0,297,16,0,1,40,0.98,0.0,0.92,1.9
+2024-01-01,2024,1,Monday,0,0,0,Dining Hall A,Breakfast,2,Medu Vada,Breakfast,1,31.8,0.0,Clear / Sunny,925,925,498,494,,466,0,28,0,0,0.67,2.32,1.36,4.35
+2024-01-01,2024,1,Monday,0,0,0,Dining Hall A,Breakfast,3,Masala Dosa,Breakfast,1,31.8,0.0,Clear / Sunny,925,925,495,unknown,536.0,500,36,0,1,33,1.15,0.0,2.79,3.94
+2024-01-01,2024,1,Monday,0,0,0,Dining Hall A,Breakfast,4,Ven Pongal,Breakfast,1,31.8,0.0,Clear / Sunny,925,925,374,380,-5.0,368,0,12,0,0,1.54,2.13,1.57,5.24
+2024-01-01,2024,1,Monday,0,0,0,Dining Hall A,Breakfast,5,Rava Upma,Breakfast,1,31.8,0.0,Clear / Sunny,925,925,400,396,99999.0,396,8,0,1,43,2.09,0.0,2.08,4.17
+2024-01-01,2024,1,Monday,0,0,0,Dining Hall A,Breakfast,6,Puri Sagu,Breakfast,1,31.8,0.0,Clear / Sunny,925,925,290,296,303.0,296,7,0,1,18,1.18,0.0,2.8,3.98
+2024-01-01,2024,1,Monday,0,0,0,Dining Hall A,Breakfast,7,Aloo Paratha,Breakfast,1,31.8,0.0,Clear / Sunny,925,925,335,335,322.0,322,0,13,0,0,0.95,2.3,1.35,4.6
+2024-01-01,2024,1,Monday,0,0,0,Dining Hall A,Breakfast,8,Filter Coffee,Beverages,1,31.8,0.0,Clear / Sunny,925,925,345,343,323.0,323,0,20,0,0,1.13,2.81,1.1,5.04
+2024-01-01,2024,1,Monday,0,0,0,Dining Hall A,Breakfast,9,Masala Chai,Beverages,1,31.8,0.0,Clear / Sunny,925,925,224,223,209.0,209,0,14,0,0,0.59,1.77,1.41,3.77
+2024-01-01,2024,1,Monday,0,0,0,Dining Hall A,Lunch,10,Sambar Rice,Rice Dishes,1,31.8,0.0,Clear / Sunny,925,925,384,391,408.0,391,17,0,1,17,4.07,0.0,3.55,7.62
+2024-01-01,2024,1,Monday,0,0,0,Dining Hall A,Breakfast,1,Idli,Breakfast,1,31.8,0.0,Clear / Sunny,925,925,292,297,313.0,297,16,0,1,40,0.98,0.0,0.92,1.9

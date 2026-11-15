@@ -1,0 +1,289 @@
+date,dining_hall,meal,food_item_id,food_item_name,actual_demand_portions
+2026-11-08,Dining Hall A,Breakfast,1,Idli,330
+2026-11-08,Dining Hall A,Breakfast,2,Medu Vada,304
+2026-11-08,Dining Hall A,Breakfast,3,Masala Dosa,353
+2026-11-08,Dining Hall A,Breakfast,4,Ven Pongal,243
+2026-11-08,Dining Hall A,Lunch,10,Sambar Rice,339
+2026-11-08,Dining Hall A,Lunch,11,Curd Rice,400
+2026-11-08,Dining Hall A,Lunch,12,Lemon Rice,341
+2026-11-08,Dining Hall A,Lunch,13,Vegetable Biryani,384
+2026-11-08,Dining Hall A,Dinner,21,Chapati,243
+2026-11-08,Dining Hall A,Dinner,22,Malabar Parotta,346
+2026-11-08,Dining Hall A,Dinner,23,Phulka,204
+2026-11-08,Dining Hall A,Dinner,24,Jeera Rice,225
+2026-11-08,Dining Hall B,Breakfast,1,Idli,222
+2026-11-08,Dining Hall B,Breakfast,2,Medu Vada,242
+2026-11-08,Dining Hall B,Breakfast,3,Masala Dosa,339
+2026-11-08,Dining Hall B,Breakfast,4,Ven Pongal,217
+2026-11-08,Dining Hall B,Lunch,10,Sambar Rice,268
+2026-11-08,Dining Hall B,Lunch,11,Curd Rice,251
+2026-11-08,Dining Hall B,Lunch,12,Lemon Rice,293
+2026-11-08,Dining Hall B,Lunch,13,Vegetable Biryani,439
+2026-11-08,Dining Hall B,Dinner,21,Chapati,281
+2026-11-08,Dining Hall B,Dinner,22,Malabar Parotta,309
+2026-11-08,Dining Hall B,Dinner,23,Phulka,324
+2026-11-08,Dining Hall B,Dinner,24,Jeera Rice,265
+2026-11-08,Dining Hall C,Breakfast,1,Idli,216
+2026-11-08,Dining Hall C,Breakfast,2,Medu Vada,268
+2026-11-08,Dining Hall C,Breakfast,3,Masala Dosa,306
+2026-11-08,Dining Hall C,Breakfast,4,Ven Pongal,242
+2026-11-08,Dining Hall C,Lunch,10,Sambar Rice,336
+2026-11-08,Dining Hall C,Lunch,11,Curd Rice,346
+2026-11-08,Dining Hall C,Lunch,12,Lemon Rice,293
+2026-11-08,Dining Hall C,Lunch,13,Vegetable Biryani,369
+2026-11-08,Dining Hall C,Dinner,21,Chapati,202
+2026-11-08,Dining Hall C,Dinner,22,Malabar Parotta,283
+2026-11-08,Dining Hall C,Dinner,23,Phulka,181
+2026-11-08,Dining Hall C,Dinner,24,Jeera Rice,287
+2026-11-09,Dining Hall A,Breakfast,1,Idli,404
+2026-11-09,Dining Hall A,Breakfast,2,Medu Vada,436
+2026-11-09,Dining Hall A,Breakfast,3,Masala Dosa,503
+2026-11-09,Dining Hall A,Breakfast,4,Ven Pongal,405
+2026-11-09,Dining Hall A,Lunch,10,Sambar Rice,456
+2026-11-09,Dining Hall A,Lunch,11,Curd Rice,387
+2026-11-09,Dining Hall A,Lunch,12,Lemon Rice,384
+2026-11-09,Dining Hall A,Lunch,13,Vegetable Biryani,592
+2026-11-09,Dining Hall A,Dinner,21,Chapati,333
+2026-11-09,Dining Hall A,Dinner,22,Malabar Parotta,364
+2026-11-09,Dining Hall A,Dinner,23,Phulka,486
+2026-11-09,Dining Hall A,Dinner,24,Jeera Rice,450
+2026-11-09,Dining Hall B,Breakfast,1,Idli,326
+2026-11-09,Dining Hall B,Breakfast,2,Medu Vada,245
+2026-11-09,Dining Hall B,Breakfast,3,Masala Dosa,522
+2026-11-09,Dining Hall B,Breakfast,4,Ven Pongal,340
+2026-11-09,Dining Hall B,Lunch,10,Sambar Rice,399
+2026-11-09,Dining Hall B,Lunch,11,Curd Rice,438
+2026-11-09,Dining Hall B,Lunch,12,Lemon Rice,433
+2026-11-09,Dining Hall B,Lunch,13,Vegetable Biryani,592
+2026-11-09,Dining Hall B,Dinner,21,Chapati,406
+2026-11-09,Dining Hall B,Dinner,22,Malabar Parotta,423
+2026-11-09,Dining Hall B,Dinner,23,Phulka,365
+2026-11-09,Dining Hall B,Dinner,24,Jeera Rice,287
+2026-11-09,Dining Hall C,Breakfast,1,Idli,270
+2026-11-09,Dining Hall C,Breakfast,2,Medu Vada,268
+2026-11-09,Dining Hall C,Breakfast,3,Masala Dosa,470
+2026-11-09,Dining Hall C,Breakfast,4,Ven Pongal,383
+2026-11-09,Dining Hall C,Lunch,10,Sambar Rice,305
+2026-11-09,Dining Hall C,Lunch,11,Curd Rice,353
+2026-11-09,Dining Hall C,Lunch,12,Lemon Rice,355
+2026-11-09,Dining Hall C,Lunch,13,Vegetable Biryani,542
+2026-11-09,Dining Hall C,Dinner,21,Chapati,244
+2026-11-09,Dining Hall C,Dinner,22,Malabar Parotta,397
+2026-11-09,Dining Hall C,Dinner,23,Phulka,281
+2026-11-09,Dining Hall C,Dinner,24,Jeera Rice,315
+2026-11-10,Dining Hall A,Breakfast,1,Idli,303
+2026-11-10,Dining Hall A,Breakfast,2,Medu Vada,405
+2026-11-10,Dining Hall A,Breakfast,3,Masala Dosa,639
+2026-11-10,Dining Hall A,Breakfast,4,Ven Pongal,445
+2026-11-10,Dining Hall A,Lunch,10,Sambar Rice,597
+2026-11-10,Dining Hall A,Lunch,11,Curd Rice,608
+2026-11-10,Dining Hall A,Lunch,12,Lemon Rice,390
+2026-11-10,Dining Hall A,Lunch,13,Vegetable Biryani,621
+2026-11-10,Dining Hall A,Dinner,21,Chapati,550
+2026-11-10,Dining Hall A,Dinner,22,Malabar Parotta,325
+2026-11-10,Dining Hall A,Dinner,23,Phulka,544
+2026-11-10,Dining Hall A,Dinner,24,Jeera Rice,515
+2026-11-10,Dining Hall B,Breakfast,1,Idli,342
+2026-11-10,Dining Hall B,Breakfast,2,Medu Vada,341
+2026-11-10,Dining Hall B,Breakfast,3,Masala Dosa,565
+2026-11-10,Dining Hall B,Breakfast,4,Ven Pongal,332
+2026-11-10,Dining Hall B,Lunch,10,Sambar Rice,469
+2026-11-10,Dining Hall B,Lunch,11,Curd Rice,505
+2026-11-10,Dining Hall B,Lunch,12,Lemon Rice,382
+2026-11-10,Dining Hall B,Lunch,13,Vegetable Biryani,546
+2026-11-10,Dining Hall B,Dinner,21,Chapati,499
+2026-11-10,Dining Hall B,Dinner,22,Malabar Parotta,377
+2026-11-10,Dining Hall B,Dinner,23,Phulka,341
+2026-11-10,Dining Hall B,Dinner,24,Jeera Rice,520
+2026-11-10,Dining Hall C,Breakfast,1,Idli,405
+2026-11-10,Dining Hall C,Breakfast,2,Medu Vada,297
+2026-11-10,Dining Hall C,Breakfast,3,Masala Dosa,443
+2026-11-10,Dining Hall C,Breakfast,4,Ven Pongal,329
+2026-11-10,Dining Hall C,Lunch,10,Sambar Rice,485
+2026-11-10,Dining Hall C,Lunch,11,Curd Rice,417
+2026-11-10,Dining Hall C,Lunch,12,Lemon Rice,433
+2026-11-10,Dining Hall C,Lunch,13,Vegetable Biryani,644
+2026-11-10,Dining Hall C,Dinner,21,Chapati,476
+2026-11-10,Dining Hall C,Dinner,22,Malabar Parotta,491
+2026-11-10,Dining Hall C,Dinner,23,Phulka,383
+2026-11-10,Dining Hall C,Dinner,24,Jeera Rice,335
+2026-11-11,Dining Hall A,Breakfast,1,Idli,375
+2026-11-11,Dining Hall A,Breakfast,2,Medu Vada,425
+2026-11-11,Dining Hall A,Breakfast,3,Masala Dosa,616
+2026-11-11,Dining Hall A,Breakfast,4,Ven Pongal,463
+2026-11-11,Dining Hall A,Lunch,10,Sambar Rice,451
+2026-11-11,Dining Hall A,Lunch,11,Curd Rice,417
+2026-11-11,Dining Hall A,Lunch,12,Lemon Rice,481
+2026-11-11,Dining Hall A,Lunch,13,Vegetable Biryani,636
+2026-11-11,Dining Hall A,Dinner,21,Chapati,512
+2026-11-11,Dining Hall A,Dinner,22,Malabar Parotta,534
+2026-11-11,Dining Hall A,Dinner,23,Phulka,372
+2026-11-11,Dining Hall A,Dinner,24,Jeera Rice,431
+2026-11-11,Dining Hall B,Breakfast,1,Idli,419
+2026-11-11,Dining Hall B,Breakfast,2,Medu Vada,323
+2026-11-11,Dining Hall B,Breakfast,3,Masala Dosa,428
+2026-11-11,Dining Hall B,Breakfast,4,Ven Pongal,270
+2026-11-11,Dining Hall B,Lunch,10,Sambar Rice,423
+2026-11-11,Dining Hall B,Lunch,11,Curd Rice,453
+2026-11-11,Dining Hall B,Lunch,12,Lemon Rice,368
+2026-11-11,Dining Hall B,Lunch,13,Vegetable Biryani,542
+2026-11-11,Dining Hall B,Dinner,21,Chapati,372
+2026-11-11,Dining Hall B,Dinner,22,Malabar Parotta,484
+2026-11-11,Dining Hall B,Dinner,23,Phulka,493
+2026-11-11,Dining Hall B,Dinner,24,Jeera Rice,368
+2026-11-11,Dining Hall C,Breakfast,1,Idli,286
+2026-11-11,Dining Hall C,Breakfast,2,Medu Vada,273
+2026-11-11,Dining Hall C,Breakfast,3,Masala Dosa,438
+2026-11-11,Dining Hall C,Breakfast,4,Ven Pongal,327
+2026-11-11,Dining Hall C,Lunch,10,Sambar Rice,416
+2026-11-11,Dining Hall C,Lunch,11,Curd Rice,318
+2026-11-11,Dining Hall C,Lunch,12,Lemon Rice,410
+2026-11-11,Dining Hall C,Lunch,13,Vegetable Biryani,522
+2026-11-11,Dining Hall C,Dinner,21,Chapati,334
+2026-11-11,Dining Hall C,Dinner,22,Malabar Parotta,392
+2026-11-11,Dining Hall C,Dinner,23,Phulka,439
+2026-11-11,Dining Hall C,Dinner,24,Jeera Rice,378
+2026-11-12,Dining Hall A,Breakfast,1,Idli,319
+2026-11-12,Dining Hall A,Breakfast,2,Medu Vada,325
+2026-11-12,Dining Hall A,Breakfast,3,Masala Dosa,604
+2026-11-12,Dining Hall A,Breakfast,4,Ven Pongal,354
+2026-11-12,Dining Hall A,Lunch,10,Sambar Rice,413
+2026-11-12,Dining Hall A,Lunch,11,Curd Rice,579
+2026-11-12,Dining Hall A,Lunch,12,Lemon Rice,377
+2026-11-12,Dining Hall A,Lunch,13,Vegetable Biryani,569
+2026-11-12,Dining Hall A,Dinner,21,Chapati,443
+2026-11-12,Dining Hall A,Dinner,22,Malabar Parotta,511
+2026-11-12,Dining Hall A,Dinner,23,Phulka,423
+2026-11-12,Dining Hall A,Dinner,24,Jeera Rice,433
+2026-11-12,Dining Hall B,Breakfast,1,Idli,427
+2026-11-12,Dining Hall B,Breakfast,2,Medu Vada,288
+2026-11-12,Dining Hall B,Breakfast,3,Masala Dosa,507
+2026-11-12,Dining Hall B,Breakfast,4,Ven Pongal,405
+2026-11-12,Dining Hall B,Lunch,10,Sambar Rice,488
+2026-11-12,Dining Hall B,Lunch,11,Curd Rice,342
+2026-11-12,Dining Hall B,Lunch,12,Lemon Rice,462
+2026-11-12,Dining Hall B,Lunch,13,Vegetable Biryani,578
+2026-11-12,Dining Hall B,Dinner,21,Chapati,441
+2026-11-12,Dining Hall B,Dinner,22,Malabar Parotta,371
+2026-11-12,Dining Hall B,Dinner,23,Phulka,421
+2026-11-12,Dining Hall B,Dinner,24,Jeera Rice,417
+2026-11-12,Dining Hall C,Breakfast,1,Idli,336
+2026-11-12,Dining Hall C,Breakfast,2,Medu Vada,375
+2026-11-12,Dining Hall C,Breakfast,3,Masala Dosa,466
+2026-11-12,Dining Hall C,Breakfast,4,Ven Pongal,380
+2026-11-12,Dining Hall C,Lunch,10,Sambar Rice,444
+2026-11-12,Dining Hall C,Lunch,11,Curd Rice,347
+2026-11-12,Dining Hall C,Lunch,12,Lemon Rice,422
+2026-11-12,Dining Hall C,Lunch,13,Vegetable Biryani,566
+2026-11-12,Dining Hall C,Dinner,21,Chapati,331
+2026-11-12,Dining Hall C,Dinner,22,Malabar Parotta,371
+2026-11-12,Dining Hall C,Dinner,23,Phulka,269
+2026-11-12,Dining Hall C,Dinner,24,Jeera Rice,306
+2026-11-13,Dining Hall A,Breakfast,1,Idli,406
+2026-11-13,Dining Hall A,Breakfast,2,Medu Vada,414
+2026-11-13,Dining Hall A,Breakfast,3,Masala Dosa,434
+2026-11-13,Dining Hall A,Breakfast,4,Ven Pongal,311
+2026-11-13,Dining Hall A,Lunch,10,Sambar Rice,353
+2026-11-13,Dining Hall A,Lunch,11,Curd Rice,348
+2026-11-13,Dining Hall A,Lunch,12,Lemon Rice,413
+2026-11-13,Dining Hall A,Lunch,13,Vegetable Biryani,591
+2026-11-13,Dining Hall A,Dinner,21,Chapati,452
+2026-11-13,Dining Hall A,Dinner,22,Malabar Parotta,372
+2026-11-13,Dining Hall A,Dinner,23,Phulka,465
+2026-11-13,Dining Hall A,Dinner,24,Jeera Rice,354
+2026-11-13,Dining Hall B,Breakfast,1,Idli,388
+2026-11-13,Dining Hall B,Breakfast,2,Medu Vada,390
+2026-11-13,Dining Hall B,Breakfast,3,Masala Dosa,416
+2026-11-13,Dining Hall B,Breakfast,4,Ven Pongal,307
+2026-11-13,Dining Hall B,Lunch,10,Sambar Rice,428
+2026-11-13,Dining Hall B,Lunch,11,Curd Rice,345
+2026-11-13,Dining Hall B,Lunch,12,Lemon Rice,440
+2026-11-13,Dining Hall B,Lunch,13,Vegetable Biryani,494
+2026-11-13,Dining Hall B,Dinner,21,Chapati,374
+2026-11-13,Dining Hall B,Dinner,22,Malabar Parotta,387
+2026-11-13,Dining Hall B,Dinner,23,Phulka,279
+2026-11-13,Dining Hall B,Dinner,24,Jeera Rice,439
+2026-11-13,Dining Hall C,Breakfast,1,Idli,398
+2026-11-13,Dining Hall C,Breakfast,2,Medu Vada,314
+2026-11-13,Dining Hall C,Breakfast,3,Masala Dosa,498
+2026-11-13,Dining Hall C,Breakfast,4,Ven Pongal,394
+2026-11-13,Dining Hall C,Lunch,10,Sambar Rice,297
+2026-11-13,Dining Hall C,Lunch,11,Curd Rice,415
+2026-11-13,Dining Hall C,Lunch,12,Lemon Rice,298
+2026-11-13,Dining Hall C,Lunch,13,Vegetable Biryani,591
+2026-11-13,Dining Hall C,Dinner,21,Chapati,310
+2026-11-13,Dining Hall C,Dinner,22,Malabar Parotta,422
+2026-11-13,Dining Hall C,Dinner,23,Phulka,413
+2026-11-13,Dining Hall C,Dinner,24,Jeera Rice,372
+2026-11-14,Dining Hall A,Breakfast,1,Idli,281
+2026-11-14,Dining Hall A,Breakfast,2,Medu Vada,220
+2026-11-14,Dining Hall A,Breakfast,3,Masala Dosa,352
+2026-11-14,Dining Hall A,Breakfast,4,Ven Pongal,219
+2026-11-14,Dining Hall A,Lunch,10,Sambar Rice,303
+2026-11-14,Dining Hall A,Lunch,11,Curd Rice,241
+2026-11-14,Dining Hall A,Lunch,12,Lemon Rice,322
+2026-11-14,Dining Hall A,Lunch,13,Vegetable Biryani,460
+2026-11-14,Dining Hall A,Dinner,21,Chapati,221
+2026-11-14,Dining Hall A,Dinner,22,Malabar Parotta,275
+2026-11-14,Dining Hall A,Dinner,23,Phulka,270
+2026-11-14,Dining Hall A,Dinner,24,Jeera Rice,273
+2026-11-14,Dining Hall B,Breakfast,1,Idli,226
+2026-11-14,Dining Hall B,Breakfast,2,Medu Vada,243
+2026-11-14,Dining Hall B,Breakfast,3,Masala Dosa,287
+2026-11-14,Dining Hall B,Breakfast,4,Ven Pongal,254
+2026-11-14,Dining Hall B,Lunch,10,Sambar Rice,319
+2026-11-14,Dining Hall B,Lunch,11,Curd Rice,252
+2026-11-14,Dining Hall B,Lunch,12,Lemon Rice,250
+2026-11-14,Dining Hall B,Lunch,13,Vegetable Biryani,359
+2026-11-14,Dining Hall B,Dinner,21,Chapati,249
+2026-11-14,Dining Hall B,Dinner,22,Malabar Parotta,221
+2026-11-14,Dining Hall B,Dinner,23,Phulka,256
+2026-11-14,Dining Hall B,Dinner,24,Jeera Rice,258
+2026-11-14,Dining Hall C,Breakfast,1,Idli,189
+2026-11-14,Dining Hall C,Breakfast,2,Medu Vada,255
+2026-11-14,Dining Hall C,Breakfast,3,Masala Dosa,297
+2026-11-14,Dining Hall C,Breakfast,4,Ven Pongal,178
+2026-11-14,Dining Hall C,Lunch,10,Sambar Rice,265
+2026-11-14,Dining Hall C,Lunch,11,Curd Rice,202
+2026-11-14,Dining Hall C,Lunch,12,Lemon Rice,261
+2026-11-14,Dining Hall C,Lunch,13,Vegetable Biryani,303
+2026-11-14,Dining Hall C,Dinner,21,Chapati,226
+2026-11-14,Dining Hall C,Dinner,22,Malabar Parotta,170
+2026-11-14,Dining Hall C,Dinner,23,Phulka,240
+2026-11-14,Dining Hall C,Dinner,24,Jeera Rice,266
+2026-11-15,Dining Hall A,Breakfast,1,Idli,
+2026-11-15,Dining Hall A,Breakfast,2,Medu Vada,
+2026-11-15,Dining Hall A,Breakfast,3,Masala Dosa,
+2026-11-15,Dining Hall A,Breakfast,4,Ven Pongal,
+2026-11-15,Dining Hall A,Lunch,10,Sambar Rice,
+2026-11-15,Dining Hall A,Lunch,11,Curd Rice,
+2026-11-15,Dining Hall A,Lunch,12,Lemon Rice,
+2026-11-15,Dining Hall A,Lunch,13,Vegetable Biryani,
+2026-11-15,Dining Hall A,Dinner,21,Chapati,
+2026-11-15,Dining Hall A,Dinner,22,Malabar Parotta,
+2026-11-15,Dining Hall A,Dinner,23,Phulka,
+2026-11-15,Dining Hall A,Dinner,24,Jeera Rice,
+2026-11-15,Dining Hall B,Breakfast,1,Idli,
+2026-11-15,Dining Hall B,Breakfast,2,Medu Vada,
+2026-11-15,Dining Hall B,Breakfast,3,Masala Dosa,
+2026-11-15,Dining Hall B,Breakfast,4,Ven Pongal,
+2026-11-15,Dining Hall B,Lunch,10,Sambar Rice,
+2026-11-15,Dining Hall B,Lunch,11,Curd Rice,
+2026-11-15,Dining Hall B,Lunch,12,Lemon Rice,
+2026-11-15,Dining Hall B,Lunch,13,Vegetable Biryani,
+2026-11-15,Dining Hall B,Dinner,21,Chapati,
+2026-11-15,Dining Hall B,Dinner,22,Malabar Parotta,
+2026-11-15,Dining Hall B,Dinner,23,Phulka,
+2026-11-15,Dining Hall B,Dinner,24,Jeera Rice,
+2026-11-15,Dining Hall C,Breakfast,1,Idli,
+2026-11-15,Dining Hall C,Breakfast,2,Medu Vada,
+2026-11-15,Dining Hall C,Breakfast,3,Masala Dosa,
+2026-11-15,Dining Hall C,Breakfast,4,Ven Pongal,
+2026-11-15,Dining Hall C,Lunch,10,Sambar Rice,
+2026-11-15,Dining Hall C,Lunch,11,Curd Rice,
+2026-11-15,Dining Hall C,Lunch,12,Lemon Rice,
+2026-11-15,Dining Hall C,Lunch,13,Vegetable Biryani,
+2026-11-15,Dining Hall C,Dinner,21,Chapati,
+2026-11-15,Dining Hall C,Dinner,22,Malabar Parotta,
+2026-11-15,Dining Hall C,Dinner,23,Phulka,
+2026-11-15,Dining Hall C,Dinner,24,Jeera Rice,

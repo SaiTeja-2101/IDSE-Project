@@ -1,0 +1,14 @@
+services:
+  - type: web
+    name: res
+    runtime: python
+    plan: free
+    region: singapore
+    buildCommand: pip install -r forecast_app/requirements.txt
+    startCommand: python -m streamlit run forecast_app/app.py --server.address 0.0.0.0 --server.port $PORT --server.headless true --browser.gatherUsageStats false
+    healthCheckPath: /_stcore/health
+    envVars:
+      - key: PYTHON_VERSION
+        value: 3.13.9
+      - key: TZ
+        value: Asia/Kolkata
