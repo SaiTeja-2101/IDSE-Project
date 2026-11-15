@@ -23,7 +23,7 @@ if (mode === 'setup' || mode === 'bootstrap') {
     for (const folder of folders) {
         const lock = path.join(root, folder, 'package-lock.json');
         if (mode === 'setup' && !existsSync(lock)) throw new Error(`Missing lockfile: ${lock}`);
-        run(folder, [mode === 'setup' ? 'ci' : 'install', '--no-audit', '--no-fund']);
+        run(folder, [mode === 'setup' ? 'ci' : 'install', '--include=dev', '--no-audit', '--no-fund']);
     }
 } else if (mode === 'build') {
     for (const folder of folders) run(folder, ['run', 'build']);
