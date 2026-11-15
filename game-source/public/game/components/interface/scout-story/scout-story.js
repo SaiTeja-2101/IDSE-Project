@@ -11,7 +11,7 @@ import RunWalkthrough from './run-walkthrough';
 
 const titles = {
     handoff: ['INBOX', 'An email from the engineer', 'We need to get through the queue faster. Send me the CVs you reviewed so Scout can learn from your choices.'],
-    archives: ['HR LAPTOP', 'Choose a training archive', 'Scout will learn from your choices and the old hiring decisions in the file you choose.'],
+    archives: ['HR LAPTOP', 'Choose a training archive', 'Your saved choices are already in. Pick which old hiring records Scout will learn from alongside them.'],
     trained: ['TRAINING ROOM', 'Scout is ready', 'Scout learned questions from the answers in the training files. Let’s see what it does with new CVs.'],
     screening: ['SCOUT FACTORY', 'Scout takes the desk', 'Send CVs down the belt and watch where Scout files them.'],
     investor: ['INVESTOR MAIL', 'The scanner is running', 'Three CVs are through the scanner. Keep an eye on who gets an interview.'],
@@ -20,12 +20,19 @@ const titles = {
     'city-report': ['NEWS FEED', 'Was this just one case?', 'Compare how many qualified applicants Scout shortlisted in each city. Twelve CVs give us an early clue.'],
     copy: ['CASE FILE', 'Test a copy', 'Change one detail. Scan both CVs and see what Scout does.'],
     repair: ['CASE FILE', 'Try a repair', 'Start from the original Scout each time. Change one thing, then compare the results on the same 80 practice CVs.'],
-    final: ['FINAL TEST', 'A fresh batch', 'Your repair is locked. Both versions of Scout will screen the same 200 new CVs.'],
-    debrief: ['TAKING A STEP BACK', 'What did you learn?', 'Use the choices and results from your own run.'],
+    final: ['FINAL TEST', 'A fresh batch', 'Watch a few scans from Repaired Scout, or skip the preview and compare both versions on all 200 new CVs.'],
+    'final-results': ['FINAL TEST / RESULTS', 'The 200 CV results', 'Both versions of Scout checked the same 200 new CVs. None were used to train Scout or to try the repairs.'],
+    debrief: ['TAKING A STEP BACK', 'What did you learn?', 'Three quick steps: read one training example, follow Scout’s questions, then check which version missed fewer qualified people.'],
     walkthrough: ['ORBIT WORKS / FIELD NOTES', 'What your run revealed', 'Open the case notes and see what your choices taught you about Scout.'],
     receipt: ['ORBIT WORKS', 'Your audit receipt', 'Here is what you tested, what you changed, and how Scout did.'],
 };
 const label = decision => decision ? 'Shortlist' : 'Pass';
+const finalExampleLabels = {
+    fixed: 'An error the repair fixed',
+    'new-error': 'An error the repair introduced',
+    'still-error': 'An error both versions made',
+    'both-right': 'A CV both versions got right',
+};
 const factoryViews = ['screening', 'investor', 'mail', 'final'];
 const fields = {skill: 'Skill', experience: 'Experience', city: 'City', academy: 'Academy'};
 function node(tag, text, className) {
@@ -76,7 +83,7 @@ function table(container, original, repaired) {
     const rows = repaired ? [
         ['Qualified people missed', original.overallMetrics.falseNegative, repaired.overallMetrics.falseNegative],
         ['Shortlisted who failed the work test', original.overallMetrics.falsePositive, repaired.overallMetrics.falsePositive],
-        ...CITIES.map(city => [city + ': qualified people reached', rate(original.cityMetrics[city]), rate(repaired.cityMetrics[city])]),
+        ...CITIES.map(city => [city + ': qualified people shortlisted', rate(original.cityMetrics[city]), rate(repaired.cityMetrics[city])]),
     ] : CITIES.map(city => [city, rate(original.cityMetrics[city])]);
     head.append(header);
     for (const values of rows) {
@@ -146,7 +153,8 @@ export default class ScoutStoryUI {
         const canReply = this.selectedId === s.case.applicant.id;
         const selected = s.screened.find(item => item.applicant.id === this.selectedId);
         const addResults = panel => panel.append(node('p', 'Scout: ' + label(selected.prediction.decision)),
-            node('p', 'Work test: ' + (selected.applicant.assessedReady ? 'Passed' : 'Did not pass')));
+            node('p', 'Work test: ' + (selected.applicant.assessedReady ? 'Passed' : 'Did not pass')),
+            node('p', 'The work test checks for at least 60/100 skill and one year of experience.', 'CandidateRule'));
         const addReply = parent => {
             const reply = button(parent, 'Reply to Maya', 'reply'); reply.disabled = !canReply;
             return reply;
@@ -267,8 +275,19 @@ export default class ScoutStoryUI {
             file(desk, 'reviewed-cvs.zip', s.reviewedCount + ' saved Shortlist or Pass decisions', 'send');
         } else if (view === 'archives') {
             const desk = card(board, 'Training files', 'StoryDesktop');
+            desk.append(node('p', s.reviewedCount + ' of your choices + the archive you select. Bigger files give Scout more examples, but may repeat the same patterns.'));
             const files = node('div', undefined, 'StoryFiles'); desk.append(files);
-            s.archives.forEach(a => file(files, a.name, a.count + ' old records', 'train', a.id));
+            s.archives.forEach(a => {
+                const option = node('div', undefined, 'ArchiveOption');
+                file(option, a.name, 'Train with ' + a.count + ' old records', 'train', a.id);
+                const details = node('details', undefined, 'FinalExample');
+                details.append(node('summary', 'Peek at the records'));
+                const note = node('div', undefined, 'ArchiveSample');
+                note.append(node('p', 'In the old records, how many qualified people got a shortlist?'));
+                const cities = node('ul');
+                a.byCity.forEach(row => cities.append(node('li', row.city + ': ' + row.shortlisted + ' of ' + row.ready + ' qualified (' + row.total + ' CVs)')));
+                note.append(cities); details.append(note); option.append(details); files.append(option);
+            });
         } else if (view === 'trained') {
             const panel = card(board, 'Training complete');
             panel.append(node('p', s.original.trainingIds.length + ' examples: ' + s.reviewedCount + ' of your choices + ' + s.archive.count + ' old hiring decisions.'));
@@ -288,7 +307,9 @@ export default class ScoutStoryUI {
             this.renderInspector(s, board);
         } else if (view === 'city-report') {
             const panel = card(board, 'The first 12 scans');
-            table(panel, s.cityReport); button(panel, 'Reopen the case file', 'reopen');
+            table(panel, s.cityReport);
+            panel.append(node('p', 'Twelve CVs give you a clue. The final test uses 200, so you can see whether the same pattern holds.', 'StoryNote'));
+            button(panel, 'Reopen the case file', 'reopen');
         } else if (view === 'copy') this.renderCopy(s);
         else if (view === 'repair') {
             const options = node('div', undefined, 'StoryPair'); board.append(options);
@@ -305,7 +326,8 @@ export default class ScoutStoryUI {
             const panel = card(board, 'Final test controls');
             if (s.finalIndex < s.finalSampleSize) button(panel, 'Watch next CV', 'final-one');
             button(panel, 'See results for all 200 CVs', 'finish');
-        } else if (view === 'debrief') this.renderLesson(s);
+        } else if (view === 'final-results') this.renderFinalResults(s);
+        else if (view === 'debrief') this.renderLesson(s);
         else if (view === 'walkthrough') {
             if (!this.walkthrough) this.walkthrough = new RunWalkthrough();
             board.append(this.walkthrough.render(s));
@@ -323,8 +345,37 @@ export default class ScoutStoryUI {
         }
         if (changed) { heading.focus({preventScroll: true}); this.root.scrollIntoView?.({block: 'start'}); }
     }
+    renderFinalResults(s) {
+        const {original, repaired} = s.finalResult;
+        const before = original.overallMetrics, after = repaired.overallMetrics;
+        const summary = card(this.body, 'Original Scout vs. ' + REPAIRS.find(r => r.id === s.repair.id).name);
+        const metrics = node('div', undefined, 'FinalHighlights');
+        for (const [caption, from, to] of [
+            ['Qualified people missed', before.falseNegative, after.falseNegative],
+            ['Mistaken shortlists', before.falsePositive, after.falsePositive],
+        ]) {
+            const metric = node('div', undefined, 'FinalMetric');
+            metric.append(node('span', caption), node('strong', from + ' → ' + to), node('small', 'Original → Repaired'));
+            metrics.append(metric);
+        }
+        summary.append(metrics);
+        table(summary, original, repaired);
+        summary.append(node('p', 'Read each city row as “people Scout shortlisted out of the people who qualified.”', 'StoryNote'));
+        const examples = card(this.body, 'See what happened to one CV');
+        examples.append(node('p', 'Open an example from the final batch. The work test tells you which decision matched the game’s job rule.'));
+        for (const item of s.finalExamples) {
+            const details = node('details', undefined, 'FinalExample');
+            details.append(node('summary', finalExampleLabels[item.kind] + ' · ' + item.applicant.name));
+            const file = cv(details, item.applicant);
+            file.append(node('p', 'Work test: ' + (item.applicant.assessedReady ? 'Qualified' : 'Did not qualify')),
+                node('p', 'Original Scout: ' + label(item.before) + ' · Repaired Scout: ' + label(item.after)));
+            examples.append(details);
+        }
+        button(this.body, 'Continue to recap', 'final-recap');
+    }
     renderCopy(s) {
         const controls = card(this.body, 'Change one detail');
+        controls.append(node('p', 'Test whether city or academy matters for this CV. Skill and experience stay the same.'));
         const picker = node('select'); picker.id = 'copy-field';
         const caption = node('label', 'Detail to change: '); caption.htmlFor = picker.id;
         for (const key of ['city', 'academy']) {
@@ -339,24 +390,29 @@ export default class ScoutStoryUI {
         if (e?.field === this.field) {
             path(left, e.before, e.splitIndex); path(right, e.after, e.splitIndex);
             const feedback = {
-                decision: 'Changing ' + e.field + ' changed Scout’s answer for this CV. That detail does not affect the work test.',
-                path: 'The paths split, but the answers stayed the same.',
-                same: 'Both CVs followed the same path. Try the other detail to see if it changes this prediction.',
+                decision: ['Decision changed', 'Changing only ' + e.field + ' changed Scout’s answer for this CV. The work test result stayed the same.'],
+                path: ['Different path, same decision', 'Scout used a different branch, but still gave both CVs the same answer.'],
+                same: ['Same path, same decision', 'Changing ' + e.field + ' made no difference for this CV. You can test the other detail or move on to repairs.'],
             };
-            this.body.append(node('p', feedback[e.outcome], 'StoryNote'));
+            const [outcome, detail] = feedback[e.outcome];
+            const note = node('p', undefined, 'StoryNote');
+            note.append(node('strong', outcome + '. '), document.createTextNode(detail));
+            this.body.append(note);
         }
         button(this.body, 'Try a repair', 'repairs').disabled = e?.field !== this.field;
     }
     renderLesson(s) {
         const part = s.lesson.part;
+        const progress = part === 'feature' || part === 'label' ? 1 : part.endsWith('-path') ? 2 : 3;
+        this.body.append(node('p', 'RECAP · ' + progress + ' OF 3', 'SmallLabel RecapProgress'));
         if (part === 'feature' || part === 'label') {
             const panel = cv(this.body, s.firstReviewed, '1 · Build a training example');
             panel.append(node('p', 'Your recorded choice: ' + label(s.firstReviewed.playerDecision)));
             if (part === 'feature') {
-                panel.append(node('p', 'Pick one detail Scout could read.'));
+                panel.append(node('p', 'This is the first CV you reviewed. Pick any detail Scout could read.'));
                 Object.entries(fields).forEach(([key, text]) => button(panel, text, 'answer', key, false));
             } else {
-                panel.append(node('p', 'That CV detail is a feature. Which answer did Scout learn from for this CV?'));
+                panel.append(node('p', 'That CV detail is a feature. Which choice did you save for this person during hiring?'));
                 button(panel, 'Shortlist', 'answer', 'shortlist'); button(panel, 'Pass', 'answer', 'pass', false);
             }
         } else if (part === 'copy-path' && s.lesson.index === 0 && !this.copyLessonStarted) {
@@ -447,6 +503,7 @@ export default class ScoutStoryUI {
             case 'lock': this.flow.lock(); break;
             case 'final-one': { const sample = this.flow.scanFinal(); this.save(); await this.animate(sample); break; }
             case 'finish': this.flow.finishFinal(); break;
+            case 'final-recap': this.flow.continueDebrief(); break;
             case 'lesson-copy': this.copyLessonStarted = true; break;
             case 'answer': {
                 const answer = this.flow.answer(value);

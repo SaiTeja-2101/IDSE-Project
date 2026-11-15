@@ -17,6 +17,21 @@ const finalSampleSize = 4;
 const compact = report => ({overallMetrics: report.overallMetrics, cityMetrics: report.cityMetrics});
 const usefulFields = {city: CITIES, academy: ACADEMIES};
 
+// One actual CV from each useful case, selected in batch order. Keep the
+// aggregate comparison and receipt independent of what the player opens.
+function pickFinalExamples(applicants, original, repaired) {
+    const buckets = new Map();
+    applicants.forEach((applicant, i) => {
+        const before = original.predictions[i].decision;
+        const after = repaired.predictions[i].decision;
+        const ready = applicant.assessedReady;
+        const kind = before !== after ? (after === ready ? 'fixed' : 'new-error')
+            : before !== ready ? 'still-error' : 'both-right';
+        if (!buckets.has(kind)) buckets.set(kind, {kind, applicant, before, after});
+    });
+    return ['fixed', 'new-error', 'still-error', 'both-right'].flatMap(kind => buckets.has(kind) ? [buckets.get(kind)] : []);
+}
+
 export function testCopy(model, original, field) {
     if (!Object.prototype.hasOwnProperty.call(usefulFields, field)) throw new Error('Choose city or academy.');
     const value = usefulFields[field].find(v => v !== original[field]);
@@ -40,9 +55,17 @@ export function createScoutStory(session) {
     const preview = Array.from({length: finalSampleSize}, (_, i) =>
         session.pools.final[Math.floor(i * session.pools.final.length / finalSampleSize)]);
     const profiles = new Map(scanner.map(p => [p.id, p]));
-    const archives = ARCHIVES.map(a => ({...a, count: a.pools.reduce((sum, pool) => sum + session.pools[pool].length, 0)}));
+    const archives = ARCHIVES.map(archive => {
+        const rows = archive.pools.flatMap(pool => session.pools[pool]);
+        const byCity = CITIES.map(city => {
+            const people = rows.filter(item => item.city === city);
+            const ready = people.filter(item => item.assessedReady);
+            return {city, total: people.length, ready: ready.length, shortlisted: ready.filter(item => item.historicalDecision).length};
+        });
+        return {...archive, count: rows.length, byCity};
+    });
     let phase = 'handoff', archive = null, records, original, tree, results = [], caseFile = null, replied = false, investorSeen = false;
-    let experiment = null, repairId = null, finalResult = null, finalScreened = [];
+    let experiment = null, repairId = null, finalResult = null, finalExamples = [], finalScreened = [];
     let lesson = {part: 'feature', index: 0}, actions = [], walkthrough = null;
     const trials = new Map();
     let practiceOriginal, cityReport;
@@ -101,7 +124,7 @@ export function createScoutStory(session) {
                 experiment, repair: repairId && {id: repairId, ...trials.get(repairId).comparison},
                 finalIndex: finalScreened.length, finalSampleSize, finalScreened: finalScreened.slice(),
                 finalQueue: phase === 'final' ? preview.slice(finalScreened.length) : [],
-                finalResult, lesson: lessonView(), receipt: phase === 'receipt' ? receipt() : null});
+                finalResult, finalExamples, lesson: lessonView(), receipt: phase === 'receipt' ? receipt() : null});
         },
         send() { requirePhase('handoff'); phase = 'archives'; remember('send'); },
         train(id) {
@@ -161,10 +184,13 @@ export function createScoutStory(session) {
         },
         finishFinal() {
             requirePhase('final');
-            finalResult = deepFreeze({original: compact(evaluateModel(original, session.pools.final, cutoff)),
-                repaired: compact(evaluateModel(trials.get(repairId).model, session.pools.final, cutoff))});
-            phase = 'debrief'; remember('finishFinal');
+            const before = evaluateModel(original, session.pools.final, cutoff);
+            const after = evaluateModel(trials.get(repairId).model, session.pools.final, cutoff);
+            finalResult = deepFreeze({original: compact(before), repaired: compact(after)});
+            finalExamples = deepFreeze(pickFinalExamples(session.pools.final, before, after));
+            phase = 'final-results'; remember('finishFinal');
         },
+        continueDebrief() { requirePhase('final-results'); phase = 'debrief'; remember('continueDebrief'); },
         answer(value) {
             requirePhase('debrief');
             const part = lesson.part;
@@ -199,12 +225,15 @@ export function createScoutStory(session) {
 
 export function restoreScoutStory(session, saved) {
     const allowed = new Set(['send', 'train', 'startScanner', 'scan', 'acknowledge', 'openMail', 'reply', 'reopen', 'copy',
-        'openRepairs', 'repair', 'lock', 'scanFinal', 'finishFinal', 'answer']);
+        'openRepairs', 'repair', 'lock', 'scanFinal', 'finishFinal', 'continueDebrief', 'answer']);
     if (!saved || saved.version !== 2 || !Array.isArray(saved.actions) || saved.actions.length > 64) throw new Error('The saved case could not be read.');
     const flow = createScoutStory(session);
     for (const action of saved.actions) {
         if (!Array.isArray(action) || action.length < 1 || action.length > 2 || !allowed.has(action[0]) ||
             (action.length === 2 && typeof action[1] !== 'string')) throw new Error('The saved case has an invalid action.');
+        // Version 2 saves made before the results screen went from the batch
+        // straight to the quiz. Keep any answers from those runs.
+        if (action[0] === 'answer' && flow.getState().phase === 'final-results') flow.continueDebrief();
         const result = flow[action[0]](action[1]);
         if (action[0] === 'answer' && !result.correct) throw new Error('The saved lesson answer is invalid.');
     }

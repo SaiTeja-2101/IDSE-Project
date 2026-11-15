@@ -18,7 +18,7 @@ The player experiences how the data is created. Two people playing the same seed
 
 ## Phase 2: Handoff and training
 
-The engineer asks for the reviewed CV file. The player sends it and picks the company archive (160 rows), partner archive (80 rows) or both (240 rows). Those rows plus the explicitly reviewed CVs are the training examples. Thus the first six available CVs are neither the whole manual queue nor the whole training set.
+The engineer asks for the reviewed CV file. The player sends it and picks the company archive (160 rows), partner archive (80 rows) or both (240 rows). Before choosing, they can peek at each archive to see how many qualified people per city were shortlisted in the old records. The peek reads the fictional training records only. Those rows plus the explicitly reviewed CVs become the training examples.
 
 Each row contains skill, years of experience, academy and city. Scout learns from the player's Shortlist/Pass labels on manual rows and the old Shortlist/Pass labels on archive rows. The synthetic work test says an applicant qualifies if skill is at least 60 out of 100 and experience is at least one year. That benchmark is separate from what the original Scout learns. In the synthetic archives, the old decisions use the work test and also favour Bengaluru or Central Academy. The fictional data deliberately makes academy and city related.
 
@@ -53,7 +53,9 @@ The table shows missed qualified applicants (false negatives), shortlisted appli
 
 ## Phase 6: Interactive recap and receipt
 
-The player picks a feature on the first CV they actually reviewed, then identifies their recorded label. They follow the learned branches of the original and copy, with feedback and retries. Finally, they read both models' results and say which missed fewer qualified applicants or whether they tied. The downloadable JSON receipt records the seed, archive, number of training examples, case, copy outcome, chosen repair and final comparison.
+The final test opens directly to the two models' 200-CV results. Players can expand examples from the batch to compare each decision with the work test. The examples distinguish an error fixed by the repair, a new error, an error both versions made, and a case both got right, when those cases exist in the run.
+
+The player then chooses Continue to recap. They pick a feature on the first CV they reviewed, identify their recorded label, then follow the learned branches of the original and copy. Finally, they say which model missed fewer qualified applicants or whether they tied. The downloadable JSON receipt records the seed, archive, number of training examples, case, copy outcome, chosen repair and final comparison.
 
 After the last recap answer, **What your run revealed** explains the same concepts without scoring. Players can switch between the hiring choice and the work test, replay the paths, inspect the chosen repair, and explore the final charts. Each scene uses their own evidence. Players can skip to the receipt or return to the walkthrough later. If they leave partway through, Continue reopens the walkthrough at its first scene without repeating the quiz.
 

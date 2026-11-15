@@ -10,7 +10,7 @@ await fs.mkdir(output, {recursive: true});
 const folder = await fs.mkdtemp(path.join(output, 'hire-and-seek-'));
 const excluded = new Set(['node_modules', '.git', '.cache', '.env', '.DS_Store']);
 const filter = source => !path.relative(root, source).split(path.sep).some(part => excluded.has(part) || part.startsWith('.env.'));
-for (const name of ['game-source', 'website-source', 'scripts', 'tests', 'docs', 'dist', 'README.md', 'TODO.md', 'package.json', '.gitignore']) {
+for (const name of ['game-source', 'website-source', 'scripts', 'tests', 'docs', 'dist', 'README.md', 'TODO.md', 'package.json', 'vercel.json', '.gitignore']) {
     await fs.cp(path.join(root, name), path.join(folder, name), {recursive: true, filter});
 }
 await fs.writeFile(path.join(folder, 'START-HERE.txt'), `HIRE & SEEK\nYou hire. It learns.\n\nRequires Node.js 22.\n\nTO PLAY WITHOUT INSTALLING DEPENDENCIES:\nOpen a terminal in this folder.\nRun: node scripts/preview.mjs\nOpen: http://127.0.0.1:4000/\nKeep the terminal open while playing.\n\nTO EDIT OR REBUILD:\nnpm run setup\nnpm run build\nnpm test\n\nRead docs/DELIVERY.md for current verification limits.\nPeer playtesting and final browser visual/audio checks must be real. They are not claimed as complete.\n`);
