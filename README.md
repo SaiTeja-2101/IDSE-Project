@@ -18,6 +18,7 @@ This repository contains both parts of the course project. Open [submission](sub
 | [Hire & Seek report](submission/Hire-and-Seek-Report.pdf) | Game design, learning objectives, screenshots, results and feedback |
 | [ResilientBite report](submission/ResilientBite-Report.pdf) | Data preparation, forecasting, evaluation and the app |
 | [ResilientBite presentation](submission/ResilientBite-Presentation.pptx) | Presentation with charts, app screenshots and speaker notes |
+| [ResilientBite Android app](submission/ResilientBite.apk) | APK for Android 8 or later; needs internet access |
 
 The editable report sources remain in `game/report/` and `resilientbite/ResilientBite LaTeX/`.
 

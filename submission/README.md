@@ -2,10 +2,11 @@
 
 Introduction to Data Science for Engineers
 
-| Part | Document |
+| Part | File |
 | --- | --- |
 | A: ResilientBite | [Project report](ResilientBite-Report.pdf) |
 | A: ResilientBite | [Presentation](ResilientBite-Presentation.pptx) |
+| A: ResilientBite | [Android app (APK)](ResilientBite.apk) |
 | B: Hire & Seek | [Project report](Hire-and-Seek-Report.pdf) |
 
 | Team member | Roll number |
@@ -15,6 +16,8 @@ Introduction to Data Science for Engineers
 | Muvvala Harsha Vardhan | EC24B1019 |
 
 These are the final documents to upload. The presentation includes speaker notes.
+
+The Android APK needs Android 8 or later and internet access. See the [Android guide](../resilientbite/forecast_app/ANDROID.md) for details.
 
 For the source code and supporting evidence, follow the [project review guide](../REVIEW.md).
 

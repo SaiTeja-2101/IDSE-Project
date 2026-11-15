@@ -1,6 +1,6 @@
 # ResilientBite for Android
 
-Install the signed ResilientBite.apk on Android 8 or later. The hosted build opens the meal planner at https://res-b7z8.onrender.com and uses the Android file picker for CSV and Excel uploads. It needs internet access.
+The submission includes [ResilientBite.apk](../../submission/ResilientBite.apk). Install it on Android 8 or later. The hosted build opens the meal planner at https://res-b7z8.onrender.com and uses the Android file picker for CSV and Excel uploads. It needs internet access.
 
 To rebuild the hosted APK on this Mac:
 

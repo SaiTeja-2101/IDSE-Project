@@ -18,7 +18,7 @@ ResilientBite forecasts portions required for each scheduled menu item, meal and
 
 - [Final submission documents](../submission/README.md), including the report and presentation.
 - [Project report (PDF)](ResilientBite%20Phase%20Report.pdf) and [editable LaTeX source](ResilientBite%20LaTeX/main.tex).
-- [Hosted web app](https://res-b7z8.onrender.com) and [Android APK](https://github.com/Hackerliongloi/ResilientBite/releases/download/v1.6/ResilientBite.apk).
+- [Hosted web app](https://res-b7z8.onrender.com), [Android APK included in the submission](../submission/ResilientBite.apk), and [Android guide](forecast_app/ANDROID.md).
 - [One week demo CSV](ResilientBite%20One%20Week%20Demo%202026-11-15.csv) reproduces the report's 15 November 2026 example. For a current forecast, use today's menu date and matching history or choose Historical demo in the app.
 
 ## Analysis and data

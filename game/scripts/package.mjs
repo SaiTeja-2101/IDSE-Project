@@ -20,7 +20,7 @@ if (combined) {
     for (const name of ['README.md', 'food_pred (1).ipynb', 'ResilientBite Phase Report.pdf', 'forecast_app/app.py']) {
         await fs.access(path.join(bite, name));
     }
-    for (const name of ['README.md', 'Hire-and-Seek-Report.pdf', 'ResilientBite-Report.pdf', 'ResilientBite-Presentation.pptx']) {
+    for (const name of ['README.md', 'Hire-and-Seek-Report.pdf', 'ResilientBite-Report.pdf', 'ResilientBite-Presentation.pptx', 'ResilientBite.apk']) {
         await fs.access(path.join(submission, name));
     }
 }

@@ -25,6 +25,7 @@ The project predicts portions for one dish, meal and dining hall. It compares a 
 | Excess and unmet portions under each preparation rule | [Preparation comparison](resilientbite/preparation_policy_comparison.csv) |
 | App input validation, training and daily forecasts | [forecast.py](resilientbite/forecast_app/forecast.py) |
 | Streamlit interface | [app.py](resilientbite/forecast_app/app.py) |
+| Android app to install | [Submitted APK](submission/ResilientBite.apk), [Android guide](resilientbite/forecast_app/ANDROID.md) |
 | Report source and original findings images | [LaTeX and image guide](resilientbite/ResilientBite%20LaTeX/README.md) |
 | Reproduction commands and the dated app demo | [ResilientBite README](resilientbite/README.md#reproduce) |
 
@@ -68,4 +69,4 @@ Open `http://127.0.0.1:4000/game/` after starting the preview. See the [Resilien
 
 Edit game code under `game/game-source/` and website code under `game/website-source/`. `game/dist/` is a generated build. Edit the reports in their LaTeX folders, then rebuild their PDFs. The notebook generates the saved result CSVs and the cleaning practice CSV. Keep the master dataset unchanged when rerunning the analysis.
 
-Use the three documents in [submission](submission/README.md) as the final hand-in copies. Report PDFs also remain in their project folders for local use and packaging. On Windows, `npm run package` creates the combined source ZIP and a checksum under `artifacts/submission/`.
+Use the documents and Android APK in [submission](submission/README.md) as the final hand-in copies. Report PDFs also remain in their project folders for local use and packaging. On Windows, `npm run package` creates the combined source ZIP and a checksum under `artifacts/submission/`.
