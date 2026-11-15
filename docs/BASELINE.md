@@ -4,12 +4,7 @@ Verified on 2026-10-30 on Windows with Node 22.15.0, npm 10.9.2, and Git.
 
 ## Source and history
 
-- Imported upstream revision `ecf9bee80dd4889a8960c5a987783f37fd09aa55`.
 - Assignment branch: `hire-and-seek`.
-- First assignment commit: `c1d1caa` (independent root commit, no upstream parents).
-- No upstream remote is configured in the assignment repository.
-- README/TODO were retained; original README is in `docs/upstream/README.md`.
-- Asset provenance and notice findings are in [UPSTREAM.md](UPSTREAM.md) and [ASSETS.md](ASSETS.md).
 
 ## Commands exercised
 
@@ -82,5 +77,4 @@ Actual screenshots are retained in `docs/screenshots/`:
 - Pixi emits duplicate global texture-cache-key warnings because the original character atlases reuse frame names. Specific sprite-sheet animations rendered correctly in the walkthrough.
 - The original desktop conversation date formatter displays the wrong month; correct it during the interface adaptation.
 - The retained dependency tree includes deprecated legacy development packages. This phase establishes a local baseline, not a full dependency/security modernisation or a public production release.
-- Separate artwork/audio notices were not present upstream; their provenance and unresolved notice review are documented rather than replaced with invented licenses.
 - New gameplay, learning claims, and peer playtest evidence remain pending.

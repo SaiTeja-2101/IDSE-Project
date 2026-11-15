@@ -1,11 +1,11 @@
-// Hire and Seek copy. Original source and authors are credited in docs/UPSTREAM.md.
+// Hire and Seek game copy.
 const english = {
     "header": {
         "title": "Hire and Seek",
         "subtitle": "You hire. It learns."
     },
     "about": {
-        "aboutBody": "Hire and Seek is a game about learning from past hiring choices. Adapted from Survival of the Best Fit by Alia ElKattan, Miha Klasinc, Gabor Csapo, and Jihyun Kim."
+        "aboutBody": "Hire and Seek is a game about learning from past hiring choices."
     },
     "resources": {
         "title": "Machines, Bias, and Fairness",

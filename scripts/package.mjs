@@ -6,6 +6,12 @@ import {spawnSync} from 'node:child_process';
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const output = path.join(root, 'artifacts/submission');
+const reportName = 'Hire-and-Seek-Project-Report.pdf';
+const sourceReport = path.join(root, 'report/hire-and-seek.pdf');
+const report = await fs.access(sourceReport).then(() => sourceReport, () => path.join(root, reportName));
+await fs.access(report).catch(error => {
+    throw new Error('Build report/hire-and-seek.pdf before packaging. See report/README.md.', {cause: error});
+});
 await fs.mkdir(output, {recursive: true});
 const folder = await fs.mkdtemp(path.join(output, 'hire-and-seek-'));
 const excluded = new Set(['node_modules', '.git', '.cache', '.env', '.DS_Store']);
@@ -13,7 +19,8 @@ const filter = source => !path.relative(root, source).split(path.sep).some(part 
 for (const name of ['game-source', 'website-source', 'scripts', 'tests', 'docs', 'dist', 'README.md', 'TODO.md', 'package.json', 'vercel.json', '.gitignore']) {
     await fs.cp(path.join(root, name), path.join(folder, name), {recursive: true, filter});
 }
-await fs.writeFile(path.join(folder, 'START-HERE.txt'), `HIRE & SEEK\nYou hire. It learns.\n\nIntroduction to Data Science for Engineers\nAkula Sai Teja (CS24I1054)\nKarthik Kavuri (CS24I1025)\n\nPLAY THE GAME\nInstall Node.js 22 if you do not already have it. No npm install is needed to play the included build.\nOpen a terminal in the folder containing this file.\nRun: node scripts/preview.mjs\nOpen: http://127.0.0.1:4000/game/\nKeep the terminal open while playing.\n\nASSIGNMENT DOCUMENTS\nREADME.md: How to play and learning objectives.\ndocs/RUBRIC.md: Where to find each assignment requirement.\ndocs/PLAYTEST_EVIDENCE.md: Peer comments and changes made after feedback.\ndocs/DEMO.md: A repeatable classroom demo.\ndocs/DELIVERY.md: Verification record and deployment notes.\n\nTO EDIT OR REBUILD\nnpm run setup\nnpm run build\nnpm test\n`);
+await fs.copyFile(report, path.join(folder, reportName));
+await fs.writeFile(path.join(folder, 'START-HERE.txt'), `HIRE & SEEK\nYou hire. It learns.\n\nIntroduction to Data Science for Engineers\nAkula Sai Teja (CS24I1054)\nKarthik Kavuri (CS24I1025)\nMuvvala Harsha Vardhan (EC24B1019)\n\nPLAY THE GAME\nInstall Node.js 22 if you do not already have it. No npm install is needed to play the included build.\nOpen a terminal in the folder containing this file.\nRun: node scripts/preview.mjs\nOpen: http://127.0.0.1:4000/game/\nKeep the terminal open while playing.\n\nASSIGNMENT DOCUMENTS\nHire-and-Seek-Project-Report.pdf: Project report, screenshots, results and verification.\nREADME.md: How to play and learning objectives.\ndocs/RUBRIC.md: Where to find each assignment requirement.\ndocs/PLAYTEST_EVIDENCE.md: Peer comments and changes made after feedback.\ndocs/DEMO.md: A repeatable classroom demo.\ndocs/DELIVERY.md: Verification record and deployment notes.\n\nTO EDIT OR REBUILD\nnpm run setup\nnpm run build\nnpm test\n`);
 async function files(dir) {
     const entries = await fs.readdir(dir, {withFileTypes: true});
     const groups = await Promise.all(entries.map(entry => entry.isDirectory() ? files(path.join(dir, entry.name)) : [path.join(dir, entry.name)]));

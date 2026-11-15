@@ -8,7 +8,7 @@ export function candidateCity(color) {
 
 export function normalizeCandidates(candidates) {
     return candidates.map(candidate => {
-        // Some upstream evaluation fixtures contain a city ID but no sprite.
+        // Some evaluation fixtures contain a city ID but no sprite.
         const color = candidate.color === undefined
             ? (candidate.city === 1 ? 'orange' : candidate.city === 0 ? 'blue' : undefined)
             : candidate.color;

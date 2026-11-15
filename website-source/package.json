@@ -1,6 +1,6 @@
 {
-  "title": "Survival of the Best Fit",
-  "name": "survival-of-the-best-fit",
+  "title": "Hire & Seek",
+  "name": "hire-and-seek-website",
   "scripts": {
     "start": "gulp watch",
     "build": "gulp build"

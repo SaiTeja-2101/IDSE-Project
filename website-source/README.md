@@ -1,4 +1,4 @@
-# Survival of the Best Fit
+# Hire & Seek website
 ## Commands to get you started:
 
 npm install: install all modules

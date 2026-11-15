@@ -20,7 +20,7 @@ const pkg = require('./package.json');
 
 // Set the banner content
 const banner = ['/*!\n',
-  'SotBF\n*/'
+  'Hire & Seek\n*/'
 ].join('');
 
 // Pug
@@ -56,12 +56,13 @@ function browserSyncReload(done) {
   done();
 }
 
-// Clean vendor
+// Clean generated directories and retired website outputs
 function clean() {
   const outputRoot = path.resolve(__dirname, '../dist');
-  const target = path.resolve(outputRoot, 'vendor');
-  if (!target.startsWith(outputRoot + path.sep)) throw new Error('Unsafe clean target');
-  return del([target], {force: true});
+  const targets = ['vendor', 'img-website', 'CNAME', 'layout', 'conclusion', 'reports']
+    .map(name => path.resolve(outputRoot, name));
+  if (targets.some(target => !target.startsWith(outputRoot + path.sep))) throw new Error('Unsafe clean target');
+  return del(targets, {force: true});
 }
 
 // Bring third party dependencies from node_modules into vendor directory

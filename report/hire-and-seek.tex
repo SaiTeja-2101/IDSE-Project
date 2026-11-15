@@ -1,0 +1,276 @@
+\documentclass[11pt,a4paper]{article}
+\usepackage[T1]{fontenc}
+\usepackage{lmodern}
+\usepackage[margin=23mm,headheight=15pt]{geometry}
+\usepackage{booktabs,tabularx,array,graphicx,xcolor,fancyhdr}
+\usepackage[font=small,labelfont=bf,hypcap=false]{caption}
+\usepackage{microtype}
+\usepackage[hidelinks]{hyperref}
+\input{glyphtounicode}
+\pdfgentounicode=1
+\definecolor{Ink}{HTML}{142D4E}
+\definecolor{Teal}{HTML}{256758}
+\definecolor{Muted}{HTML}{435B68}
+\definecolor{Paper}{HTML}{EEF5F0}
+\definecolor{Line}{HTML}{B1C9BF}
+
+\hypersetup{pdftitle={Hire \& Seek: Project Report},
+  pdfauthor={Akula Sai Teja, Karthik Kavuri, Muvvala Harsha Vardhan},
+  pdfsubject={Introduction to Data Science for Engineers, Part B}}
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{5pt}
+\setlength{\tabcolsep}{6pt}
+\renewcommand{\arraystretch}{1.22}
+
+\newcolumntype{Y}{>{\raggedright\arraybackslash}X}
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[L]{\small\sffamily\color{Ink}HIRE \& SEEK}
+\fancyhead[R]{\small\sffamily\color{Muted}PROJECT REPORT \quad / \quad PART B}
+\fancyfoot[R]{\small\sffamily\color{Muted}\thepage}
+
+\makeatletter
+\renewcommand\section{\@startsection{section}{1}{\z@}{-2.2ex \@plus -.5ex}{0.8ex}{\Large\sffamily\bfseries\color{Ink}}}
+\renewcommand\subsection{\@startsection{subsection}{2}{\z@}{-1.8ex \@plus -.4ex}{0.6ex}{\large\sffamily\bfseries\color{Ink}}}
+\makeatother
+\setcounter{tocdepth}{1}
+\newcommand{\eyebrow}[1]{{\small\sffamily\bfseries\color{Teal}#1}\par}
+\newcommand{\callout}[2]{\par\smallskip\noindent\colorbox{Paper}{\parbox{\dimexpr\linewidth-2\fboxsep\relax}{%
+  \vspace{3pt}\textcolor{Teal}{\textbf{#1}}\par #2\vspace{3pt}}}\par\smallskip}
+\newcommand{\gamefigure}[3][]{%
+  \par\smallskip\noindent\begin{minipage}{\linewidth}
+  \centering\includegraphics[width=\linewidth,height=.49\textheight,keepaspectratio,clip,#1]{figures/#2.png}
+  \captionof{figure}{#3}\end{minipage}\par}
+
+
+
+\begin{document}
+\hypersetup{pageanchor=false}
+\begin{titlepage}
+\vspace*{22mm}
+\eyebrow{INTRODUCTION TO DATA SCIENCE FOR ENGINEERS}
+\vspace{8mm}
+{\fontsize{46}{51}\selectfont\sffamily\bfseries\color{Ink}Hire \& Seek\par}
+{\LARGE\sffamily\color{Teal}You hire. It learns.\par}
+\vspace{8mm}
+{\Large\sffamily\color{Ink}Project Report\par}
+{\large\color{Muted}Part B: A game for learning data science\par}
+\vspace{9mm}
+\textcolor{Line}{\rule{\linewidth}{1.2pt}}
+\vspace{3mm}
+
+\eyebrow{SUBMITTED BY}
+\begin{tabularx}{\linewidth}{@{}Yl@{}}
+\textbf{Team member} & \textbf{Roll number}\\
+Akula Sai Teja & CS24I1054\\
+Karthik Kavuri & CS24I1025\\
+Muvvala Harsha Vardhan & EC24B1019\\
+\end{tabularx}
+
+\vfill
+{\large\color{Muted}November 2026\par}
+\end{titlepage}
+\hypersetup{pageanchor=true}
+\pagenumbering{roman}
+\section*{Abstract}
+Hire \& Seek is a browser game that teaches beginners how a machine learning model learns from examples and how it can repeat a shortcut in those examples. The player picks who gets an interview at a fictional company. Scout, the hiring assistant, fits a decision tree using those choices and old hiring records. The player watches Scout screen CVs, investigates a complaint, changes one detail on a copy of a CV, and compares two ways to retrain the model.
+
+In the documented playthrough, changing only an applicant's city flipped Scout's decision. On 200 fresh CVs, training Scout on work test results reduced the number of missed qualified applicants from 50 to zero and mistaken shortlists from one to zero. The report explains why the game uses separate training, practice and final CVs, and why these results apply to this fictional exercise. It also records peer feedback, the changes made in response, and the software checks used before submission.
+
+\textbf{Keywords:} supervised learning, decision tree, training labels, proxy, evaluation
+\tableofcontents
+\clearpage
+\pagenumbering{arabic}
+
+\section{Introduction and learning objectives}
+\subsection*{What the game is about}
+The player takes over the hiring desk at Orbit Works. At first, the job is simple: read a CV and decide whether to invite the person for an interview. Once the player hands over their decisions, Scout gets the desk. It learns from both the player's decisions and old hiring records. When a qualified applicant is passed over, the player can check which question led to that answer.
+
+The game is designed for someone who has never written code or trained a model. The hiring task gives the learner a reason to look at the CV. The investigation gives them a reason to ask how the model works. The main question is: \emph{Can Scout copy a pattern from old decisions that has little to do with whether someone can do the job?}
+
+\subsection*{What a beginner should be able to do}
+\begin{tabularx}{\linewidth}{@{}p{.34\linewidth}Y@{}}
+\toprule
+\textbf{Learning objective} & \textbf{How the player practises it}\\
+\midrule
+Tell a feature from a label & Pick a detail Scout reads, such as skill, and identify the Shortlist or Pass answer saved for a CV.\\
+Follow a decision tree & Start at the first question, read the CV to choose a branch, and keep going to the final answer.\\
+Check for a learned shortcut & Change one detail on a copy and compare the two paths and decisions. Explain what stayed the same.\\
+Test whether a repair helps & Compare both versions on the same new CVs. Explain the two kinds of error and read one city's row.\\
+\bottomrule
+\end{tabularx}\par\smallskip
+
+\subsection*{Scope}
+All applicants, hiring records and work test outcomes are fictional. The game uses two cities, Bengaluru and Chennai, and four CV details so the learner can follow a decision without a large spreadsheet. The work test provides a clear answer inside this exercise. It is a simplified teaching rule.
+
+\callout{The learning loop}{Make a choice $\rightarrow$ see what Scout learned $\rightarrow$ change one thing $\rightarrow$ compare the results $\rightarrow$ explain what happened.}
+\clearpage
+
+\section{Game design and how to play}
+\subsection*{The three hiring rounds}
+Open a CV by clicking a person in the queue or selecting \textbf{Open CV}. Select \textbf{Shortlist} to invite the person for an interview or \textbf{Pass} to move on. Every saved choice becomes an example for training. CVs left in the queue are excluded. A round ends when the player reaches the goal, runs out of time, or reviews every CV. Missing a goal does not stop the game.
+
+\begin{tabularx}{\linewidth}{@{}Yrrl@{}}
+\toprule
+\textbf{Round} & \textbf{CVs in queue} & \textbf{Shortlist goal} & \textbf{Time}\\
+\midrule
+First day & 6 & 3 & Untimed\\
+Business picks up & 10 & 5 & 45 seconds\\
+Hiring rush & 14 & 8 & 45 seconds\\
+\bottomrule
+\end{tabularx}\par\smallskip
+
+\gamefigure[trim=10 18 10 88]{manual-round}{The untimed first round. The player reads Ishaan's CV and decides whether to shortlist or pass.}
+
+\subsection*{After the hiring rounds}
+Send your choices to the engineer and pick an archive. Run the scanner and open Maya's message. Find the CV marked \textbf{CASE CV}, compare Scout's choice with the work test, and reply. Reopen the case from the city report and select \textbf{Scan both} after changing one detail on the copy. Try both repairs, lock one and open the \textbf{200 CV results}. Finish with the recap and the interactive walkthrough, then download your receipt if you want to keep the run.
+\clearpage
+
+\section{Methodology and implementation}
+\subsection*{Where the data comes from}
+Scout trains on the player's reviewed CVs plus the selected archive. The Company archive has 160 records, the Partner archive has 80, and choosing both gives 240. The archive preview shows how many qualified people were shortlisted in each city in the old records. In the demonstration, all 30 manual CVs were reviewed and the Company archive was added, making 190 training examples.
+
+\begin{tabularx}{\linewidth}{@{}p{.22\linewidth}Y@{}}
+\toprule
+\textbf{Data} & \textbf{What it does}\\
+\midrule
+Training & The reviewed CVs and selected archive fit the tree. Their recorded Shortlist or Pass decisions are the original labels.\\
+Scanner: 12 CVs & Scout screens a new queue. The player investigates one decision from this batch.\\
+Practice: 80 CVs & The player compares each repair with the original Scout on the same CVs.\\
+Final: 200 CVs & Both models screen these unseen CVs after the player locks one repair.\\
+\bottomrule
+\end{tabularx}\par\smallskip
+
+\subsection*{How the decision tree trains}
+The game fits a CART classification tree with \texttt{ml-cart} in the browser. Each example gives Scout four \textbf{features}: skill score, years of experience, academy and city. The \textbf{label} is the answer Scout learns from. For the original model, a Shortlist is a positive label and a Pass is a negative label. A tree asks questions that separate the two labels in the training examples. For instance, it may ask whether skill reaches a score, and then ask about experience on one branch.
+
+The library uses Gini impurity to compare possible splits. A group with a mix of labels is less pure than one with mostly one label. The tree has a depth setting of 3 and a minimum sample setting of 5. At a finished branch, Scout shortlists if at least half of the training examples that reached that branch were labelled Shortlist. The game's displayed questions and decisions come from this fitted model. Picking different examples or labels can change the learned tree.
+
+\subsection*{The work test}
+Within the game, a candidate qualifies if their skill is at least 60 out of 100 and they have at least one year of experience. This work test result is separate from the old recorded decisions. The fictional archives also favour Bengaluru or Central Academy, so some choices reflect a detail unrelated to the qualification rule. Scout's original job is to imitate the existing decisions, which is how it can learn that shortcut.
+
+\callout{Why the separate batches matter}{Practice is used to pick a repair. The final batch stays unseen until that choice is locked, so it gives a cleaner comparison. The scanner, practice and final CVs are kept out of training.}
+\clearpage
+
+\section{The scanner and the case file}
+After training, Scout starts screening the 12 CVs from the scanner batch. Each CV moves along the factory belt and goes to the \textbf{Shortlisted} or \textbf{Passed over} rack based on the fitted tree. The player can scan one CV at a time or run until a message interrupts.
+
+\gamefigure[trim=126 12 126 88,height=.29\textheight]{factory}{Scout's factory after the first scan. The queue, belt and two racks show where decisions go.}
+
+\subsection*{When the player opens the case}
+An investor message interrupts after the third scan. After that, Scout's first missed qualified applicant in the scanner batch triggers a complaint. The player opens the message and finds that applicant in the Dataset Inspector. If nobody qualifying was passed over, the game offers a routine check instead of inventing a mistake.
+
+In the documented run, \textbf{Varun Singh} writes that he passed the work test but did not get an interview. His skill is 99/100 and he has one year of experience, so he qualifies. Scout passes him over. After replying to Maya, the player can open the city report and reopen Varun's CV.
+
+\gamefigure[trim=135 123 135 88,height=.28\textheight]{case-file}{The Dataset Inspector puts Scout's decision beside Varun's work test result.}
+\clearpage
+
+\section{One CV, two decisions}
+The player chooses \textbf{City} or \textbf{Academy} and selects \textbf{Scan both}. The game sends the original and its copy through the same tree. Varun cleared the learned skill threshold of 59 and the experience threshold of one year. Changing only his city from Chennai to Bengaluru then changed the answer to the next question and flipped the final decision. His work test result stayed the same.
+
+\gamefigure[trim=139 10 140 88]{copy-test}{The city switch is highlighted. Both CVs satisfy the skill and experience questions, then take different branches at the city question.}
+
+\begin{tabularx}{\linewidth}{@{}Yll@{}}
+\toprule
+\textbf{Check} & \textbf{Original CV} & \textbf{Test copy}\\
+\midrule
+City field & Chennai & Bengaluru\\
+Bengaluru? & No & Yes\\
+Scout's decision & Pass & Shortlist\\
+Work test & Qualified & Qualified\\
+\bottomrule
+\end{tabularx}\par\smallskip
+
+A copy test can also take a different path and end with the same answer, or take the same path and reach the same answer. All three outcomes tell the player something about this case. A flip shows the changed field mattered for that CV; the final batch checks whether there is a wider pattern.
+\clearpage
+
+\section{Repairs and final results}
+\subsection*{Try both repairs on practice CVs}
+The repairs each start from the original setup. \textbf{Hide city} takes city out of the features and keeps the same labels. \textbf{Learn from work tests} keeps all four features and replaces the training labels with the qualification results. Both fit a new tree using the same training rows.
+
+\begin{tabularx}{\linewidth}{@{}Yrr@{}}
+\toprule
+\textbf{Model on the 80 practice CVs} & \textbf{Qualified missed} & \textbf{Mistaken shortlists}\\
+\midrule
+Original Scout & 20 & 1\\
+Hide city & 20 & 1\\
+Learn from work tests & 0 & 0\\
+\bottomrule
+\end{tabularx}\par\smallskip
+
+Hiding city left the same error counts in this run. Academy is related to city in the fictional data, so it can act as a \textbf{proxy}, an indirect clue about city. Removing a field alone does not guarantee that its pattern disappears. The player chose \textbf{Learn from work tests} on the basis of the practice results and locked it before seeing the final batch.
+
+\gamefigure[trim=143 8 140 88]{practice}{The repair screen explains what each option changes. The practice card shows the comparison after trying Learn from work tests.}
+\clearpage
+
+\subsection*{Results on the same 200 new CVs}
+\begin{tabularx}{\linewidth}{@{}Yrr@{}}
+\toprule
+\textbf{Measure} & \textbf{Original Scout} & \textbf{Repaired Scout}\\
+\midrule
+Qualified people missed & 50 & 0\\
+People shortlisted who did not qualify & 1 & 0\\
+Bengaluru: qualified people shortlisted & 50 of 50 & 50 of 50\\
+Chennai: qualified people shortlisted & 0 of 50 & 50 of 50\\
+\bottomrule
+\end{tabularx}\par\smallskip
+
+\gamefigure[trim=131 8 131 85]{final-results}{The final results screen. The player can open an example from the 200 CVs before continuing to the recap.}
+
+A \textbf{false negative} means passing over someone who qualified. A \textbf{false positive} means shortlisting someone who did not qualify. The Chennai row says the original Scout shortlisted none of the 50 people who qualified there. The repaired Scout shortlisted all 50. Both versions shortlisted all 50 qualified people in Bengaluru.
+
+The final batch has 100 qualified applicants: 50 per city. Using the same people for both models gives a direct comparison. These counts come from one reproducible run with seed 17. The player controls the labels and the archive choice, so a different run can give different results.
+\clearpage
+
+\section{Recap and interactive walkthrough}
+\subsection*{What did you learn?}
+The recap first asks the player to pick a feature on a CV they reviewed and recognise the label they saved. Then the player follows the tree for the original and test copy and answers which model missed fewer qualified people. The next screen, \textbf{What your run revealed}, lets the player revisit their evidence: switch between the training choice and work test, replay the two paths, inspect what the repair changed, and read the final comparison. The downloadable receipt records the case, repair and final counts.
+
+\gamefigure[trim=135 243 135 85,height=.26\textheight]{recap}{The recap starts with the first CV and the hiring choice recorded during play.}
+
+\gamefigure[trim=140 38 140 90,height=.40\textheight]{walkthrough}{The interactive walkthrough uses Ishaan's CV to show the difference between a feature and a label.}
+
+\clearpage
+\section{Feedback and verification}
+\subsection*{What players noticed}
+The peer feedback log records five comments. Players described learning from their choices, comparing a city change, seeing that Scout could make a mistake, trying both repairs, and understanding why new CVs are used for the final test. Three comments also pointed to places where the interface needed to be clearer.
+
+\begin{tabularx}{\linewidth}{@{}YY@{}}
+\toprule
+\textbf{Feedback} & \textbf{Change made}\\
+\midrule
+Finding the applicant in Maya's message was hard. & The inspector repeats the name and labels the matching file \textbf{CASE CV}.\\
+The two repairs needed more explanation. & Each repair card states whether it changes what Scout reads or what answer it learns.\\
+The numbers at the end needed an example. & The results screen explains a city row using the numbers from that player's run.\\
+\bottomrule
+\end{tabularx}\par\smallskip
+
+The comments describe what players said they learned. No numeric scores or follow-up peer retest were recorded.
+\subsection*{Software verification}
+The production build and asset check passed. The asset check found 84 assets and eight sprite atlases with no errors. All 61 automated tests passed. They include the shortlist limits, model training, both repair options, the separation of practice and final CVs, and saving and resuming. A desktop Chromium replay of the production build reproduced the demonstration and supplied the screenshots in this report.
+
+\subsection*{How the project meets the rubric}
+\begin{tabularx}{\linewidth}{@{}p{.29\linewidth}rY@{}}
+\toprule
+\textbf{Criterion} & \textbf{Marks} & \textbf{Evidence in the project}\\
+\midrule
+Concepts and correctness & 1.5 & Learning objectives, the real fitted tree, the controlled CV test, and evaluation on new CVs.\\
+Game and learning loop & 1.5 & The player's choices create training data. The factory, complaint, copy, and repair provide feedback and lead to the final test.\\
+Implementation & 1 & The game runs in a browser. Actual tree predictions drive the scanner, paths, and results. Build, asset checks and tests passed.\\
+Documentation and evidence & 1 & The player guide, reproducible demo, peer comments, and changes after feedback are included.\\
+\bottomrule
+\end{tabularx}\par\smallskip
+
+\clearpage
+\section{Conclusion and limitations}
+Hire \& Seek lets a beginner take part in a full machine learning exercise without writing code. They create labels during hiring, check a model decision, control one change on a copy, and compare a repair on unseen data. The key lesson is that a model can learn patterns from the answers it is given, including patterns that do not match the rule the player cares about.
+
+The game represents a fictional job with a simple qualification rule and two cities. It does not establish whether a similar system would be fair or reliable in a real hiring setting. A useful next check is to repeat the playtest with beginners and ask each person to explain a city row and why the final CVs were kept separate.
+
+\section{References and project files}
+\begin{enumerate}
+\item \href{https://github.com/SaiTeja-2101/hireandseek}{Hire \& Seek project}. The submission includes the player guide and the docs folder.
+See \texttt{DEMO.md} for the steps in this report and \texttt{PLAYTEST\_EVIDENCE.md} for the full comments.
+\item \href{https://github.com/mljs/decision-tree-cart}{ml.js, \texttt{ml-cart}}. CART implementation used by Scout, version 1.0.8. The local compatibility change is documented in \texttt{docs/ML\_CART.md}.
+\end{enumerate}
+\end{document}

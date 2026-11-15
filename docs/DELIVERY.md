@@ -18,7 +18,7 @@ The current game uses the journey documented in [GAME_DESIGN.md](GAME_DESIGN.md)
 
 Use Node.js 22 and npm 10. Run `npm run setup`, `npm run build`, then `npm run preview`. Open [the game](http://127.0.0.1:4000/game/). Run `npm test` and `npm run check:assets` to repeat the checks.
 
-Run `npm run package` to produce a folder, a ZIP and a checksum in `artifacts/submission/`. The ZIP includes source, locked dependencies' manifests, tests, docs and the compiled site. It excludes dependencies and Git history. Extract it and read `START-HERE.txt`. The prebuilt site can be served with Node without installing packages.
+Run `npm run package` to produce a folder, a ZIP and a checksum in `artifacts/submission/`. The ZIP includes the project report PDF at its top level, plus source, dependency manifests and lockfiles, tests, docs, and the compiled site. It excludes installed dependencies and Git history. Extract it and read `START-HERE.txt`. The prebuilt site can be served with Node without installing packages.
 
 For Vercel, keep the Root Directory at the repository root. The included `vercel.json` installs both sets of dependencies, builds both portions of the site, and serves `dist/`. If a deploy fails with `gulp: command not found`, confirm the build is using the version that includes the config and that setup runs before the build.
 

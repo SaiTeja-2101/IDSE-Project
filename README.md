@@ -50,6 +50,7 @@ Scout trains a real decision tree in your browser. The applicants and work test 
 
 ## Project files
 
+- Project report: `report/hire-and-seek.pdf` in the repository, or `Hire-and-Seek-Project-Report.pdf` next to `START-HERE.txt` in the submission ZIP.
 - [Game design and phase plan](docs/GAME_DESIGN.md)
 - [Assignment rubric](docs/RUBRIC.md)
 - [Classroom demo guide](docs/DEMO.md)
@@ -60,4 +61,4 @@ Scout trains a real decision tree in your browser. The applicants and work test 
 
 Run `npm test` for automated checks, `npm run check:assets` after a build, or `npm run package` for the local submission ZIP. Beginner playtest evidence must be collected from real sessions.
 
-Source and asset credits are recorded in [the credits file](docs/UPSTREAM.md). For implementation details, see the [asset inventory](docs/ASSETS.md) and [classifier notes](docs/ML_CART.md).
+For implementation details, see the [asset inventory](docs/ASSETS.md) and [classifier notes](docs/ML_CART.md).

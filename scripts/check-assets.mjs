@@ -50,7 +50,7 @@ export async function checkAssets(root = project) {
     }
     for (const relative of ['dist/index.html', 'dist/game/index.html']) {
         const text = await fs.readFile(path.join(root, relative), 'utf8');
-        if (/googletagmanager\.com|cloudflareinsights\.com|connect\.facebook\.net/.test(text)) errors.push(`Upstream tracking remains in ${relative}`);
+        if (/googletagmanager\.com|cloudflareinsights\.com|connect\.facebook\.net/.test(text)) errors.push(`External tracking remains in ${relative}`);
     }
     return {assetCount: files.length, atlasCount: atlases.length, errors};
 }
