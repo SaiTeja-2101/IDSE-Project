@@ -2,11 +2,13 @@
 
 This repository contains both parts of the course project. Open [submission](submission/README.md) for the final reports and presentation.
 
+**Reviewing the project?** Follow the [reviewer guide](REVIEW.md) for a short reading order and direct links to the data, model code, results and tests. No setup is needed to read the reports or inspect the saved notebook outputs.
+
 **[Play Hire & Seek online](https://hireandseek-liart.vercel.app/)**
 
 | Part | Project | What to open |
 | --- | --- | --- |
-| A | [ResilientBite](resilientbite/README.md) forecasts how many portions a dining hall should prepare for each dish. | [Report](resilientbite/ResilientBite%20Phase%20Report.pdf), [analysis notebook](resilientbite/food_pred%20%281%29.ipynb), [app source](resilientbite/forecast_app/) |
+| A | [ResilientBite](resilientbite/README.md) forecasts how many portions a dining hall should prepare for each dish. | [Report](submission/ResilientBite-Report.pdf), [presentation](submission/ResilientBite-Presentation.pptx), [analysis notebook](resilientbite/food_pred%20%281%29.ipynb) |
 | B | [Hire & Seek](game/README.md) is a game about how a model learns from hiring choices. | [Live demo](https://hireandseek-liart.vercel.app/), [how to play](game/README.md#how-to-play), [demo guide](game/docs/DEMO.md), [learning objectives](game/README.md#learning-objectives) |
 
 ## Submission documents
@@ -18,6 +20,17 @@ This repository contains both parts of the course project. Open [submission](sub
 | [ResilientBite presentation](submission/ResilientBite-Presentation.pptx) | Presentation with charts, app screenshots and speaker notes |
 
 The editable report sources remain in `game/report/` and `resilientbite/ResilientBite LaTeX/`.
+
+## Folder guide
+
+| Folder | Purpose |
+| --- | --- |
+| [submission](submission/README.md) | Final documents to review or upload |
+| [resilientbite](resilientbite/README.md) | Part A notebook, dataset, saved results and forecast app |
+| [game](game/README.md) | Part B game source, learning guide, tests and report source |
+| `artifacts/submission/` | Local ZIP exports created by the packaging command; not tracked in Git |
+
+## Team
 
 | Team member | Roll number |
 | --- | --- |

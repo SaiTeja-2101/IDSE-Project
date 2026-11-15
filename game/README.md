@@ -4,6 +4,8 @@
 
 **[Play the live demo](https://hireandseek-liart.vercel.app/)**
 
+**Quick review:** [project report](../submission/Hire-and-Seek-Report.pdf), [classroom demo](docs/DEMO.md), [code and evidence map](../REVIEW.md#part-b-hire--seek).
+
 Course project for **CS3006: Introduction to Data Science for Engineers**.
 
 | Team member | Roll number |

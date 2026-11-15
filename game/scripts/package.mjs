@@ -37,7 +37,7 @@ for (const name of ['game-source', 'website-source', 'scripts', 'tests', 'docs',
 await fs.copyFile(report, path.join(gameFolder, reportName));
 await fs.writeFile(path.join(gameFolder, 'START-HERE.txt'), `HIRE & SEEK\nYou hire. It learns.\n\nCS3006: Introduction to Data Science for Engineers\nAkula Sai Teja (CS24I1054)\nKarthik Kavuri (CS24I1025)\nMuvvala Harsha Vardhan (EC24B1019)\n\nPLAY THE GAME\nInstall Node.js 22 if you do not already have it. No npm install is needed to play the included build.\nOpen a terminal in the folder containing this file.\nRun: node scripts/preview.mjs\nOpen: http://127.0.0.1:4000/game/\nKeep the terminal open while playing.\n\nASSIGNMENT DOCUMENTS\nHire-and-Seek-Project-Report.pdf: Project report, screenshots, results and verification.\nREADME.md: How to play and learning objectives.\ndocs/RUBRIC.md: Where to find each assignment requirement.\ndocs/PLAYTEST_EVIDENCE.md: Peer comments and changes made after feedback.\ndocs/DEMO.md: A repeatable classroom demo.\ndocs/DELIVERY.md: Verification record and deployment notes.\n\nTO EDIT OR REBUILD\nnpm run setup\nnpm run build\nnpm test\n`);
 if (combined) {
-    for (const name of ['README.md', 'package.json', 'vercel.json', '.gitignore']) {
+    for (const name of ['README.md', 'REVIEW.md', 'package.json', 'vercel.json', '.gitignore']) {
         await fs.copyFile(path.join(courseRoot, name), path.join(folder, name));
     }
     await fs.cp(bite, path.join(folder, 'resilientbite'), {recursive: true, filter: source =>
