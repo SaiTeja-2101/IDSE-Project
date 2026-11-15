@@ -7,7 +7,7 @@ This repository contains both parts of the course project. Open [submission](sub
 | Part | Project | What to open |
 | --- | --- | --- |
 | A | [ResilientBite](resilientbite/README.md) forecasts how many portions a dining hall should prepare for each dish. | [Report](resilientbite/ResilientBite%20Phase%20Report.pdf), [analysis notebook](resilientbite/food_pred%20%281%29.ipynb), [app source](resilientbite/forecast_app/) |
-| B | [Hire & Seek](game/README.md) is a game about how a model learns from hiring choices. | [How to play](game/README.md#how-to-play), [demo guide](game/docs/DEMO.md), [learning objectives](game/README.md#learning-objectives) |
+| B | [Hire & Seek](game/README.md) is a game about how a model learns from hiring choices. | [Live demo](https://hireandseek-liart.vercel.app/), [how to play](game/README.md#how-to-play), [demo guide](game/docs/DEMO.md), [learning objectives](game/README.md#learning-objectives) |
 
 ## Submission documents
 
