@@ -19,11 +19,12 @@ Open [the game](http://127.0.0.1:4000/game/). Keep the terminal open. If you hav
 ## How to play
 
 1. **Hire by hand.** Open each CV and choose **Shortlist** or **Pass**. Aim for 3, 5 and 8 shortlists over the three rounds. The last two give you 45 seconds each. Moving on leaves unreviewed CVs out of training.
-2. **Train Scout.** Send the reviewed CVs to the engineer and choose which old hiring records to include. Run the factory or scan one CV at a time. Follow the belt to see which rack Scout uses. The line stops when a message arrives.
+2. **Train Scout.** Send the reviewed CVs to the engineer. Peek at the old hiring records, then choose which to include. Run the factory or scan one CV at a time. Follow the belt to see which rack Scout uses. The line stops when a message arrives.
 3. **Investigate.** Find the named applicant in the CV inspector. Check Scout's answer against the work test, reply to Maya and finish the batch. Reopen the same case from the news report.
 4. **Change one detail.** Change only city or academy on a copy. Scan both CVs and compare the learned paths. The answer might change, or it might stay the same.
 5. **Try a repair.** Hide city or train on work test results. Compare each repair with the original Scout on 80 practice CVs. Lock one, then watch up to four factory scans or go straight to the comparison on 200 new CVs.
-6. **Explain your run.** Finish **What did you learn?** Then open the case notes to explore your first CV, replay Scout's paths, see what your repair changed, and compare charts from the final batch. Skip or revisit the walkthrough from your audit receipt.
+6. **Read the results.** Compare the two versions of Scout, then open a CV from the final batch to see what each model did. Click **Continue to recap** when ready.
+7. **Explain your run.** Finish **What did you learn?** Then open the case notes to explore your first CV, replay Scout's paths, see what your repair changed, and compare charts from the final batch. Skip or revisit the walkthrough from your audit receipt.
 
 Mouse, touch and native buttons work with the CV interface. On a keyboard, use Tab and Enter, or use the arrow keys to open another CV and S/P to shortlist or pass once it is open. Use the pause menu to stop the clock. Continue resumes the current version of the game in the same browser.
 
@@ -40,6 +41,7 @@ The archive, skill profiles and work test results are synthetic. The classifier 
 
 - [Game design and phase plan](docs/GAME_DESIGN.md)
 - [Assignment rubric](docs/RUBRIC.md)
+- [Classroom demo guide](docs/DEMO.md)
 - [Beginner playtest guide](docs/PLAYTEST.md)
 - [Delivery and verification](docs/DELIVERY.md)
 - [Remaining work](TODO.md)

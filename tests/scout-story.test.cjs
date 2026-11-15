@@ -41,9 +41,15 @@ test('each archive fits exactly the selected rows plus explicit choices', () => 
         const [first, second] = session.pools.onboarding;
         session.playerDecisions[second.id] = false;
         session.playerDecisions[first.id] = true;
-        const flow = start(session, id), {original, firstReviewed} = flow.getState();
+        const flow = start(session, id), {original, firstReviewed, archive} = flow.getState();
         assert.equal(firstReviewed.id, second.id);
         assert.deepEqual(original.trainingIds, [...pools.flatMap(p => session.pools[p].map(x => x.id)), second.id, first.id]);
+        for (const city of archive.byCity) {
+            const records = pools.flatMap(p => session.pools[p]).filter(p => p.city === city.city);
+            assert.equal(city.total, records.length);
+            assert.equal(city.ready, records.filter(p => p.assessedReady).length);
+            assert.equal(city.shortlisted, records.filter(p => p.assessedReady && p.historicalDecision).length);
+        }
         const sample = flow.scan();
         assert.deepEqual(sample.prediction, {id: sample.applicant.id, ...predictApplicant(original, sample.applicant)});
     }
@@ -126,7 +132,20 @@ test('repairs fit independently, hold out practice and final, and cannot change 
     assert.deepEqual(restoreScoutStory(session, flow.checkpoint()).getState().finalScreened, sample);
     flow.finishFinal();
     skipped.finishFinal();
+    assert.equal(flow.getState().phase, 'final-results');
+    assert.throws(() => flow.answer('skill'), /Finish/);
     assert.deepEqual(flow.getState().finalResult, skipped.getState().finalResult);
+    assert.deepEqual(flow.getState().finalExamples, skipped.getState().finalExamples);
     assert.deepEqual(flow.getState().finalResult.original.cityMetrics, evaluateModel(original, session.pools.final).cityMetrics);
     assert.deepEqual(restoreScoutStory(session, flow.checkpoint()).getState(), flow.getState());
+    for (const {applicant, before, after, kind} of flow.getState().finalExamples) {
+        assert.ok(session.pools.final.some(item => item.id === applicant.id));
+        assert.equal(before, predictApplicant(original, applicant).decision);
+        assert.equal(after, predictApplicant(repaired, applicant).decision);
+        assert.equal(before === applicant.assessedReady, kind === 'new-error' || kind === 'both-right');
+        assert.equal(after === applicant.assessedReady, kind === 'fixed' || kind === 'both-right');
+    }
+    flow.continueDebrief();
+    assert.equal(flow.getState().lesson.part, 'feature');
+    assert.equal(restoreScoutStory(session, flow.checkpoint()).getState().phase, 'debrief');
 });
