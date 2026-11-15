@@ -8,6 +8,7 @@ Course project for **Introduction to Data Science for Engineers**.
 | --- | --- |
 | Akula Sai Teja | CS24I1054 |
 | Karthik Kavuri | CS24I1025 |
+| Muvvala Harsha Vardhan | EC24B1019 |
 
 You decide who gets an interview at Orbit Works. Scout learns from your choices and old hiring records. See who it shortlists, check one decision, then see whether you can make Scout better. No coding needed.
 
